@@ -5,3 +5,4 @@ export * from "./foundations/shadows";
 export * from "./foundations/typography";
 
 export * from "./components/Typography";
+export * from "./components/Button";
