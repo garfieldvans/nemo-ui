@@ -1,5 +1,5 @@
 packages:
   - "packages/*"
   - "apps/*"
-allowBuilds:
-  '@parcel/watcher': set this to true or false
+# allowBuilds:
+#   '@parcel/watcher': set this to true or false

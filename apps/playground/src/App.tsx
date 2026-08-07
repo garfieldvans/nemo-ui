@@ -1,4 +1,5 @@
 import { colors, spacing, radius, shadows, typography } from "@nemo/ui";
+import { Button } from "@nemo/ui";
 
 function App() {
   console.log("colors", colors);
@@ -35,6 +36,20 @@ function App() {
       >
         Foundation test berhasil 🎉
       </p>
+
+      <>
+        <Button>Default</Button>
+
+        <Button variant="outlined">Outlined</Button>
+
+        <Button variant="text">Text</Button>
+
+        <Button size="sm">Small</Button>
+
+        <Button size="lg">Large</Button>
+
+        <Button disabled>Disabled</Button>
+      </>
     </div>
   );
 }

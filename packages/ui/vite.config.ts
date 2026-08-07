@@ -8,12 +8,18 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true,
+      exclude: [
+        "**/*.stories.tsx",
+        "**/*.test.tsx",
+        "**/*.stories.ts",
+        "**/*.test.ts",
+      ],
     }),
   ],
 
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: resolve(import.meta.dirname, "src/index.ts"),
       name: "NemoUI",
       fileName: "index",
       formats: ["es"],
