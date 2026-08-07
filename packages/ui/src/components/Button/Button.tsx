@@ -3,22 +3,21 @@ import styles from "./Button.module.scss";
 import type { ButtonProps } from "./Button.types";
 
 export function Button({
-  children,
   variant = "filled",
   color = "primary",
   size = "md",
-  loading = false,
-  startIcon,
-  endIcon,
+
   className = "",
-  disabled,
+  children,
+
   ...props
 }: ButtonProps) {
+
   const classes = [
     styles.button,
-    styles[variant],
-    styles[color],
-    styles[size],
+    styles[`button--${variant}`],
+    styles[`button--${color}`],
+    styles[`button--${size}`],
     className,
   ]
     .filter(Boolean)
@@ -27,18 +26,9 @@ export function Button({
   return (
     <button
       className={classes}
-      disabled={disabled || loading}
       {...props}
     >
-      {loading ? (
-        "Loading..."
-      ) : (
-        <>
-          {startIcon}
-          <span>{children}</span>
-          {endIcon}
-        </>
-      )}
+      {children}
     </button>
   );
 }

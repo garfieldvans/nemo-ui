@@ -3,25 +3,29 @@ import type { ReactNode } from "react";
 import { colors } from "../../foundations/colors";
 import { typography } from "../../foundations/typography";
 
-import type {
-  TypographyColor,
-  TypographyVariant,
-} from "./Typography.types";
-
+import type { TypographyColor, TypographyVariant } from "./Typography.types";
 
 interface TypographyProps {
   variant?: TypographyVariant;
   color?: TypographyColor;
-  children: ReactNode;
-}
 
+  as?: React.ElementType;
+
+  htmlFor?: string;
+
+  align?: "left" | "center" | "right";
+
+  className?: string;
+  style?: React.CSSProperties;
+
+  children: React.ReactNode;
+}
 
 export function Typography({
   variant = "body",
   color = "neutral",
   children,
 }: TypographyProps) {
-
   const colorMap = {
     primary: colors.primary[600],
     neutral: colors.neutral[900],
@@ -32,14 +36,16 @@ export function Typography({
   };
 
   const styles = {
-    ... typography[variant],
+    ...typography[variant],
     color: colorMap[color],
   };
-
 
   return (
     <span style={styles}>
       {children}
+      {/* <Typography as="label" htmlFor="email">
+        Email
+      </Typography> */}
     </span>
   );
 }

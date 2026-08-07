@@ -20,10 +20,7 @@ export interface ButtonProps
   color?: ButtonColor;
   size?: ButtonSize;
 
-  loading?: boolean;
-
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
+  children: ReactNode;
 
   className?: string;
   style?: CSSProperties;
