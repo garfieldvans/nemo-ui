@@ -1,22 +1,20 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
 
-    "noEmit": false,
-    "declaration": true,
-    "declarationMap": true,
+    "jsx": "react-jsx",
 
-    "types": ["react"]
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+
+    "types": ["vite/client", "vitest/globals"]
   },
-
-  "include": ["src"],
-
-  "exclude": [
-    "**/*.stories.ts",
-    "**/*.stories.tsx",
-    "**/*.test.ts",
-    "**/*.test.tsx"
+  "include": [
+    "src",
+    "tests"
   ]
 }

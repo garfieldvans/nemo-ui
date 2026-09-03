@@ -1,5 +1,5 @@
 export const spacing = {
-  0: "0px",
+  0: "0",
   1: "4px",
   2: "8px",
   3: "12px",
@@ -10,6 +10,4 @@ export const spacing = {
   10: "40px",
   12: "48px",
   16: "64px",
-  20: "80px",
-  24: "96px",
 } as const;

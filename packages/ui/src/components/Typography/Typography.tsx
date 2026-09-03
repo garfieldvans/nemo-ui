@@ -1,30 +1,16 @@
-import type { ReactNode } from "react";
-
-import { colors } from "../../foundations/colors";
+import type { TypographyProps, TypographyVariant } from "./Typography.types";
 import { typography } from "../../foundations/typography";
-
-import type { TypographyColor, TypographyVariant } from "./Typography.types";
-
-interface TypographyProps {
-  variant?: TypographyVariant;
-  color?: TypographyColor;
-
-  as?: React.ElementType;
-
-  htmlFor?: string;
-
-  align?: "left" | "center" | "right";
-
-  className?: string;
-  style?: React.CSSProperties;
-
-  children: React.ReactNode;
-}
+import { colors } from "../../foundations/colors";
 
 export function Typography({
   variant = "body",
   color = "neutral",
   children,
+  as: Component = "span",
+  htmlFor,
+  align = "left",
+  className,
+  style,
 }: TypographyProps) {
   const colorMap = {
     primary: colors.primary[600],
@@ -35,17 +21,36 @@ export function Typography({
     info: colors.info,
   };
 
+  const variantMap: Record<TypographyVariant, string> = {
+    h1: "heading1",
+    h2: "heading2",
+    h3: "heading3",
+    h4: "heading4",
+    h5: "heading5",
+    h6: "heading6",
+    body: "body",
+    bodySmall: "bodySmall",
+    caption: "caption",
+    overline: "caption",
+    button: "button",
+  };
+
+  const foundationVariant = variantMap[variant];
+
   const styles = {
-    ...typography[variant],
+    ...typography[foundationVariant as keyof typeof typography],
     color: colorMap[color],
+    textAlign: align,
+    ...style,
   };
 
   return (
-    <span style={styles}>
+    <Component
+      className={className}
+      style={styles}
+      htmlFor={htmlFor}
+    >
       {children}
-      {/* <Typography as="label" htmlFor="email">
-        Email
-      </Typography> */}
-    </span>
+    </Component>
   );
 }

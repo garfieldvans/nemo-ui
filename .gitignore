@@ -43,3 +43,9 @@ lerna-debug.log*
 # Temporary
 .turbo/
 *.tsbuildinfo
+
+# Package outputs
+packages/*/dist/
+packages/*/node_modules/
+apps/*/node_modules/
+apps/*/dist/

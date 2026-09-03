@@ -24,9 +24,20 @@ export default defineConfig({
       fileName: "index",
       formats: ["es"],
     },
+    cssCodeSplit: false,
 
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+      ],
     },
+  },
+
+  test: {
+    environment: "jsdom",
+    setupFiles: "./tests/setup.ts",
+    globals: true,
   },
 });

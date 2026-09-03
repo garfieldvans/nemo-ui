@@ -1,119 +1,154 @@
-
-.sm {
-  height: 32px;
-  padding: 0 12px;
-}
-
-.md {
-  height: 40px;
-  padding: 0 16px;
-}
-
-.lg {
-  height: 48px;
-  padding: 0 20px;
-}
-
-.filled {
-}
-
-.outlined {
-  background: transparent;
-  border: 1px solid;
-}
-
-.text {
-  background: transparent;
-}
-
-.primary {
-  background: #4285F4;
-  color: white;
-}
-
-.success {
-  background: #34A853;
-  color: white;
-}
-
-.warning {
-  background: #FBBC04;
-}
-
-.error {
-  background: #EA4335;
-  color: white;
-}
-
-.button:disabled {
-  opacity: .6;
-  cursor: not-allowed;
-}
+@use "../../styles/_variables" as *;
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
-
   border: none;
   outline: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
 
-  transition: .2s;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
-
 
 // Sizes
 .button--sm {
   height: 32px;
   padding: 0 12px;
+  font-size: 14px;
 }
 
 .button--md {
   height: 40px;
   padding: 0 16px;
+  font-size: 14px;
 }
 
 .button--lg {
   height: 48px;
   padding: 0 20px;
+  font-size: 16px;
 }
 
-
-// Filled
+// Filled variant
 .button--filled {
   color: white;
+  border: none;
+
+  &.button--primary {
+    background: $primary-500;
+
+    &:hover:not(:disabled) {
+      background: $primary-600;
+    }
+  }
+
+  &.button--success {
+    background: $success;
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.9);
+    }
+  }
+
+  &.button--warning {
+    background: $warning;
+    color: $neutral-900;
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.95);
+    }
+  }
+
+  &.button--error {
+    background: $error;
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.9);
+    }
+  }
 }
 
-
-
-// Colors
-.button--primary {
-  background: #4285F4;
-}
-
-.button--success {
-  background: #34A853;
-}
-
-.button--warning {
-  background: #FBBC04;
-}
-
-.button--error {
-  background: #EA4335;
-}
-
-
-// Outlined
+// Outlined variant
 .button--outlined {
   background: transparent;
   border: 1px solid;
+
+  &.button--primary {
+    border-color: $primary-500;
+    color: $primary-500;
+
+    &:hover:not(:disabled) {
+      background: $primary-50;
+    }
+  }
+
+  &.button--success {
+    border-color: $success;
+    color: $success;
+
+    &:hover:not(:disabled) {
+      background: rgba($success, 0.1);
+    }
+  }
+
+  &.button--warning {
+    border-color: $warning;
+    color: $warning;
+
+    &:hover:not(:disabled) {
+      background: rgba($warning, 0.1);
+    }
+  }
+
+  &.button--error {
+    border-color: $error;
+    color: $error;
+
+    &:hover:not(:disabled) {
+      background: rgba($error, 0.1);
+    }
+  }
 }
 
-// Disabled
-.button:disabled {
-  cursor: not-allowed;
-  opacity: .5;
+// Text variant
+.button--text {
+  background: transparent;
+
+  &.button--primary {
+    color: $primary-500;
+
+    &:hover:not(:disabled) {
+      background: $primary-50;
+    }
+  }
+
+  &.button--success {
+    color: $success;
+
+    &:hover:not(:disabled) {
+      background: rgba($success, 0.1);
+    }
+  }
+
+  &.button--warning {
+    color: $warning;
+
+    &:hover:not(:disabled) {
+      background: rgba($warning, 0.1);
+    }
+  }
+
+  &.button--error {
+    color: $error;
+
+    &:hover:not(:disabled) {
+      background: rgba($error, 0.1);
+    }
+  }
 }
