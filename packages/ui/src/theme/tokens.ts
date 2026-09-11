@@ -124,7 +124,12 @@ export const darkTheme: ThemeTokens = {
   },
   spacing: defaultTheme.spacing,
   radius: defaultTheme.radius,
-  shadows: defaultTheme.shadows,
+  shadows: {
+    sm: "0 1px 2px rgba(0, 0, 0, 0.35)",
+    md: "0 4px 6px rgba(0, 0, 0, 0.4)",
+    lg: "0 10px 15px rgba(0, 0, 0, 0.45)",
+    xl: "0 20px 25px rgba(0, 0, 0, 0.5)",
+  },
   opacity: defaultTheme.opacity,
 };
 
@@ -140,8 +145,7 @@ function flatten(
   out: CssVarMap,
 ): void {
   for (const [key, value] of Object.entries(obj)) {
-    const separator = /^\d/.test(key) ? "-" : "-";
-    const fullKey = `${prefix}${separator}${key}`;
+    const fullKey = `${prefix}-${key}`;
     if (typeof value === "string" || typeof value === "number") {
       out[fullKey] = String(value);
     } else if (typeof value === "object" && value !== null) {

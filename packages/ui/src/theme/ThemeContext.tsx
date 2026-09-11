@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useMemo,
+  useState,
   type ReactNode,
   type ReactElement,
   type ElementType,
@@ -9,6 +10,7 @@ import {
 } from "react";
 import {
   defaultTheme,
+  darkTheme,
   toCssVarMap,
   type ThemeTokens,
   type ThemeMode,
@@ -80,24 +82,22 @@ export interface ThemeProviderProps {
 export function ThemeProvider({
   children,
   theme: themeOverride,
-  mode = "light",
+  mode: defaultMode = "light",
   as: Component = "div",
   className,
   style,
 }: ThemeProviderProps): ReactElement {
+  const [mode, setMode] = useState<ThemeMode>(defaultMode);
+
   const mergedTheme = useMemo(() => {
-    if (!themeOverride) return defaultTheme;
-    return deepMerge(defaultTheme, themeOverride);
-  }, [themeOverride]);
+    const base = mode === "dark" ? darkTheme : defaultTheme;
+    return themeOverride ? deepMerge(base, themeOverride) : base;
+  }, [mode, themeOverride]);
 
   const cssVars = useMemo(() => toCssVarMap(mergedTheme), [mergedTheme]);
 
   const value = useMemo<ThemeContextValue>(
-    () => ({
-      theme: mergedTheme,
-      mode,
-      setMode: () => {},
-    }),
+    () => ({ theme: mergedTheme, mode, setMode }),
     [mergedTheme, mode],
   );
 
