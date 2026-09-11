@@ -8,18 +8,35 @@
     "build:ui": "pnpm --filter @nemo/ui build",
     "build:playground": "pnpm --filter playground build",
     "build": "pnpm run build:ui && pnpm run build:playground",
+    "test": "pnpm -r run test",
+    "test:run": "pnpm -r run test:run",
+    "lint": "eslint packages/ui/src apps/playground/src",
+    "typecheck": "pnpm -r run typecheck",
+    "clean": "rm -rf packages/ui/dist apps/playground/dist dist && find packages apps -name '*.tsbuildinfo' -delete",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@storybook/addon-a11y": "^8.6.18",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/addon-themes": "^8.6.18",
+    "@storybook/react": "^8.6.18",
+    "@storybook/react-vite": "^8.6.18",
     "@types/node": "^24.13.3",
     "eslint": "^10.8.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.7.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
     "prettier": "^3.9.6",
-    "typescript": "^5.9.3"
+    "storybook": "^8.6.18",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0"
   }
 }

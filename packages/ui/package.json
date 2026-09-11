@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "type": "module",
+  "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,10 +20,15 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "vitest",
+    "test:run": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
@@ -30,7 +36,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@storybook/react": "^8.6.12",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.3",

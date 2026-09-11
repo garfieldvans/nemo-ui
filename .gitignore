@@ -49,3 +49,9 @@ packages/*/dist/
 packages/*/node_modules/
 apps/*/node_modules/
 apps/*/dist/
+
+# Storybook
+storybook-static/
+
+# Claude Code
+.claude/

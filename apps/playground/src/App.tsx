@@ -7,13 +7,16 @@ import {
   Input,
   Textarea,
   Typography,
+  ThemeProvider,
+  useTheme,
 } from "@nemo/ui";
 import { useState } from "react";
 
-function App() {
+function PlaygroundContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");
+  const { mode, setMode } = useTheme();
 
   return (
     <div
@@ -26,13 +29,22 @@ function App() {
         fontFamily: "system-ui, sans-serif",
       }}
     >
-      <Typography variant="h1" color="neutral" style={{ marginBottom: spacing[4] }}>
-        Nemo UI Playground
-      </Typography>
-
-      <Typography variant="body" color="neutral" style={{ marginBottom: spacing[6] }}>
-        Contoh penggunaan semua komponen Nemo UI
-      </Typography>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: spacing[4] }}>
+        <div>
+          <Typography variant="h1" color="neutral">
+            Nemo UI Playground
+          </Typography>
+          <Typography variant="body" color="neutral">
+            Contoh penggunaan semua komponen Nemo UI
+          </Typography>
+        </div>
+        <Button
+          variant="outlined"
+          onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+        >
+          {mode === "dark" ? "Light Mode" : "Dark Mode"}
+        </Button>
+      </div>
 
       {/* Button Section */}
       <section style={{ marginBottom: spacing[8] }}>
@@ -391,6 +403,14 @@ function App() {
         </div>
       </section>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <PlaygroundContent />
+    </ThemeProvider>
   );
 }
 

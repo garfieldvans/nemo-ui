@@ -15,10 +15,6 @@ const meta: Meta<typeof Input> = {
       control: "select",
       options: ["sm", "md", "lg"],
     },
-    color: {
-      control: "select",
-      options: ["primary", "neutral", "success", "warning", "error"],
-    },
     fullWidth: {
       control: "boolean",
     },

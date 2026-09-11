@@ -2,15 +2,12 @@
 
 # Nemo UI
 
-[![npm version](https://img.shields.io/npm/v/nemo-ui?style=flat-square)](https://www.npmjs.com/package/nemo-ui)
+[![npm version](https://img.shields.io/npm/v/@nemo/ui?style=flat-square)](https://www.npmjs.com/package/@nemo/ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen?style=flat-square)](https://nodejs.org/)
 
-**A modern, production-ready React component library built with TypeScript and Vite.**
+**A modern, production-ready React component library with CSS Variables theming, dark mode, and full TypeScript support.**
 
-Modern design system. Type-safe components. Zero dependencies on UI frameworks.
-
-[Features](#features) • [Quick Start](#quick-start) • [Documentation](#documentation) • [Contributing](#contributing)
+[Getting Started](#getting-started) • [Theming](#theming) • [Components](#components) • [Storybook](#storybook) • [Scripts](#available-scripts)
 
 </div>
 
@@ -18,332 +15,203 @@ Modern design system. Type-safe components. Zero dependencies on UI frameworks.
 
 ## Features
 
-- 🎯 **Type-Safe** - Full TypeScript support with strict types
-- 📦 **Modular** - Import only what you need
-- 🎨 **Design System** - Comprehensive design tokens and foundations
-- ⚡ **High Performance** - Optimized with Vite and tree-shaking support
-- 🔧 **Developer Experience** - Clear API and excellent documentation
-- 📱 **Responsive** - Mobile-first components
-- ♿ **Accessible** - WCAG 2.1 AA compliant components
+- **Type-Safe** — Full TypeScript support with strict types
+- **CSS Variables Theming** — Runtime token override via `ThemeProvider` / `useTheme`, static fallback in CSS
+- **Dark Mode** — Built-in dark palette, automatic `prefers-color-scheme` detection, manual toggle via `ThemeProvider` or Storybook toolbar
+- **Modular** — Import only what you need; tree-shaking friendly
+- **SCSS Modules + Inline Styles** — Dual-track styling: Button/Input use SCSS with `var(--nemo-*)` + fallbacks, Typography uses `useTheme()` inline
+- **Storybook v8** — Interactive component explorer with dark mode toolbar
+- **Accessible** — WCAG 2.1 AA patterns (a11y addon)
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Node.js**: 16.0.0 or higher
-- **pnpm**: 8.0.0 or higher
+- **Node.js**: >= 18
+- **pnpm**: >= 9
 
-### Installation
+### Install & Run
 
 ```bash
-# Clone the repository
 git clone https://github.com/garfieldvans/nemo-ui.git
 cd nemo-ui
-
-# Install dependencies
 pnpm install
-
-# Start development server
-pnpm dev
+pnpm dev          # start playground
+pnpm storybook    # open Storybook on port 6006
 ```
 
 ### Basic Usage
 
 ```tsx
-import { Typography } from '@nemo-ui/ui'
+import { ThemeProvider, Button, Input, Typography } from "@nemo/ui";
 
-export function App() {
+function App() {
   return (
-    <Typography variant="h1">
-      Welcome to Nemo UI
-    </Typography>
-  )
+    <ThemeProvider mode="dark">
+      <Typography variant="h1" color="primary">Hello Nemo UI</Typography>
+      <Input label="Email" placeholder="you@example.com" />
+      <Button>Submit</Button>
+    </ThemeProvider>
+  );
 }
 ```
 
-## Project Structure
+---
 
-This monorepo uses `pnpm` workspaces for efficient package management:
+## Theming
+
+Nemo UI uses **CSS Custom Properties** for theming. Tokens are defined in TypeScript (`src/theme/tokens.ts`) and emitted as static CSS in `src/styles/themes.scss`.
+
+### ThemeProvider / useTheme
+
+```tsx
+import { ThemeProvider, useTheme } from "@nemo/ui";
+
+// Wrap your app (sets data-theme + inline CSS vars on wrapper)
+<ThemeProvider mode="dark" theme={{ colors: { primary: { 500: "#FF5722" } } }}>
+  <YourApp />
+</ThemeProvider>
+
+// Inside any component — read the current theme
+function StatusBadge() {
+  const { theme, mode } = useTheme();
+  return <span style={{ color: theme.colors.success }}>{mode} mode</span>;
+}
+```
+
+### CSS Variable Pattern
+
+All component SCSS uses `var(--nemo-*)` with hex fallbacks:
+
+```scss
+background: var(--nemo-primary-500, #4285F4);
+color: var(--nemo-neutral-900, #202124);
+// color-mix for opacity (rgba doesn't work with var())
+box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-primary-500) 20%, transparent);
+```
+
+### Dark Mode
+
+Dark vars are applied three ways (safely layered):
+
+| Layer | Mechanism |
+|-------|-----------|
+| **Static CSS** | `:root[data-theme="dark"]` block in `themes.scss` |
+| **System preference** | `@media (prefers-color-scheme: dark)` on `:root:not([data-theme="light"])` |
+| **Runtime** | `ThemeProvider` renders wrapper with `data-theme` attr + inline `style` |
+
+---
+
+## Components
+
+| Component | Styling | Description |
+|-----------|---------|-------------|
+| **Button** | SCSS Module | `filled` / `outlined` / `text` variants, 3 sizes, color props |
+| **Input** | SCSS Module | `outlined` / `filled` / `ghost` variants, floating label, icons, prefix/suffix, clearable |
+| **Textarea** | SCSS Module | Extends Input patterns, character count, rows |
+| **Typography** | Inline + `useTheme()` | 12 variants (h1–h6, body, caption, overline, button), semantic `as` prop |
+
+---
+
+## Storybook
+
+Interactive component explorer with **dark/light mode toggle** in the toolbar.
+
+```bash
+pnpm storybook        # dev server at http://localhost:6006
+pnpm build-storybook  # static build → storybook-static/
+```
+
+Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
+
+---
+
+## Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `pnpm dev` | Start playground dev server |
+| `pnpm build` | Build UI library + playground |
+| `pnpm build:ui` | Build UI library only |
+| `pnpm build:playground` | Build playground only |
+| `pnpm test` | Run vitest in watch mode |
+| `pnpm test:run` | Run vitest once |
+| `pnpm lint` | ESLint on `packages/ui/src` + `apps/playground/src` |
+| `pnpm typecheck` | TypeScript type-check all packages |
+| `pnpm storybook` | Start Storybook dev server (port 6006) |
+| `pnpm build-storybook` | Static Storybook build |
+| `pnpm clean` | Remove all build artifacts |
+| `pnpm format` | Format with Prettier |
+
+---
+
+## Project Structure
 
 ```
 nemo-ui/
 ├── apps/
-│   └── playground/                 # 🎮 Demo and testing application
-│       ├── src/
-│       ├── index.html
-│       ├── package.json
-│       ├── tsconfig.json
-│       └── vite.config.ts
-│
+│   └── playground/               # Vite + React demo app
 ├── packages/
-│   └── ui/                         # 📦 Core UI library
-│       ├── src/
-│       │   ├── components/         # Reusable React components
-│       │   ├── foundations/        # Design tokens (colors, spacing, etc.)
-│       │   ├── hooks/              # Custom React hooks
-│       │   ├── styles/             # Global and component styles
-│       │   ├── types/              # Shared TypeScript types
-│       │   ├── utils/              # Utility functions
-│       │   └── index.ts            # Library entry point
-│       ├── package.json
-│       ├── tsconfig.json
-│       └── vite.config.ts
-│
-├── tsconfig.base.json              # Base TypeScript configuration
-├── pnpm-workspace.yaml             # Workspace configuration
-└── package.json                    # Root package configuration
+│   └── ui/                       # @nemo/ui library
+│       └── src/
+│           ├── components/       # Button, Input, Typography (+ stories)
+│           ├── foundations/      # Static token objects (colors, spacing, etc.)
+│           ├── theme/            # ThemeTokens, ThemeProvider, useTheme
+│           ├── styles/           # SCSS: _variables, themes.scss, mixins, reset
+│           └── utils/            # isNil, isFunction, composeRefs, mergeProps
+├── .storybook/                   # Storybook v8 config (main.ts, preview.ts)
+├── eslint.config.js              # Root ESLint flat config
+└── LICENSE                       # MIT
 ```
 
-## Available Scripts
+---
 
-### Development
+## Design Tokens
 
-```bash
-# Install all dependencies
-pnpm install
+Tokens live in two places:
 
-# Start development environment (playground + watch mode)
-pnpm dev
+| Location | Purpose |
+|----------|---------|
+| `packages/ui/src/theme/tokens.ts` | **Source of truth** — `ThemeTokens` type, `defaultTheme`, `darkTheme`, `toCssVarMap()` |
+| `packages/ui/src/styles/themes.scss` | **Static mirror** — `:root` + `[data-theme="dark"]` blocks, manually kept in sync |
 
-# Build all packages for production
-pnpm build
-```
+### Available Tokens
 
-### Playground Application
+- `colors.primary[50–900]`, `colors.neutral[0–900]`
+- `colors.success`, `colors.warning`, `colors.error`, `colors.info`
+- `colors.surface.{success,warning,error}` — tinted backgrounds for status states
+- `spacing[0–24]`, `radius.{none,sm,md,lg,xl,full}`
+- `shadow.{sm,md,lg,xl}`, `opacity.{disabled,hover,pressed}`
 
-```bash
-# Start dev server (from root)
-pnpm --filter playground dev
-
-# Build playground for production
-pnpm --filter playground build
-
-# Preview production build
-pnpm --filter playground preview
-
-# Run linter
-pnpm --filter playground lint
-```
-
-### UI Package
-
-```bash
-# Build UI library
-pnpm --filter @nemo-ui/ui build
-
-# Watch mode for development
-pnpm --filter @nemo-ui/ui dev
-```
-
-### Utilities
-
-```bash
-# Run linter across all packages
-pnpm lint
-
-# Format code with Prettier (if configured)
-pnpm format
-
-# Type check all packages
-pnpm type-check
-```
-
-## Components
-
-### Available Components
-
-#### Typography
-- Flexible text component with multiple variants and semantic HTML
-- Supports custom styles and extends from design foundations
-- **Location**: `packages/ui/src/components/Typography`
-
-## Design System
-
-Nemo UI includes a comprehensive design system with standardized design tokens:
-
-### Foundations
-
-Located in `packages/ui/src/foundations/`:
-
-| File | Purpose |
-|------|---------|
-| `colors.ts` | Color palette (primary, secondary, neutral, semantic) |
-| `typography.ts` | Font scales, weights, line heights, and letter spacing |
-| `spacing.ts` | Spacing scale (4px base unit) |
-| `radius.ts` | Border radius values |
-| `shadows.ts` | Elevation shadows and effects |
-
-### Using Design Tokens
-
-```tsx
-import { colors, spacing, typography } from '@nemo-ui/ui/foundations'
-
-const styles = {
-  backgroundColor: colors.primary[500],
-  padding: spacing.md,
-  fontSize: typography.sizes.body.md,
-}
-```
-
-## Development Guide
-
-### Adding a New Component
-
-Follow the component structure for consistency:
-
-```bash
-# 1. Create component directory
-mkdir packages/ui/src/components/YourComponent
-
-# 2. Create component files
-packages/ui/src/components/YourComponent/
-├── index.ts                    # Exports
-├── YourComponent.tsx           # Implementation
-└── YourComponent.types.ts      # TypeScript types
-```
-
-**Example Component Structure**:
-
-```tsx
-// YourComponent.types.ts
-export interface YourComponentProps {
-  variant?: 'primary' | 'secondary'
-  size?: 'sm' | 'md' | 'lg'
-  children: React.ReactNode
-}
-
-// YourComponent.tsx
-import { YourComponentProps } from './YourComponent.types'
-
-export const YourComponent: React.FC<YourComponentProps> = ({
-  variant = 'primary',
-  size = 'md',
-  children,
-}) => {
-  return <div className={`component component--${variant}`}>{children}</div>
-}
-
-// index.ts
-export { YourComponent } from './YourComponent'
-export type { YourComponentProps } from './YourComponent.types'
-```
-
-### Testing in Playground
-
-The playground app is ideal for testing components:
-
-```tsx
-// apps/playground/src/App.tsx
-import { YourComponent } from '@nemo-ui/ui'
-
-export function App() {
-  return <YourComponent variant="primary">Test</YourComponent>
-}
-```
-
-## Documentation
-
-### Component Documentation
-
-- **TypeScript Definitions** - Inline type documentation for IDE intellisense
-- **Playground App** - Live examples and interactive testing
-- **Source Comments** - Detailed JSDoc comments in source files
-
-### Storybook (Recommended for Future)
-
-Consider adding Storybook for comprehensive component documentation:
-
-```bash
-pnpm add -D storybook @storybook/react @storybook/addon-docs
-```
-
-## Performance Considerations
-
-- **Tree-shaking** - All exports are ES modules for proper tree-shaking
-- **Code Splitting** - Playground app uses Vite's automatic code splitting
-- **Build Output** - Check bundle size with `pnpm build`
-
-## Contributing
-
-We welcome contributions! Please follow these steps:
-
-### Process
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Guidelines
-
-- Follow the existing code style (TypeScript + ESLint)
-- Add components to appropriate directories
-- Update types in `.types.ts` files
-- Test thoroughly in the playground app
-- Write clear commit messages
-- Update documentation as needed
-
-## Deployment
-
-### Publishing to npm
-
-```bash
-# Update version in packages/ui/package.json
-pnpm version patch|minor|major
-
-# Build all packages
-pnpm build
-
-# Publish
-pnpm publish
-```
-
-## Troubleshooting
-
-### Common Issues
-
-**Q: Dependencies not installing?**
-```bash
-pnpm install --force
-```
-
-**Q: Type errors after changes?**
-```bash
-pnpm type-check
-```
-
-**Q: Need to clean build?**
-```bash
-pnpm clean
-pnpm install
-pnpm build
-```
+---
 
 ## Project Roadmap
 
-- [ ] Add more UI components (Button, Input, Card, etc.)
-- [ ] Implement Storybook integration
-- [ ] Add unit tests (Jest + React Testing Library)
-- [ ] Create visual regression tests
-- [ ] Publish to npm
-- [ ] Add CI/CD pipeline
-- [ ] Create component documentation site
+### Sprint 1 (Completed)
+
+- [x] Project setup (pnpm monorepo, Vite, TypeScript)
+- [x] Foundation tokens (colors, spacing, radius, shadows, typography)
+- [x] Button, Input, Textarea, Typography components
+- [x] CSS Variables theming system + dark mode
+- [x] ThemeProvider / useTheme runtime API
+- [x] Storybook v8 + dark mode toolbar
+- [x] ESLint flat config + Vitest
+- [x] Utility functions (isNil, isFunction, composeRefs, mergeProps)
+
+### Future
+
+- [ ] More components (Card, Modal, Select, Tabs, etc.)
+- [ ] CI/CD pipeline + visual regression tests
+- [ ] Codegen: auto-generate `themes.scss` from `tokens.ts`
+- [ ] npm publish (`@nemo/ui`)
+
+---
 
 ## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 📖 [View Documentation](#documentation)
-- 🐛 [Report a Bug](https://github.com/garfieldvans/nemo-ui/issues)
-- 💡 [Request a Feature](https://github.com/garfieldvans/nemo-ui/issues)
-- 💬 [Discussions](https://github.com/garfieldvans/nemo-ui/discussions)
-
-## Maintainers
-
-- [@garfieldvans](https://github.com/garfieldvans)
+MIT — see [LICENSE](LICENSE)
 
 ---
 

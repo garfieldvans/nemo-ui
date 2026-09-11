@@ -1,5 +1,4 @@
-@use "../../styles/_variables" as *;
-
+// Local geometry/sizing vars (not theme tokens)
 $input-height-sm: 32px;
 $input-height-md: 40px;
 $input-height-lg: 48px;
@@ -41,7 +40,7 @@ $prefix-suffix-width: 48px;
 .label {
   font-size: $label-font-size;
   font-weight: 500;
-  color: $neutral-900;
+  color: var(--nemo-neutral-900, #202124);
   transition: color 0.2s ease, transform 0.2s ease, font-size 0.2s ease;
 
   &--required {
@@ -58,7 +57,7 @@ $prefix-suffix-width: 48px;
     pointer-events: none;
     background: transparent;
     padding: 0 4px;
-    color: $neutral-500;
+    color: var(--nemo-neutral-500, #9AA0A6);
     font-size: $input-font-size-md;
     font-weight: 400;
     white-space: nowrap;
@@ -73,7 +72,7 @@ $prefix-suffix-width: 48px;
 }
 
 .required-asterisk {
-  color: $error;
+  color: var(--nemo-error, #EA4335);
   font-weight: 400;
 }
 
@@ -81,26 +80,26 @@ $prefix-suffix-width: 48px;
   position: relative;
   display: inline-flex;
   align-items: center;
-  border-radius: $radius-md;
+  border-radius: var(--nemo-radius-md, 8px);
   transition: $input-transition;
 
   &--disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    background: $neutral-100 !important;
+    background: var(--nemo-neutral-100, #F1F3F4) !important;
     border-color: transparent !important;
   }
 
   &--readonly {
     opacity: 0.8;
-    background: $neutral-50 !important;
+    background: var(--nemo-neutral-50, #F8F9FA) !important;
   }
 
   &--has-value {
     .label--floating {
       top: 0;
       transform: translateY(-50%) scale(0.85);
-      color: $primary-600;
+      color: var(--nemo-primary-600, #1A73E8);
       font-weight: 500;
     }
   }
@@ -118,16 +117,16 @@ $prefix-suffix-width: 48px;
 
 .input,
 .textarea {
-  background: white;
+  background: var(--nemo-neutral-0, #FFFFFF);
   border: none;
   outline: none;
   width: 100%;
   font-family: inherit;
-  color: $neutral-900;
+  color: var(--nemo-neutral-900, #202124);
   resize: none;
 
   &::placeholder {
-    color: $neutral-500;
+    color: var(--nemo-neutral-500, #9AA0A6);
     opacity: 1;
   }
 
@@ -139,8 +138,8 @@ $prefix-suffix-width: 48px;
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px white inset !important;
-    box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--nemo-neutral-0, #FFFFFF) inset !important;
+    box-shadow: 0 0 0 1000px var(--nemo-neutral-0, #FFFFFF) inset !important;
   }
 }
 
@@ -183,32 +182,32 @@ $prefix-suffix-width: 48px;
 
 // Filled variant
 .input-container--filled {
-  background: $neutral-50;
+  background: var(--nemo-neutral-50, #F8F9FA);
   border: 1px solid transparent;
 
   &:hover:not(.input-container--disabled):not(.input-container--readonly) {
-    background: $neutral-100;
+    background: var(--nemo-neutral-100, #F1F3F4);
   }
 
   &:focus-within {
-    background: white;
-    border-color: $primary-500;
-    box-shadow: 0 0 0 3px $primary-100;
+    background: var(--nemo-neutral-0, #FFFFFF);
+    border-color: var(--nemo-primary-500, #4285F4);
+    box-shadow: 0 0 0 3px var(--nemo-primary-100, #D2E3FC);
   }
 }
 
 // Outlined variant
 .input-container--outlined {
   background: transparent;
-  border: 1px solid $neutral-300;
+  border: 1px solid var(--nemo-neutral-300, #DADCE0);
 
   &:hover:not(.input-container--disabled):not(.input-container--readonly) {
-    border-color: $neutral-400;
+    border-color: var(--nemo-neutral-400, #BDC1C6);
   }
 
   &:focus-within {
-    border-color: $primary-500;
-    box-shadow: 0 0 0 3px $primary-100;
+    border-color: var(--nemo-primary-500, #4285F4);
+    box-shadow: 0 0 0 3px var(--nemo-primary-100, #D2E3FC);
   }
 }
 
@@ -218,111 +217,111 @@ $prefix-suffix-width: 48px;
   border: 1px solid transparent;
 
   &:hover:not(.input-container--disabled):not(.input-container--readonly) {
-    background: $neutral-50;
+    background: var(--nemo-neutral-50, #F8F9FA);
   }
 
   &:focus-within {
-    background: white;
-    border-color: $primary-500;
-    box-shadow: 0 0 0 3px $primary-100;
+    background: var(--nemo-neutral-0, #FFFFFF);
+    border-color: var(--nemo-primary-500, #4285F4);
+    box-shadow: 0 0 0 3px var(--nemo-primary-100, #D2E3FC);
   }
 }
 
 // Colors - Error state
 .input-container--error {
   &.input-container--filled {
-    background: #fef7f7;
-    border-color: $error;
+    background: var(--nemo-surface-error, #fef7f7);
+    border-color: var(--nemo-error, #EA4335);
   }
 
   &.input-container--outlined {
-    border-color: $error;
+    border-color: var(--nemo-error, #EA4335);
   }
 
   &.input-container--ghost {
-    background: #fef7f7;
-    border-color: $error;
+    background: var(--nemo-surface-error, #fef7f7);
+    border-color: var(--nemo-error, #EA4335);
   }
 
   &:focus-within {
-    box-shadow: 0 0 0 3px rgba($error, 0.2);
-    border-color: $error;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-error, #EA4335) 20%, transparent);
+    border-color: var(--nemo-error, #EA4335);
   }
 
   .input,
   .textarea {
-    color: $error;
+    color: var(--nemo-error, #EA4335);
   }
 
   .icon {
-    color: $error;
+    color: var(--nemo-error, #EA4335);
   }
 
   .prefix,
   .suffix {
-    color: $error;
+    color: var(--nemo-error, #EA4335);
   }
 }
 
 // Colors - Warning state
 .input-container--warning {
   &.input-container--filled {
-    background: #fffef0;
-    border-color: $warning;
+    background: var(--nemo-surface-warning, #fffef0);
+    border-color: var(--nemo-warning, #FBBC04);
   }
 
   &.input-container--outlined {
-    border-color: $warning;
+    border-color: var(--nemo-warning, #FBBC04);
   }
 
   &.input-container--ghost {
-    background: #fffef0;
-    border-color: $warning;
+    background: var(--nemo-surface-warning, #fffef0);
+    border-color: var(--nemo-warning, #FBBC04);
   }
 
   &:focus-within {
-    box-shadow: 0 0 0 3px rgba($warning, 0.2);
-    border-color: $warning;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-warning, #FBBC04) 20%, transparent);
+    border-color: var(--nemo-warning, #FBBC04);
   }
 
   .icon {
-    color: $warning;
+    color: var(--nemo-warning, #FBBC04);
   }
 
   .prefix,
   .suffix {
-    color: $warning;
+    color: var(--nemo-warning, #FBBC04);
   }
 }
 
 // Colors - Success state
 .input-container--success {
   &.input-container--filled {
-    background: #f0fdf4;
-    border-color: $success;
+    background: var(--nemo-surface-success, #f0fdf4);
+    border-color: var(--nemo-success, #34A853);
   }
 
   &.input-container--outlined {
-    border-color: $success;
+    border-color: var(--nemo-success, #34A853);
   }
 
   &.input-container--ghost {
-    background: #f0fdf4;
-    border-color: $success;
+    background: var(--nemo-surface-success, #f0fdf4);
+    border-color: var(--nemo-success, #34A853);
   }
 
   &:focus-within {
-    box-shadow: 0 0 0 3px rgba($success, 0.2);
-    border-color: $success;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-success, #34A853) 20%, transparent);
+    border-color: var(--nemo-success, #34A853);
   }
 
   .icon {
-    color: $success;
+    color: var(--nemo-success, #34A853);
   }
 
   .prefix,
   .suffix {
-    color: $success;
+    color: var(--nemo-success, #34A853);
   }
 }
 
@@ -334,7 +333,7 @@ $prefix-suffix-width: 48px;
   justify-content: center;
   width: $input-icon-size;
   height: $input-icon-size;
-  color: $neutral-400;
+  color: var(--nemo-neutral-400, #BDC1C6);
   pointer-events: none;
   flex-shrink: 0;
   transition: color 0.2s ease;
@@ -362,13 +361,13 @@ $prefix-suffix-width: 48px;
     cursor: pointer;
 
     &:hover:not(.icon--disabled) {
-      color: $neutral-700;
+      color: var(--nemo-neutral-700, #5F6368);
     }
 
     &:focus-visible {
       outline: none;
-      border-radius: $radius-sm;
-      box-shadow: 0 0 0 2px $primary-500;
+      border-radius: var(--nemo-radius-sm, 4px);
+      box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
     }
   }
 
@@ -380,16 +379,16 @@ $prefix-suffix-width: 48px;
     background: transparent;
     border: none;
     cursor: pointer;
-    color: $neutral-400;
+    color: var(--nemo-neutral-400, #BDC1C6);
 
     &:hover {
-      color: $neutral-700;
+      color: var(--nemo-neutral-700, #5F6368);
     }
 
     &:focus-visible {
       outline: none;
-      border-radius: $radius-sm;
-      box-shadow: 0 0 0 2px $primary-500;
+      border-radius: var(--nemo-radius-sm, 4px);
+      box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
     }
   }
 
@@ -432,7 +431,7 @@ $prefix-suffix-width: 48px;
   justify-content: center;
   width: $prefix-suffix-width;
   height: 100%;
-  color: $neutral-500;
+  color: var(--nemo-neutral-500, #9AA0A6);
   pointer-events: none;
   font-size: $input-font-size-md;
   font-weight: 500;
@@ -442,12 +441,12 @@ $prefix-suffix-width: 48px;
 
 .prefix {
   left: 0;
-  border-right: 1px solid $neutral-200;
+  border-right: 1px solid var(--nemo-neutral-200, #E8EAED);
 }
 
 .suffix {
   right: 0;
-  border-left: 1px solid $neutral-200;
+  border-left: 1px solid var(--nemo-neutral-200, #E8EAED);
 }
 
 .input--with-prefix {
@@ -513,19 +512,19 @@ $prefix-suffix-width: 48px;
 // Helper text
 .helper-text {
   font-size: $helper-font-size;
-  color: $neutral-500;
+  color: var(--nemo-neutral-500, #9AA0A6);
   transition: color 0.2s ease;
 
   &--error {
-    color: $error;
+    color: var(--nemo-error, #EA4335);
   }
 
   &--warning {
-    color: $warning;
+    color: var(--nemo-warning, #FBBC04);
   }
 
   &--success {
-    color: $success;
+    color: var(--nemo-success, #34A853);
   }
 }
 
@@ -538,10 +537,10 @@ $prefix-suffix-width: 48px;
 
 .char-count {
   font-size: $helper-font-size;
-  color: $neutral-400;
+  color: var(--nemo-neutral-400, #BDC1C6);
   font-variant-numeric: tabular-nums;
 
   &--exceeded {
-    color: $error;
+    color: var(--nemo-error, #EA4335);
   }
 }

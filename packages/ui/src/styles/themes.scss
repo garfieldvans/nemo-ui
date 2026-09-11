@@ -1,0 +1,150 @@
+// GENERATED from src/theme/tokens.ts — values must stay in sync (codegen is future work).
+:root {
+  // Colors — primary
+  --nemo-primary-50: #E8F0FE;
+  --nemo-primary-100: #D2E3FC;
+  --nemo-primary-200: #AECBFA;
+  --nemo-primary-300: #8AB4F8;
+  --nemo-primary-400: #669DF6;
+  --nemo-primary-500: #4285F4;
+  --nemo-primary-600: #1A73E8;
+  --nemo-primary-700: #1967D2;
+  --nemo-primary-800: #185ABC;
+  --nemo-primary-900: #174EA6;
+
+  // Colors — neutral
+  --nemo-neutral-0: #FFFFFF;
+  --nemo-neutral-50: #F8F9FA;
+  --nemo-neutral-100: #F1F3F4;
+  --nemo-neutral-200: #E8EAED;
+  --nemo-neutral-300: #DADCE0;
+  --nemo-neutral-400: #BDC1C6;
+  --nemo-neutral-500: #9AA0A6;
+  --nemo-neutral-600: #80868B;
+  --nemo-neutral-700: #5F6368;
+  --nemo-neutral-800: #3C4043;
+  --nemo-neutral-900: #202124;
+
+  // Colors — semantic
+  --nemo-success: #34A853;
+  --nemo-warning: #FBBC04;
+  --nemo-error: #EA4335;
+  --nemo-info: #4285F4;
+
+  // Colors — surfaces (for status-filled backgrounds)
+  --nemo-surface-success: #f0fdf4;
+  --nemo-surface-warning: #fffef0;
+  --nemo-surface-error: #fef7f7;
+
+  // Spacing
+  --nemo-spacing-0: 0px;
+  --nemo-spacing-1: 4px;
+  --nemo-spacing-2: 8px;
+  --nemo-spacing-3: 12px;
+  --nemo-spacing-4: 16px;
+  --nemo-spacing-5: 20px;
+  --nemo-spacing-6: 24px;
+  --nemo-spacing-8: 32px;
+  --nemo-spacing-10: 40px;
+  --nemo-spacing-12: 48px;
+  --nemo-spacing-16: 64px;
+  --nemo-spacing-20: 80px;
+  --nemo-spacing-24: 96px;
+
+  // Radius
+  --nemo-radius-none: 0px;
+  --nemo-radius-sm: 4px;
+  --nemo-radius-md: 8px;
+  --nemo-radius-lg: 12px;
+  --nemo-radius-xl: 16px;
+  --nemo-radius-full: 9999px;
+
+  // Shadows
+  --nemo-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --nemo-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --nemo-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --nemo-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  // Opacity
+  --nemo-opacity-disabled: 0.4;
+  --nemo-opacity-hover: 0.9;
+  --nemo-opacity-pressed: 0.8;
+
+  color-scheme: light;
+}
+
+// Dark theme — data attribute selectors
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  // Colors — primary (adjusted for dark backgrounds)
+  --nemo-primary-50: #1B2F52;
+  --nemo-primary-100: #23406F;
+  --nemo-primary-200: #2D5694;
+  --nemo-primary-300: #3B6DB8;
+  --nemo-primary-400: #5B9DF6;
+  --nemo-primary-500: #4285F4;
+  --nemo-primary-600: #1A73E8;
+  --nemo-primary-700: #1967D2;
+  --nemo-primary-800: #185ABC;
+  --nemo-primary-900: #174EA6;
+
+  // Colors — neutral (flipped for dark)
+  --nemo-neutral-0: #0F1013;
+  --nemo-neutral-50: #17181C;
+  --nemo-neutral-100: #1F2128;
+  --nemo-neutral-200: #2A2D36;
+  --nemo-neutral-300: #3A3E48;
+  --nemo-neutral-400: #5A5F6B;
+  --nemo-neutral-500: #8B919E;
+  --nemo-neutral-600: #A6ACB8;
+  --nemo-neutral-700: #C2C7D2;
+  --nemo-neutral-800: #D9DDE6;
+  --nemo-neutral-900: #F0F2F5;
+
+  // Colors — semantic (unchanged)
+  --nemo-success: #34A853;
+  --nemo-warning: #FBBC04;
+  --nemo-error: #EA4335;
+  --nemo-info: #4285F4;
+
+  // Colors — surfaces (darkened)
+  --nemo-surface-success: #1A2E1F;
+  --nemo-surface-warning: #2E2A14;
+  --nemo-surface-error: #2E1A1A;
+
+  color-scheme: dark;
+}
+
+// Respect OS preference when no explicit data-theme is set (avoids FOUC)
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --nemo-primary-50: #1B2F52;
+    --nemo-primary-100: #23406F;
+    --nemo-primary-200: #2D5694;
+    --nemo-primary-300: #3B6DB8;
+    --nemo-primary-400: #5B9DF6;
+    --nemo-primary-500: #4285F4;
+    --nemo-primary-600: #1A73E8;
+    --nemo-primary-700: #1967D2;
+    --nemo-primary-800: #185ABC;
+    --nemo-primary-900: #174EA6;
+
+    --nemo-neutral-0: #0F1013;
+    --nemo-neutral-50: #17181C;
+    --nemo-neutral-100: #1F2128;
+    --nemo-neutral-200: #2A2D36;
+    --nemo-neutral-300: #3A3E48;
+    --nemo-neutral-400: #5A5F6B;
+    --nemo-neutral-500: #8B919E;
+    --nemo-neutral-600: #A6ACB8;
+    --nemo-neutral-700: #C2C7D2;
+    --nemo-neutral-800: #D9DDE6;
+    --nemo-neutral-900: #F0F2F5;
+
+    --nemo-surface-success: #1A2E1F;
+    --nemo-surface-warning: #2E2A14;
+    --nemo-surface-error: #2E1A1A;
+
+    color-scheme: dark;
+  }
+}

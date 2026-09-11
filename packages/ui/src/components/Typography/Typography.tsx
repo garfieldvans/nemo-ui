@@ -1,6 +1,6 @@
 import type { TypographyProps, TypographyVariant } from "./Typography.types";
 import { typography } from "../../foundations/typography";
-import { colors } from "../../foundations/colors";
+import { useTheme } from "../../theme/ThemeContext";
 
 export function Typography({
   variant = "body",
@@ -12,13 +12,15 @@ export function Typography({
   className,
   style,
 }: TypographyProps) {
+  const { theme } = useTheme();
+
   const colorMap = {
-    primary: colors.primary[600],
-    neutral: colors.neutral[900],
-    success: colors.success,
-    warning: colors.warning,
-    error: colors.error,
-    info: colors.info,
+    primary: theme.colors.primary[600],
+    neutral: theme.colors.neutral[900],
+    success: theme.colors.success,
+    warning: theme.colors.warning,
+    error: theme.colors.error,
+    info: theme.colors.info,
   };
 
   const variantMap: Record<TypographyVariant, string> = {

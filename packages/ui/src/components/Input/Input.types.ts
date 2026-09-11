@@ -8,13 +8,11 @@ import type {
 
 export type InputVariant = "filled" | "outlined" | "ghost";
 export type InputSize = "sm" | "md" | "lg";
-export type InputColor = "primary" | "neutral" | "success" | "warning" | "error";
 export type InputStatus = "default" | "error" | "warning" | "success";
 
 export interface InputBaseProps {
   variant?: InputVariant;
   size?: InputSize;
-  color?: InputColor;
   status?: InputStatus;
   label?: string;
   required?: boolean;

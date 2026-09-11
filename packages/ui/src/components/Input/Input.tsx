@@ -7,17 +7,11 @@ import { useRef, useImperativeHandle, forwardRef } from "react";
 type InputRef = Pick<HTMLInputElement, "focus" | "blur" | "select" | "setSelectionRange">;
 type TextareaRef = Pick<HTMLTextAreaElement, "focus" | "blur" | "select" | "setSelectionRange">;
 
-function getStatusClass(status: string, hasError: boolean): string {
-  if (hasError) return "error";
-  return status;
-}
-
 export const Input = forwardRef<InputRef, InputProps>(
   (
     {
       variant = "outlined",
       size = "md",
-      color = "neutral",
       status = "default",
       label,
       required = false,
@@ -181,7 +175,6 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
     {
       variant = "outlined",
       size = "md",
-      color = "neutral",
       status = "default",
       label,
       required = false,
