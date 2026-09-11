@@ -1,0 +1,97 @@
+.card {
+  display: block;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+
+  &--elevated {
+    background: var(--nemo-neutral-0, #FFFFFF);
+    box-shadow: var(--nemo-shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+
+    &:hover {
+      box-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
+    }
+  }
+
+  &--outlined {
+    background: var(--nemo-neutral-0, #FFFFFF);
+    border: 1px solid var(--nemo-neutral-200, #E8EAED);
+  }
+
+  &--filled {
+    background: var(--nemo-neutral-50, #F8F9FA);
+  }
+}
+
+.card--padding-none {
+  padding: 0;
+}
+
+.card--padding-sm {
+  padding: var(--nemo-spacing-2, 8px);
+}
+
+.card--padding-md {
+  padding: var(--nemo-spacing-4, 16px);
+}
+
+.card--padding-lg {
+  padding: var(--nemo-spacing-6, 24px);
+}
+
+.card--rounded-none {
+  border-radius: 0;
+}
+
+.card--rounded-sm {
+  border-radius: var(--nemo-radius-sm, 4px);
+}
+
+.card--rounded-md {
+  border-radius: var(--nemo-radius-md, 8px);
+}
+
+.card--rounded-lg {
+  border-radius: var(--nemo-radius-lg, 12px);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--nemo-spacing-3, 12px);
+  margin-bottom: var(--nemo-spacing-2, 8px);
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--nemo-neutral-900, #202124);
+  margin: 0;
+  line-height: 24px;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: var(--nemo-neutral-500, #9AA0A6);
+  margin: 2px 0 0;
+  line-height: 20px;
+}
+
+.header-action {
+  flex-shrink: 0;
+}
+
+.body {
+  color: var(--nemo-neutral-800, #3C4043);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--nemo-spacing-2, 8px);
+  margin-top: var(--nemo-spacing-4, 16px);
+  padding-top: var(--nemo-spacing-3, 12px);
+  border-top: 1px solid var(--nemo-neutral-100, #F1F3F4);
+}

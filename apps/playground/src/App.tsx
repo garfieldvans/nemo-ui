@@ -9,6 +9,15 @@ import {
   Typography,
   ThemeProvider,
   useTheme,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Badge,
+  Avatar,
+  AvatarGroup,
+  Divider,
+  Stack,
 } from "@nemo/ui";
 import { useState } from "react";
 
@@ -362,6 +371,128 @@ function PlaygroundContent() {
           <Typography as="p" variant="body" color="success">
             Paragraph element
           </Typography>
+        </div>
+      </section>
+
+      {/* Card Section */}
+      <section style={{ marginBottom: spacing[8] }}>
+        <Typography variant="h3" color="neutral" style={{ marginBottom: spacing[3] }}>
+          Card
+        </Typography>
+        <div style={{ display: "flex", gap: spacing[4], flexWrap: "wrap" }}>
+          <Card style={{ maxWidth: 320 }}>
+            <CardHeader
+              title="Pengaturan Akun"
+              subtitle="Kelola profil dan keamanan akun"
+              action={<Badge color="success">Aktif</Badge>}
+            />
+            <CardBody>
+              Info akun sudah diperbarui. Pastikan email yang terdaftar benar
+              supaya notifikasi penting tetap sampai.
+            </CardBody>
+            <CardFooter>
+              <Button size="sm">Simpan</Button>
+              <Button size="sm" variant="text">
+                Batal
+              </Button>
+            </CardFooter>
+          </Card>
+
+          <Card variant="outlined" style={{ maxWidth: 320 }}>
+            <CardHeader title="Proyek" subtitle="Daftar proyek aktif" />
+            <CardBody>
+              <Stack direction="column" spacing={3}>
+                <div>Nemo UI — in progress</div>
+                <div>Playground — done</div>
+              </Stack>
+            </CardBody>
+          </Card>
+
+          <Card variant="filled" style={{ maxWidth: 320 }}>
+            <CardHeader title="Statistik" subtitle="Ringkasan mingguan" />
+            <CardBody>Total 12 komponen ter-render dan berfungsi normal.</CardBody>
+          </Card>
+        </div>
+      </section>
+
+      {/* Badge Section */}
+      <section style={{ marginBottom: spacing[8] }}>
+        <Typography variant="h3" color="neutral" style={{ marginBottom: spacing[3] }}>
+          Badge
+        </Typography>
+        <div style={{ display: "flex", gap: spacing[2], flexWrap: "wrap", alignItems: "center" }}>
+          <Badge>Primary</Badge>
+          <Badge color="success">Success</Badge>
+          <Badge color="warning">Warning</Badge>
+          <Badge color="error">Error</Badge>
+          <Badge color="neutral">Neutral</Badge>
+          <Badge variant="outlined">Outlined</Badge>
+          <Badge variant="outlined" color="success">Outlined Success</Badge>
+          <Badge variant="dot" color="error" />
+          <Badge size="sm">Small</Badge>
+          <Badge size="sm" color="success">Small Success</Badge>
+        </div>
+      </section>
+
+      {/* Avatar Section */}
+      <section style={{ marginBottom: spacing[8] }}>
+        <Typography variant="h3" color="neutral" style={{ marginBottom: spacing[3] }}>
+          Avatar
+        </Typography>
+        <div style={{ display: "flex", gap: spacing[3], alignItems: "center", flexWrap: "wrap" }}>
+          <Avatar name="Andi Pratama" color="primary" />
+          <Avatar name="Budi Santoso" color="success" />
+          <Avatar name="Citra Dewi" color="warning" />
+          <Avatar name="Dwi Lestari" size="lg" color="error" />
+          <Avatar
+            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop"
+            alt="Foto profil"
+          />
+          <Avatar shape="square" name="Nemo UI" size="lg" />
+        </div>
+
+        <Typography variant="body" color="neutral" style={{ marginTop: spacing[3], marginBottom: spacing[2] }}>
+          AvatarGroup (max 3)
+        </Typography>
+        <AvatarGroup max={3}>
+          <Avatar name="Andi Pratama" color="primary" />
+          <Avatar name="Budi Santoso" color="success" />
+          <Avatar name="Citra Dewi" color="warning" />
+          <Avatar name="Dwi Lestari" color="error" />
+          <Avatar name="Eko Prasetyo" color="neutral" />
+        </AvatarGroup>
+      </section>
+
+      {/* Divider & Stack Section */}
+      <section style={{ marginBottom: spacing[8] }}>
+        <Typography variant="h3" color="neutral" style={{ marginBottom: spacing[3] }}>
+          Divider & Stack
+        </Typography>
+        <Typography variant="body" color="neutral" style={{ marginBottom: spacing[2] }}>
+          Stack vertikal dengan divider
+        </Typography>
+        <Stack direction="column" spacing={3} divider={<Divider />} style={{ maxWidth: 480 }}>
+          <span>Baris pertama</span>
+          <span>Baris kedua</span>
+          <span>Baris ketiga</span>
+        </Stack>
+
+        <Typography variant="body" color="neutral" style={{ margin: `${spacing[4]}px 0 ${spacing[2]}px` }}>
+          Stack horizontal
+        </Typography>
+        <Stack direction="row" spacing={3} wrap>
+          <Badge color="primary">Primary</Badge>
+          <Badge color="success">Success</Badge>
+          <Badge color="warning">Warning</Badge>
+        </Stack>
+
+        <Typography variant="body" color="neutral" style={{ margin: `${spacing[4]}px 0 ${spacing[2]}px` }}>
+          Divider vertikal
+        </Typography>
+        <div style={{ display: "flex", alignItems: "center", height: 48, gap: spacing[3] }}>
+          <span>Kiri</span>
+          <Divider orientation="vertical" />
+          <span>Kanan</span>
         </div>
       </section>
 
