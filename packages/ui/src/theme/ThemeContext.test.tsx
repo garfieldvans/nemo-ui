@@ -99,4 +99,24 @@ describe("ThemeProvider", () => {
       darkTheme.colors.primary[500]
     );
   });
+
+  it("sets color-scheme: dark in dark mode", () => {
+    render(
+      <ThemeProvider mode="dark">
+        <ThemeConsumer />
+      </ThemeProvider>
+    );
+    const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
+    expect(wrapper!.getAttribute("style")).toContain("color-scheme: dark");
+  });
+
+  it("sets color-scheme: light in light mode", () => {
+    render(
+      <ThemeProvider mode="light">
+        <ThemeConsumer />
+      </ThemeProvider>
+    );
+    const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
+    expect(wrapper!.getAttribute("style")).toContain("color-scheme: light");
+  });
 });

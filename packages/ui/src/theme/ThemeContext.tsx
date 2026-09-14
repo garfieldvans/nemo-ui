@@ -106,7 +106,7 @@ export function ThemeProvider({
       <Component
         data-theme={mode}
         className={className}
-        style={{ ...style, ...cssVars }}
+        style={{ ...style, colorScheme: mode, ...cssVars }}
       >
         {children}
       </Component>

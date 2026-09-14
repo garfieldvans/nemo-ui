@@ -124,6 +124,8 @@ $prefix-suffix-width: 48px;
   font-family: inherit;
   color: var(--nemo-neutral-900, #202124);
   resize: none;
+  // Bulatkan elemen dalam mengikuti radius container biar sudutnya tidak mencuat.
+  border-radius: inherit;
 
   &::placeholder {
     color: var(--nemo-neutral-500, #9AA0A6);
