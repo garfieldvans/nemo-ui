@@ -15,8 +15,14 @@ import {
   AvatarGroup,
   Divider,
   Stack,
+  Select,
+  Checkbox,
+  Radio,
+  RadioGroup,
+  Switch,
+  FormField,
 } from "@nemo/ui";
-import { useState, type ReactNode, type CSSProperties } from "react";
+import { useState, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
 
 function Section({
   title,
@@ -73,10 +79,21 @@ const columnStyle: CSSProperties = {
   marginBottom: spacing[5],
 };
 
+const planOptions = [
+  { value: "starter", label: "Starter" },
+  { value: "pro", label: "Pro", description: "Paling populer" },
+  { value: "enterprise", label: "Enterprise", description: "Untuk tim besar" },
+  { value: "vip", label: "VIP", disabled: true },
+];
+
 function PlaygroundContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");
+  const [plan, setPlan] = useState("pro");
+  const [billing, setBilling] = useState("monthly");
+  const [notifications, setNotifications] = useState(true);
+  const [agreed, setAgreed] = useState(false);
   const { mode, setMode } = useTheme();
 
   return (
@@ -264,6 +281,117 @@ function PlaygroundContent() {
         </div>
       </Section>
 
+      {/* Select */}
+      <Section title="Select">
+        <SubLabel>Variant & status</SubLabel>
+        <div style={columnStyle}>
+          <Select label="Paket (controlled)" options={planOptions} value={plan} onChange={setPlan} />
+          <Select label="Paket Filled" options={planOptions} variant="filled" defaultValue="starter" />
+          <Select label="Paket Ghost" options={planOptions} variant="ghost" placeholder="Pilih paket..." />
+          <Select label="Search & clear" options={planOptions} defaultValue="pro" searchable clearable helperText="Ketik untuk mencari" />
+          <Select label="Error state" options={planOptions} status="error" error="Paket wajib dipilih" />
+          <Select label="Success state" options={planOptions} status="success" success="Paket valid" defaultValue="pro" />
+        </div>
+
+        <SubLabel>Ukuran & disabled</SubLabel>
+        <div style={columnStyle}>
+          <Select label="Small" options={planOptions} size="sm" defaultValue="starter" />
+          <Select label="Medium" options={planOptions} size="md" defaultValue="pro" />
+          <Select label="Large" options={planOptions} size="lg" defaultValue="pro" />
+          <Select label="Disabled" options={planOptions} defaultValue="pro" disabled />
+        </div>
+      </Section>
+
+      {/* Checkbox */}
+      <Section title="Checkbox">
+        <div style={columnStyle}>
+          <Checkbox label="Terima syarat & ketentuan" checked={agreed} onChange={(e: ChangeEvent<HTMLInputElement>) => setAgreed(e.target.checked)} />
+          <Checkbox label="Berlangganan newsletter" defaultChecked />
+          <Checkbox label="Pilih semua" indeterminate />
+          <Checkbox label="Ceklis & disabled" defaultChecked disabled />
+          <Checkbox label="Error" error="Wajib dicentang" />
+        </div>
+        <SubLabel>Warna</SubLabel>
+        <div style={rowStyle}>
+          <Checkbox label="Primary" color="primary" defaultChecked />
+          <Checkbox label="Success" color="success" defaultChecked />
+          <Checkbox label="Warning" color="warning" defaultChecked />
+          <Checkbox label="Error" color="error" defaultChecked />
+          <Checkbox label="Neutral" color="neutral" defaultChecked />
+        </div>
+      </Section>
+
+      {/* Radio */}
+      <Section title="Radio">
+        <SubLabel>RadioGroup vertikal (controlled)</SubLabel>
+        <div style={{ marginBottom: spacing[5] }}>
+          <RadioGroup name="play-rg" label="Mode billing" value={billing} onChange={setBilling}>
+            <Radio value="monthly" label="Bulanan" />
+            <Radio value="yearly" label="Tahunan" />
+            <Radio value="custom" label="Kustom" />
+          </RadioGroup>
+        </div>
+
+        <SubLabel>Horizontal, disabled & error</SubLabel>
+        <div style={{ display: "flex", flexDirection: "column", gap: spacing[5], marginBottom: spacing[5] }}>
+          <RadioGroup name="rg-orient" label="Orientasi" orientation="horizontal" defaultValue="landscape">
+            <Radio value="landscape" label="Lanskap" />
+            <Radio value="portrait" label="Potret" />
+          </RadioGroup>
+          <RadioGroup name="rg-disabled" label="Terkunci" disabled defaultValue="auto">
+            <Radio value="auto" label="Otomatis" />
+            <Radio value="manual" label="Manual" />
+          </RadioGroup>
+          <RadioGroup name="rg-error" label="Persetujuan" required error="Harus memilih salah satu">
+            <Radio value="ya" label="Ya" />
+            <Radio value="tidak" label="Tidak" />
+          </RadioGroup>
+        </div>
+      </Section>
+
+      {/* Switch */}
+      <Section title="Switch">
+        <SubLabel>Pengaturan</SubLabel>
+        <div style={columnStyle}>
+          <Switch label="Aktifkan notifikasi" checked={notifications} onChange={(e: ChangeEvent<HTMLInputElement>) => setNotifications(e.target.checked)} />
+          <Switch label="Mode gelap otomatis" defaultChecked helperText="Mengikuti pengaturan perangkat" />
+          <Switch label="Hemat baterai" color="success" />
+          <Switch label="Terkunci (disabled)" disabled />
+        </div>
+        <SubLabel>Ukuran & warna</SubLabel>
+        <div style={rowStyle}>
+          <Switch size="sm" label="Small" defaultChecked />
+          <Switch size="md" label="Medium" defaultChecked />
+          <Switch color="success" label="Success" defaultChecked />
+        </div>
+      </Section>
+
+      {/* FormField */}
+      <Section title="FormField">
+        <SubLabel>Vertikal</SubLabel>
+        <div style={columnStyle}>
+          <FormField label="Nama lengkap" htmlFor="play-nama" required width="full">
+            <Input id="play-nama" placeholder="Nama lengkap" fullWidth />
+          </FormField>
+          <FormField label="Email" htmlFor="play-email" width="full" helperText="Dipakai untuk login.">
+            <Input id="play-email" type="email" placeholder="you@example.com" fullWidth />
+          </FormField>
+          <FormField label="Paket" htmlFor="play-plan-f" width="full" error="Wajib memilih paket">
+            <Select id="play-plan-f" options={planOptions} status="error" fullWidth />
+          </FormField>
+        </div>
+
+        <SubLabel>Horizontal</SubLabel>
+        <div style={{ ...columnStyle, maxWidth: 560 }}>
+          <FormField label="Nama lengkap" htmlFor="playh-nama" layout="horizontal" width="full">
+            <Input id="playh-nama" placeholder="Nama lengkap" fullWidth />
+          </FormField>
+          <FormField label="Paket" htmlFor="playh-plan" layout="horizontal" width="full">
+            <Select id="playh-plan" options={planOptions} defaultValue="pro" fullWidth />
+          </FormField>
+        </div>
+      </Section>
+
       {/* Typography */}
       <Section title="Typography">
         <SubLabel>Heading</SubLabel>
@@ -410,18 +538,30 @@ function PlaygroundContent() {
           />
           <CardBody>
             <Stack direction="column" spacing={spacing[4]}>
-              <Input label="Email" type="email" placeholder="you@example.com" leftIcon={
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-              } />
-              <Input label="Password" type="password" placeholder="Enter password" leftIcon={
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              } helperText="Minimal 8 karakter" />
+              <FormField label="Nama lengkap" htmlFor="reg-nama" required width="full">
+                <Input id="reg-nama" placeholder="Nama lengkap" fullWidth />
+              </FormField>
+              <FormField label="Email" htmlFor="reg-email" required width="full">
+                <Input id="reg-email" type="email" placeholder="you@example.com" fullWidth />
+              </FormField>
+              <FormField label="Password" htmlFor="reg-pass" required width="full" helperText="Minimal 8 karakter">
+                <Input id="reg-pass" type="password" placeholder="Enter password" fullWidth />
+              </FormField>
+              <FormField label="Paket" htmlFor="reg-plan" required width="full">
+                <Select id="reg-plan" options={planOptions} placeholder="Pilih paket..." value={plan} onChange={setPlan} fullWidth />
+              </FormField>
+              <FormField label="Mode billing" width="full">
+                <RadioGroup name="reg-billing" value={billing} onChange={setBilling}>
+                  <Radio value="monthly" label="Bulanan" />
+                  <Radio value="yearly" label="Tahunan" />
+                </RadioGroup>
+              </FormField>
+              <Checkbox
+                label="Saya menyetujui syarat & ketentuan"
+                checked={agreed}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setAgreed(e.target.checked)}
+                error={agreed ? undefined : "Wajib menyetujui syarat sebelum mendaftar"}
+              />
               <Button style={{ width: "100%" }}>Daftar</Button>
               <Divider />
               <Typography variant="caption" color="neutral" align="center">

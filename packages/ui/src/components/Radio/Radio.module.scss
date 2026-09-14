@@ -1,0 +1,184 @@
+// Local geometry/sizing vars (not theme tokens)
+$radio-size-sm: 16px;
+$radio-size-md: 20px;
+
+$radio-dot-sm: 8px;
+$radio-dot-md: 10px;
+
+$label-font-size: 14px;
+$label-gap: 8px;
+$helper-font-size: 12px;
+$helper-gap: 4px;
+
+$radio-transition: all 0.15s ease;
+
+// Visually hidden but still focusable/accessible native input
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.radio-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: $helper-gap;
+}
+
+.radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: $label-gap;
+  cursor: pointer;
+  user-select: none;
+  transition: $radio-transition;
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.radio-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $radio-size-md;
+  height: $radio-size-md;
+  border: 2px solid var(--nemo-neutral-300, #dadce0);
+  border-radius: 50%;
+  background: var(--nemo-neutral-0, #ffffff);
+  transition: $radio-transition;
+}
+
+.radio--sm .radio-control {
+  width: $radio-size-sm;
+  height: $radio-size-sm;
+}
+
+.radio-dot {
+  width: $radio-dot-md;
+  height: $radio-dot-md;
+  border-radius: 50%;
+  background: transparent;
+  transform: scale(0);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.radio--sm .radio-dot {
+  width: $radio-dot-sm;
+  height: $radio-dot-sm;
+}
+
+// Hover outline — only when enabled
+.radio:hover:not(.radio--disabled) .radio-control {
+  border-color: var(--nemo-neutral-500, #9aa0a6);
+}
+
+// Checked — input precedes the control in the DOM
+.radio-input:checked + .radio-control {
+  border-color: var(--nemo-primary-500, #4285f4);
+}
+
+.radio-input:checked + .radio-control .radio-dot {
+  background: var(--nemo-primary-500, #4285f4);
+  transform: scale(1);
+}
+
+.radio-input:checked + .radio-control--success {
+  border-color: var(--nemo-success, #34a853);
+}
+
+.radio-input:checked + .radio-control--success .radio-dot {
+  background: var(--nemo-success, #34a853);
+}
+
+.radio-input:checked + .radio-control--warning {
+  border-color: var(--nemo-warning, #fbbc04);
+}
+
+.radio-input:checked + .radio-control--warning .radio-dot {
+  background: var(--nemo-warning, #fbbc04);
+}
+
+.radio-input:checked + .radio-control--error {
+  border-color: var(--nemo-error, #ea4335);
+}
+
+.radio-input:checked + .radio-control--error .radio-dot {
+  background: var(--nemo-error, #ea4335);
+}
+
+.radio-input:checked + .radio-control--neutral {
+  border-color: var(--nemo-neutral-700, #5f6368);
+}
+
+.radio-input:checked + .radio-control--neutral .radio-dot {
+  background: var(--nemo-neutral-700, #5f6368);
+}
+
+// Focus ring — control lights up when native input focused via keyboard
+.radio-input:focus-visible + .radio-control {
+  outline: none;
+  border-color: var(--nemo-primary-500, #4285f4);
+  box-shadow: 0 0 0 3px var(--nemo-primary-100, #d2e3fc);
+}
+
+.radio-input:disabled + .radio-control {
+  border-color: var(--nemo-neutral-200, #e8eaed);
+}
+
+.label {
+  font-size: $label-font-size;
+  line-height: 20px;
+  color: var(--nemo-neutral-900, #202124);
+}
+
+.helper-text {
+  font-size: $helper-font-size;
+  color: var(--nemo-neutral-500, #9aa0a6);
+
+  &--error {
+    color: var(--nemo-error, #ea4335);
+  }
+}
+
+// RadioGroup
+.group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--nemo-neutral-900, #202124);
+}
+
+.group-required {
+  color: var(--nemo-error, #ea4335);
+  font-weight: 400;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  &--disabled {
+    opacity: 0.8;
+  }
+}

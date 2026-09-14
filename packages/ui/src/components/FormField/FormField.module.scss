@@ -1,0 +1,85 @@
+// Local geometry/sizing vars (not theme tokens)
+$label-font-size: 14px;
+$label-gap: 6px;
+$helper-font-size: 12px;
+$helper-gap: 4px;
+
+$field-horizontal-label-width: 180px;
+$field-width-sm: 320px;
+$field-width-md: 420px;
+$field-width-lg: 560px;
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $label-gap;
+  width: 100%;
+
+  &--width-sm {
+    max-width: $field-width-sm;
+  }
+
+  &--width-md {
+    max-width: $field-width-md;
+  }
+
+  &--width-lg {
+    max-width: $field-width-lg;
+  }
+}
+
+.field-label {
+  font-size: $label-font-size;
+  font-weight: 500;
+  color: var(--nemo-neutral-900, #202124);
+
+  &--required {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.field-required {
+  color: var(--nemo-error, #ea4335);
+  font-weight: 400;
+}
+
+.form-field--horizontal {
+  flex-direction: row;
+  gap: 12px;
+
+  .field-label {
+    width: $field-horizontal-label-width;
+    flex-shrink: 0;
+    padding-top: 10px;
+  }
+
+  .field-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  // vertical helper under control stays aligned to the control column
+  .field-helper,
+  .field-error {
+    margin-left: 0;
+  }
+}
+
+.field-content {
+  display: flex;
+  flex-direction: column;
+  gap: $helper-gap;
+  min-width: 0;
+}
+
+.field-helper {
+  font-size: $helper-font-size;
+  color: var(--nemo-neutral-500, #9aa0a6);
+}
+
+.field-error {
+  font-size: $helper-font-size;
+  color: var(--nemo-error, #ea4335);
+}

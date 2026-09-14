@@ -1,0 +1,125 @@
+// Local geometry/sizing vars (not theme tokens)
+$switch-track-sm: 32px;
+$switch-track-md: 40px;
+
+$switch-track-height-sm: 18px;
+$switch-track-height-md: 22px;
+
+$switch-thumb-sm: 14px;
+$switch-thumb-md: 18px;
+
+$switch-gap: 2px;
+
+$label-font-size: 14px;
+$label-gap: 10px;
+$helper-font-size: 12px;
+$helper-gap: 4px;
+
+$switch-transition: all 0.2s ease;
+
+// Visually hidden but still focusable/accessible native input
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.switch-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: $helper-gap;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: $label-gap;
+  cursor: pointer;
+  user-select: none;
+  transition: $switch-transition;
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.switch-track {
+  position: relative;
+  flex-shrink: 0;
+  width: $switch-track-md;
+  height: $switch-track-height-md;
+  border-radius: var(--nemo-radius-full, 9999px);
+  background: var(--nemo-neutral-300, #dadce0);
+  transition: background 0.2s ease;
+}
+
+.switch--sm .switch-track {
+  width: $switch-track-sm;
+  height: $switch-track-height-sm;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: $switch-gap;
+  left: $switch-gap;
+  width: $switch-thumb-md;
+  height: $switch-thumb-md;
+  border-radius: 50%;
+  background: var(--nemo-neutral-0, #ffffff);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.switch--sm .switch-thumb {
+  width: $switch-thumb-sm;
+  height: $switch-thumb-sm;
+}
+
+// Checked — input precedes the track in the DOM
+.switch-input:checked + .switch-track {
+  background: var(--nemo-primary-500, #4285f4);
+}
+
+.switch-input:checked + .switch-track .switch-thumb {
+  transform: translateX($switch-track-md - $switch-thumb-md - $switch-gap * 2);
+}
+
+.switch--sm .switch-input:checked + .switch-track .switch-thumb {
+  transform: translateX($switch-track-sm - $switch-thumb-sm - $switch-gap * 2);
+}
+
+.switch-input:checked + .switch-track--success {
+  background: var(--nemo-success, #34a853);
+}
+
+// Focus ring — track lights up when native input focused via keyboard
+.switch-input:focus-visible + .switch-track {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--nemo-primary-100, #d2e3fc);
+}
+
+.switch-input:disabled + .switch-track {
+  box-shadow: none;
+}
+
+.label {
+  font-size: $label-font-size;
+  line-height: 20px;
+  color: var(--nemo-neutral-900, #202124);
+}
+
+.helper-text {
+  font-size: $helper-font-size;
+  color: var(--nemo-neutral-500, #9aa0a6);
+
+  &--error {
+    color: var(--nemo-error, #ea4335);
+  }
+}

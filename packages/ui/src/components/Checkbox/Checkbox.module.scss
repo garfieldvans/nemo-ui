@@ -1,0 +1,129 @@
+// Local geometry/sizing vars (not theme tokens)
+$checkbox-box-sm: 16px;
+$checkbox-box-md: 20px;
+
+$label-font-size: 14px;
+$label-gap: 8px;
+$helper-font-size: 12px;
+$helper-gap: 4px;
+
+$checkbox-transition: all 0.15s ease;
+
+// Visually hidden but still focusable/accessible native input
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.checkbox-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: $helper-gap;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: $label-gap;
+  cursor: pointer;
+  user-select: none;
+  transition: $checkbox-transition;
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.checkbox-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $checkbox-box-md;
+  height: $checkbox-box-md;
+  border: 2px solid var(--nemo-neutral-300, #dadce0);
+  border-radius: var(--nemo-radius-sm, 4px);
+  background: var(--nemo-neutral-0, #ffffff);
+  color: #ffffff;
+  transition: $checkbox-transition;
+
+  svg {
+    display: block;
+  }
+}
+
+.checkbox--sm .checkbox-box {
+  width: $checkbox-box-sm;
+  height: $checkbox-box-sm;
+}
+
+.checkbox--md .checkbox-box {
+  width: $checkbox-box-md;
+  height: $checkbox-box-md;
+}
+
+// Checked & indeterminate — input precedes the box in the DOM
+.checkbox-input:checked + .checkbox-box,
+.checkbox-input:indeterminate + .checkbox-box {
+  border-color: var(--nemo-primary-500, #4285f4);
+  background: var(--nemo-primary-500, #4285f4);
+}
+
+.checkbox-input:checked + .checkbox-box--warning,
+.checkbox-input:indeterminate + .checkbox-box--warning {
+  border-color: var(--nemo-warning, #fbbc04);
+  background: var(--nemo-warning, #fbbc04);
+  color: var(--nemo-neutral-900, #202124);
+}
+
+.checkbox-input:checked + .checkbox-box--success,
+.checkbox-input:indeterminate + .checkbox-box--success {
+  border-color: var(--nemo-success, #34a853);
+  background: var(--nemo-success, #34a853);
+}
+
+.checkbox-input:checked + .checkbox-box--error,
+.checkbox-input:indeterminate + .checkbox-box--error {
+  border-color: var(--nemo-error, #ea4335);
+  background: var(--nemo-error, #ea4335);
+}
+
+.checkbox-input:checked + .checkbox-box--neutral,
+.checkbox-input:indeterminate + .checkbox-box--neutral {
+  border-color: var(--nemo-neutral-700, #5f6368);
+  background: var(--nemo-neutral-700, #5f6368);
+}
+
+// Focus ring — box lights up when native input focused via keyboard
+.checkbox-input:focus-visible + .checkbox-box {
+  outline: none;
+  border-color: var(--nemo-primary-500, #4285f4);
+  box-shadow: 0 0 0 3px var(--nemo-primary-100, #d2e3fc);
+}
+
+.checkbox-input:disabled + .checkbox-box {
+  border-color: var(--nemo-neutral-200, #e8eaed);
+}
+
+.label {
+  font-size: $label-font-size;
+  line-height: 20px;
+  color: var(--nemo-neutral-900, #202124);
+}
+
+.helper-text {
+  font-size: $helper-font-size;
+  color: var(--nemo-neutral-500, #9aa0a6);
+
+  &--error {
+    color: var(--nemo-error, #ea4335);
+  }
+}
