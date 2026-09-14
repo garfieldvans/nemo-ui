@@ -1,0 +1,154 @@
+$progress-thickness-sm: 4px;
+$progress-thickness-md: 8px;
+$progress-thickness-lg: 12px;
+
+$progress-track: var(--nemo-neutral-200, #e8eaed);
+$progress-radius: var(--nemo-radius-full, 9999px);
+$progress-value-color: var(--nemo-neutral-700, #5f6368);
+
+.progress {
+  &--line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  &--sm .progress-track {
+    height: $progress-thickness-sm;
+  }
+
+  &--md .progress-track {
+    height: $progress-thickness-md;
+  }
+
+  &--lg .progress-track {
+    height: $progress-thickness-lg;
+  }
+
+  &--circle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+}
+
+.progress-track {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  background: $progress-track;
+  border-radius: $progress-radius;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: $progress-radius;
+  transition: width 0.2s ease;
+  background: var(--nemo-primary-500, #4285f4);
+
+  &--primary {
+    background: var(--nemo-primary-500, #4285f4);
+  }
+
+  &--success {
+    background: var(--nemo-success, #34a853);
+  }
+
+  &--warning {
+    background: var(--nemo-warning, #fbbc04);
+  }
+
+  &--error {
+    background: var(--nemo-error, #ea4335);
+  }
+
+  &--neutral {
+    background: var(--nemo-neutral-700, #5f6368);
+  }
+}
+
+.progress-value {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: $progress-value-color;
+  flex-shrink: 0;
+}
+
+// Circle variant
+.progress-circle-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-circle-track {
+  stroke: $progress-track;
+}
+
+.progress-circle-fill {
+  transition: stroke-dashoffset 0.3s ease;
+  stroke: var(--nemo-primary-500, #4285f4);
+
+  &--primary {
+    stroke: var(--nemo-primary-500, #4285f4);
+  }
+
+  &--success {
+    stroke: var(--nemo-success, #34a853);
+  }
+
+  &--warning {
+    stroke: var(--nemo-warning, #fbbc04);
+  }
+
+  &--error {
+    stroke: var(--nemo-error, #ea4335);
+  }
+
+  &--neutral {
+    stroke: var(--nemo-neutral-700, #5f6368);
+  }
+}
+
+.progress-circle-value {
+  position: absolute;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $progress-value-color;
+}
+
+// Indeterminate
+.progress--indeterminate {
+  .progress-fill {
+    width: 40%;
+    transition: none;
+    animation: progress-line-slide 1.4s ease-in-out infinite;
+  }
+
+  .progress-circle-fill {
+    stroke-dasharray: 22 94;
+    animation: progress-circle-spin 1.4s linear infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+}
+
+@keyframes progress-line-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes progress-circle-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

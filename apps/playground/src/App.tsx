@@ -21,6 +21,12 @@ import {
   RadioGroup,
   Switch,
   FormField,
+  Skeleton,
+  Spinner,
+  Progress,
+  Alert,
+  ToastProvider,
+  useToast,
 } from "@nemo/ui";
 import { useState, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
 
@@ -85,6 +91,22 @@ const planOptions = [
   { value: "enterprise", label: "Enterprise", description: "Untuk tim besar" },
   { value: "vip", label: "VIP", disabled: true },
 ];
+
+function ToastSection() {
+  const toast = useToast();
+  return (
+    <>
+      <SubLabel>Pemicu notifikasi</SubLabel>
+      <div style={rowStyle}>
+        <Button color="success" onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}>Success</Button>
+        <Button color="error" onClick={() => toast.error("Gagal menyimpan", { message: "Coba lagi beberapa saat.", duration: 6000 })}>Error</Button>
+        <Button color="warning" onClick={() => toast.warning("Hampir penuh", { message: "Bersihkan penyimpanan kamu." })}>Warning</Button>
+        <Button variant="outlined" onClick={() => toast.info("Informasi", { message: "Tersedia pembaruan terbaru." })}>Info</Button>
+        <Button variant="text" onClick={() => toast.dismissAll()}>Tutup semua</Button>
+      </div>
+    </>
+  );
+}
 
 function PlaygroundContent() {
   const [email, setEmail] = useState("");
@@ -392,6 +414,77 @@ function PlaygroundContent() {
         </div>
       </Section>
 
+      {/* Alert */}
+      <Section title="Alert">
+        <SubLabel>Surface (default)</SubLabel>
+        <div style={{ ...columnStyle, maxWidth: 560 }}>
+          <Alert tone="success" title="Berhasil disimpan">Perubahan terakhir sudah tersimpan.</Alert>
+          <Alert tone="info" title="Info">Pembaruan baru tersedia.</Alert>
+          <Alert tone="warning" title="Perhatian" closable>Kuota kamu hampir habis.</Alert>
+          <Alert tone="error" title="Gagal" closable>Terjadi kesalahan saat menyimpan.</Alert>
+        </div>
+        <SubLabel>Filled</SubLabel>
+        <div style={{ ...columnStyle, maxWidth: 560 }}>
+          <Alert tone="success" variant="filled" title="Berhasil disimpan">Perubahan tersimpan.</Alert>
+          <Alert tone="error" variant="filled" title="Terjadi kesalahan" action={<Button size="sm" variant="text" style={{ color: "#FFFFFF" }}>Coba lagi</Button>}>Gagal menyimpan data.</Alert>
+        </div>
+      </Section>
+
+      {/* Skeleton */}
+      <Section title="Skeleton">
+        <SubLabel>Text & multiple lines</SubLabel>
+        <div style={columnStyle}>
+          <Skeleton />
+          <Skeleton lines={3} animation="wave" />
+        </div>
+        <SubLabel>Circle & rect</SubLabel>
+        <div style={rowStyle}>
+          <Skeleton variant="circle" width={48} height={48} />
+          <Skeleton variant="rect" width={160} height={56} animation="wave" />
+          <Skeleton variant="rect" width={200} height={80} animation="wave" />
+        </div>
+      </Section>
+
+      {/* Spinner */}
+      <Section title="Spinner">
+        <SubLabel>Ukuran</SubLabel>
+        <div style={rowStyle}>
+          <Spinner size="sm" />
+          <Spinner size="md" />
+          <Spinner size="lg" />
+        </div>
+        <SubLabel>Warna</SubLabel>
+        <div style={rowStyle}>
+          <Spinner color="primary" />
+          <Spinner color="success" />
+          <Spinner color="warning" />
+          <Spinner color="error" />
+          <Spinner color="neutral" />
+        </div>
+      </Section>
+
+      {/* Progress */}
+      <Section title="Progress">
+        <SubLabel>Line</SubLabel>
+        <div style={{ ...columnStyle, maxWidth: 480 }}>
+          <Progress value={45} />
+          <Progress value={72} showValue color="success" />
+          <Progress value={100} showValue color="error" />
+          <Progress indeterminate />
+        </div>
+        <SubLabel>Circle</SubLabel>
+        <div style={rowStyle}>
+          <Progress variant="circle" value={68} showValue />
+          <Progress variant="circle" value={35} color="warning" showValue />
+          <Progress variant="circle" indeterminate color="success" />
+        </div>
+      </Section>
+
+      {/* Toast */}
+      <Section title="Toast">
+        <ToastSection />
+      </Section>
+
       {/* Typography */}
       <Section title="Typography">
         <SubLabel>Heading</SubLabel>
@@ -584,7 +677,9 @@ function PlaygroundContent() {
 function App() {
   return (
     <ThemeProvider className="nemo-page">
-      <PlaygroundContent />
+      <ToastProvider>
+        <PlaygroundContent />
+      </ToastProvider>
     </ThemeProvider>
   );
 }

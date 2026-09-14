@@ -1,0 +1,80 @@
+$skeleton-bg: var(--nemo-neutral-200, #e8eaed);
+$skeleton-shimmer-a: var(--nemo-neutral-200, #e8eaed);
+$skeleton-shimmer-b: var(--nemo-neutral-100, #f1f3f4);
+$skeleton-radius-md: var(--nemo-radius-md, 8px);
+$skeleton-radius-sm: var(--nemo-radius-sm, 4px);
+$skeleton-line-height: 16px;
+$skeleton-line-gap: 8px;
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: $skeleton-line-gap;
+}
+
+.skeleton-bar {
+  display: block;
+  background-color: $skeleton-bg;
+
+  &--text {
+    border-radius: $skeleton-radius-sm;
+  }
+
+  &--circle {
+    border-radius: 50%;
+  }
+
+  &--rect {
+    border-radius: $skeleton-radius-md;
+  }
+
+  &--short {
+    width: 60%;
+  }
+
+  &--pulse {
+    animation: skeleton-pulse 1.6s ease-in-out infinite;
+  }
+
+  &--wave {
+    background: linear-gradient(
+      90deg,
+      $skeleton-shimmer-a 25%,
+      $skeleton-shimmer-b 37%,
+      $skeleton-shimmer-a 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-wave 1.4s ease infinite;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes skeleton-wave {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
