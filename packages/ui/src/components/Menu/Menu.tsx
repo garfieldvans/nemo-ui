@@ -101,6 +101,18 @@ function flattenChildren(children: ReactNode): ReactNode[] {
   return out;
 }
 
+// Menu bersifat controlled/uncontrolled: saat `open` diberikan, state
+// dikontrol oleh parent; bila tidak, komponen mengelola statusnya sendiri
+// melalui `defaultOpen` + internal state.
+//
+// Menu adalah non-modal dengan keyboard interaction yang lebih kaya:
+// - menutup saat Escape (serta mengembalikan fokus ke trigger secara opsional)
+// - menutup saat pointer mousedown di luar trigger dan panel
+// - fokus dipindah ke panel saat terbuka
+// - Arrow/Home/End/Enter/Space/Tab diteruskan di dalam panel sesuai role=menu
+//
+// Menu tidak menggunakan focus trap, karena itu bukan modal yang harus
+// menjebak fokus di dalam panel sepenuhnya.
 function MenuImpl({
   trigger,
   children,

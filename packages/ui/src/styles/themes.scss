@@ -1,4 +1,34 @@
-// GENERATED from src/theme/tokens.ts — values must stay in sync (codegen is future work).
+// ============================================================================
+// Static theme CSS variables (mirror of src/theme/tokens.ts)
+// ============================================================================
+// - `tokens.ts` adalah sumber kebenaran (source of truth) untuk nilai token:
+//     `defaultTheme`, `darkTheme`, dan `toCssVarMap()`.
+// - File ini adalah cerminan statis dalam bentuk CSS Custom Properties.
+//   Nilainya harus tetap sinkron dengan `tokens.ts`.
+//
+// Cara verifikasi sinkronisasi (saat ini):
+//   1. Jalankan token inspect melalui Node, misalnya:
+//        node --input-type=module - <<'EOF'
+//        import { toCssVarMap, defaultTheme, darkTheme } from './src/theme/tokens.ts';
+//        console.log(Object.keys(toCssVarMap(defaultTheme)).sort().join('\n'));
+//        console.log(Object.keys(toCssVarMap(darkTheme)).sort().join('\n'));
+//        EOF
+//   2. Bandingkan daftar CSS variable yang dihasilkan dengan yang ada di
+//      file ini. Pastikan tidak ada key yang hilang atau berbeda pada
+//      masing-masing blok tema (light / dark / media query).
+//
+// Catatan:
+//   - Untuk saat ini, sinkronisasi tetap dilakukan secara manual.
+//   - Rencana berikutnya: kode generator yang menghasilkan file ini dari
+//     `tokens.ts` (diurusi di tahap berikutnya, bukan blok perubahan ini).
+//
+// Aturan minimal sebelum mengubah file ini:
+//   - Jika ada token baru di `tokens.ts`, tambahkan juga di sini.
+//   - Jika ada nilai token yang berubah, perbarui di kedua sisi.
+//   - Jika hanya ingin mengganti warna di CSS tanpa mengubah token, diskusi
+//     dulu apakah perubahan itu memang bagian dari static CSS atau sebaiknya
+//     masuk ke `tokens.ts`.
+// ============================================================================
 :root {
   // Colors — primary
   --nemo-primary-50: #E8F0FE;

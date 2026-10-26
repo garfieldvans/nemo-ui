@@ -21,6 +21,13 @@ export function Drawer({
   className,
   style,
 }: DrawerProps) {
+  // Drawer bersifat controlled: `open` / `onOpenChange` dikontrol oleh parent.
+  // `closeOnOverlay` dan `closeOnEsc` adalah perilaku penutup tambahan yang dipanggil
+  // dari sisi komponen setelah state diubah oleh parent (memanggil onOpenChange(false)).
+  //
+  // Portal + focus trap + scroll lock diterapkan saat `open` aktif.
+  // Escape ditangani oleh useFocusTrap melalui onEscape; saat closeOnEsc true,
+  // Escape akan memicu onOpenChange(false) dari komponen.
   const baseId = useId().replace(/:/g, "");
   const titleId = `${baseId}-title`;
 

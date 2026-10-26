@@ -59,7 +59,18 @@ export function Popover({
     [floatingPanelRef]
   );
 
-  // Fokus ke panel saat terbuka (non-modal: dialog ringan).
+  // Popover bersifat controlled/uncontrolled: saat `open` diberikan, state
+  // dikontrol oleh parent; bila tidak, komponen mengelola statusnya sendiri
+  // melalui `defaultOpen` + internal state.
+  //
+  // Popover adalah non-modal:
+  // - menutup saat Escape
+  // - menutup saat pointer mousedown di luar trigger dan panel
+  // - fokus dipindah ke panel saat terbuka (bukan focus trap)
+  //
+  // Karena sifatnya ringan, popover tidak menangani klik-luar dan Escape
+  // dengan focus recovery yang sama seperti modal; Escape langsung menutup,
+  // dan tidak ada jebakan fokus di dalam panel.
   useLayoutEffect(() => {
     if (isOpen) panelEl?.focus();
   }, [isOpen, panelEl]);

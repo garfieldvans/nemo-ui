@@ -21,6 +21,12 @@ export function Modal({
   className,
   style,
 }: ModalProps) {
+  // Modal bersifat controlled: `open` / `onOpenChange` dikontrol oleh parent.
+  // `closeOnOverlay` dan `closeOnEsc` adalah perilaku penutup tambahan yang
+  // dipanggil setelah state diubah oleh parent — yaitu pemanggilan `onOpenChange(false)`
+  // dari sisi komponen.
+  //
+  // Portal + focus trap + scroll lock diterapkan saat `open` aktif.
   const baseId = useId().replace(/:/g, "");
   const titleId = `${baseId}-title`;
   const descId = `${baseId}-desc`;

@@ -112,6 +112,26 @@ Dark vars are applied three ways (safely layered):
 | **Input** | SCSS Module | `outlined` / `filled` / `ghost` variants, floating label, icons, prefix/suffix, clearable |
 | **Textarea** | SCSS Module | Extends Input patterns, character count, rows |
 | **Typography** | Inline + `useTheme()` | 12 variants (h1–h6, body, caption, overline, button), semantic `as` prop |
+| **Card** | SCSS Module | Header, body, footer; `filled` / `outlined` variants |
+| **Badge** | SCSS Module | `filled` / `outlined` / `dot` variants, color and size props |
+| **Avatar** | SCSS Module | Image, initials fallback, sizes, shape; `AvatarGroup` for stacked avatars |
+| **Divider** | SCSS Module | Horizontal / vertical orientation |
+| **Stack** | SCSS Module | Vertical or horizontal layout with configurable spacing and wrap |
+| **Select** | SCSS Module | `outlined` / `filled` / `ghost`, searchable, clearable, sizes |
+| **Checkbox** | SCSS Module | Checked / unchecked, indeterminate, colors, error state |
+| **Radio** / **RadioGroup** | SCSS Module | Grouped selection, vertical / horizontal orientation |
+| **Switch** | SCSS Module | On/off toggle, sizes, color, label and helper text |
+| **FormField** | SCSS Module | Label + optional helper text / error, vertical or horizontal layout |
+| **Skeleton** | SCSS Module | Text lines, circle, rect; animation variants |
+| **Spinner** | Inline + `useTheme()` | Sizes and color variants |
+| **Progress** | SCSS Module | Line and circle variants, indeterminate, value / color options |
+| **Alert** | SCSS Module | `surface` / `filled` variants, tone colors, closable, action slot |
+| **Toast** | SCSS Module + `useToast()` | Success / error / warning / info, custom duration, dismiss |
+| **Modal** | SCSS Module | Centered dialog, header, footer, controlled open state |
+| **Drawer** | SCSS Module | Edge panel, placement and size variants, focus trap and scroll lock |
+| **Tooltip** | SCSS Module | Hover / focus trigger, placement, open/close delays |
+| **Popover** | SCSS Module | Trigger + floating panel, placement, offset, auto-flip |
+| **Menu** | SCSS Module | Trigger + items, divider, item states and selection pattern |
 
 ---
 
@@ -200,11 +220,26 @@ Tokens live in two places:
 - [x] ESLint flat config + Vitest
 - [x] Utility functions (isNil, isFunction, composeRefs, mergeProps)
 
-### Future
+### Current Components
 
-- [ ] More components (Card, Modal, Select, Tabs, etc.)
+Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Storybook:
+
+- Button, Input, Textarea, Typography
+- Card, Badge, Avatar, AvatarGroup, Divider, Stack
+- Select, Checkbox, Radio, RadioGroup, Switch, FormField
+- Skeleton, Spinner, Progress, Alert, Toast
+- Modal, Drawer, Tooltip, Popover, Menu
+
+### Near-term
+
+- [ ] Stabilisasi dan konsistensi perilaku overlay (Modal / Drawer / Popover / Menu / Tooltip)
+- [ ] Penajaman dokumentasi komponen (props, contoh, aksesibilitas)
+- [ ] Sinkronisasi token tema: pastikan `themes.scss` tetap sesuai dengan `tokens.ts` (codegen sebagai rencana berikutnya)
+
+### Later
+
 - [ ] CI/CD pipeline + visual regression tests
-- [ ] Codegen: auto-generate `themes.scss` from `tokens.ts`
+- [ ] Codegen: auto-generate `themes.scss` dari `tokens.ts`
 - [ ] npm publish (`@nemo/ui`)
 
 ---
