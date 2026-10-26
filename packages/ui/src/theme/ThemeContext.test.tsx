@@ -119,4 +119,51 @@ describe("ThemeProvider", () => {
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper!.getAttribute("style")).toContain("color-scheme: light");
   });
+
+  it("applies surface background by default", () => {
+    render(
+      <ThemeProvider>
+        <ThemeConsumer />
+      </ThemeProvider>
+    );
+    const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
+    expect(wrapper!.getAttribute("style")).toContain(
+      "background: var(--nemo-neutral-50, #f8f9fa)"
+    );
+  });
+
+  it("allows overriding the surface background via style", () => {
+    render(
+      <ThemeProvider style={{ background: "#000000" }}>
+        <ThemeConsumer />
+      </ThemeProvider>
+    );
+    const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
+    // style user menang atas surface default (surface di-spread duluan).
+    // jsdom menormalkan hex ke rgb.
+    expect(wrapper!.getAttribute("style")).toContain("background: rgb(0, 0, 0)");
+    expect(wrapper!.getAttribute("style")).not.toContain(
+      "background: var(--nemo-neutral-50, #f8f9fa)"
+    );
+  });
+
+  it("removes background when surface={false}", () => {
+    render(
+      <ThemeProvider surface={false}>
+        <ThemeConsumer />
+      </ThemeProvider>
+    );
+    const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
+    expect(wrapper!.getAttribute("style")).not.toContain("background:");
+  });
+
+  it("accepts a custom surface value", () => {
+    render(
+      <ThemeProvider surface="#123456">
+        <ThemeConsumer />
+      </ThemeProvider>
+    );
+    const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
+    expect(wrapper!.getAttribute("style")).toContain("background: rgb(18, 52, 86)");
+  });
 });

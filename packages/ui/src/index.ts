@@ -20,3 +20,8 @@ export * from "./components/Spinner";
 export * from "./components/Progress";
 export * from "./components/Alert";
 export * from "./components/Toast";
+export * from "./components/Modal";
+export * from "./components/Drawer";
+export * from "./components/Tooltip";
+export * from "./components/Popover";
+export * from "./components/Menu";

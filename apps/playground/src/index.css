@@ -18,8 +18,8 @@ body {
 }
 
 /* Wrapper yang di-render ThemeProvider (class di-pass via <ThemeProvider className>).
-   Punya atribut data-theme + CSS vars inline, jadi var(--nemo-*) di sini ikut mode. */
+   Surface background kini dicat oleh ThemeProvider sendiri (prop surface), jadi
+   .nemo-page hanya mengatur tinggi minimal. */
 .nemo-page {
   min-height: 100vh;
-  background-color: var(--nemo-neutral-50, #f8f9fa);
 }

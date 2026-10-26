@@ -27,6 +27,12 @@ import {
   Alert,
   ToastProvider,
   useToast,
+  Modal,
+  Drawer,
+  Tooltip,
+  Popover,
+  Menu,
+  type DrawerProps,
 } from "@nemo/ui";
 import { useState, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
 
@@ -105,6 +111,182 @@ function ToastSection() {
         <Button variant="text" onClick={() => toast.dismissAll()}>Tutup semua</Button>
       </div>
     </>
+  );
+}
+
+function ModalDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Buka modal
+      </Button>
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="Hapus project?"
+        description="Aksi ini permanen dan tidak bisa dibatalkan."
+        footer={
+          <>
+            <Button variant="text" color="error" onClick={() => setOpen(false)}>
+              Tidak
+            </Button>
+            <Button color="error" onClick={() => setOpen(false)}>
+              Hapus
+            </Button>
+          </>
+        }
+      >
+        <p>
+          Project "Nemo UI" beserta seluruh riwayatnya akan dihapus selamanya.
+          Pastikan kamu sudah mem-backup data penting.
+        </p>
+      </Modal>
+    </>
+  );
+}
+
+function DrawerDemo() {
+  const [placement, setPlacement] = useState<DrawerProps["placement"]>("right");
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div style={rowStyle}>
+        {(["left", "right", "top", "bottom"] as const).map((p) => (
+          <Button
+            key={p}
+            size="sm"
+            variant={placement === p ? "filled" : "outlined"}
+            onClick={() => {
+              setPlacement(p);
+              setOpen(true);
+            }}
+          >
+            {p}
+          </Button>
+        ))}
+      </div>
+      <Drawer
+        open={open}
+        onOpenChange={setOpen}
+        placement={placement}
+        title="Panel samping"
+        footer={
+          <>
+            <Button variant="text" onClick={() => setOpen(false)}>
+              Batal
+            </Button>
+            <Button onClick={() => setOpen(false)}>Terapkan</Button>
+          </>
+        }
+      >
+        <p>
+          Drawer menyajikan konten sekunder dari tepi layar. Coba ganti sisi dengan
+          tombol di atas, lalu klik backdrop atau tekan Escape untuk menutup.
+        </p>
+      </Drawer>
+    </>
+  );
+}
+
+function OverlaySection() {
+  return (
+    <>
+      <SubLabel>Modal</SubLabel>
+      <div style={rowStyle}>
+        <ModalDemo />
+      </div>
+      <SubLabel>Drawer — pilih posisi muncul</SubLabel>
+      <DrawerDemo />
+    </>
+  );
+}
+
+function TooltipSection() {
+  return (
+    <>
+      <div style={rowStyle}>
+        <Tooltip content="Menampilkan info saat hover atau fokus" placement="top" openDelay={0} closeDelay={0}>
+          <Button variant="outlined">Hover aku</Button>
+        </Tooltip>
+        <Tooltip content="Penyimpanan aman" placement="bottom" openDelay={0} closeDelay={0}>
+          <span style={{ cursor: "help", textDecoration: "underline dotted" }}>
+            Istilah penting
+          </span>
+        </Tooltip>
+      </div>
+    </>
+  );
+}
+
+function PopoverSection() {
+  return (
+    <>
+      <Popover
+        trigger={<Button variant="outlined">Atur filter</Button>}
+        ariaLabel="Panel filter"
+        placement="bottom"
+      >
+        <Stack direction="column" spacing={2}>
+          <p style={{ margin: 0, fontWeight: 600 }}>Filter daftar</p>
+          <p style={{ margin: 0, color: "var(--nemo-neutral-600, #80868b)" }}>
+            Pilih kriteria lalu terapkan untuk menyaring data.
+          </p>
+          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+            <Button size="sm" variant="text">
+              Reset
+            </Button>
+            <Button size="sm">Terapkan</Button>
+          </div>
+        </Stack>
+      </Popover>
+    </>
+  );
+}
+
+function MenuSection() {
+  const [view, setView] = useState("web");
+  const views = [
+    { value: "web", label: "Tampilan web" },
+    { value: "list", label: "Tampilan daftar" },
+    { value: "board", label: "Tampilan board" },
+  ] as const;
+  return (
+    <>
+      <Menu
+        trigger={<Button variant="outlined">{views.find((v) => v.value === view)?.label}</Button>}
+        ariaLabel="Pilih tampilan"
+      >
+        {views.map((v) => (
+          <Menu.Item
+            key={v.value}
+            label={v.label}
+            icon={v.value === view ? <CheckIcon /> : undefined}
+            onSelect={() => setView(v.value)}
+          />
+        ))}
+        <Menu.Divider />
+        <Menu.Item label="Reset ke default" disabled />
+      </Menu>
+    </>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 10.5l4 4L16 6.5" />
+    </svg>
   );
 }
 
@@ -483,6 +665,26 @@ function PlaygroundContent() {
       {/* Toast */}
       <Section title="Toast">
         <ToastSection />
+      </Section>
+
+      {/* Overlay */}
+      <Section title="Overlay">
+        <OverlaySection />
+      </Section>
+
+      {/* Tooltip */}
+      <Section title="Tooltip">
+        <TooltipSection />
+      </Section>
+
+      {/* Popover */}
+      <Section title="Popover">
+        <PopoverSection />
+      </Section>
+
+      {/* Menu */}
+      <Section title="Menu">
+        <MenuSection />
       </Section>
 
       {/* Typography */}

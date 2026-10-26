@@ -1,0 +1,126 @@
+$modal-z-index: 1300; // zIndex.modal
+$modal-screen-padding: 16px;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $modal-z-index;
+  display: grid;
+  place-items: center;
+  padding: $modal-screen-padding;
+  background: rgba(0, 0, 0, 0.5);
+  animation: modal-overlay-in 0.2s ease;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - ($modal-screen-padding * 2));
+  background: var(--nemo-neutral-0, #ffffff);
+  border: 1px solid var(--nemo-neutral-200, #e8eaed);
+  border-radius: var(--nemo-radius-lg, 12px);
+  box-shadow: var(--nemo-shadow-xl, 0 20px 25px rgba(0, 0, 0, 0.1));
+  color: var(--nemo-neutral-900, #202124);
+  outline: none;
+  overflow: hidden;
+  animation: modal-panel-in 0.2s ease;
+
+  &[data-size="sm"] {
+    max-width: 400px;
+  }
+
+  &[data-size="md"] {
+    max-width: 480px;
+  }
+
+  &[data-size="lg"] {
+    max-width: 640px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--nemo-neutral-200, #e8eaed);
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.description {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--nemo-neutral-600, #80868b);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  padding: 16px 20px;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px 20px;
+  background: var(--nemo-neutral-50, #f8f9fa);
+  border-top: 1px solid var(--nemo-neutral-200, #e8eaed);
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  border-radius: var(--nemo-radius-sm, 4px);
+  color: var(--nemo-neutral-400, #bdc1c6);
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    color: var(--nemo-neutral-700, #5f6368);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
+  }
+}
+
+@keyframes modal-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

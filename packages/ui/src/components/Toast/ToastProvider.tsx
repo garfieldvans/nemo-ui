@@ -6,12 +6,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { createPortal } from "react-dom";
 import styles from "./Toast.module.scss";
 
-import { useTheme, toCssVarMap } from "../../theme";
 import { clsx } from "../../utils/clsx";
 import { CloseIcon, ToneIcon } from "../internal/icons";
+import { Portal } from "../internal/Portal";
 import type {
   ToastContextValue,
   ToastItem,
@@ -37,28 +36,6 @@ export function ToastProvider({
   maxToasts = 5,
 }: ToastProviderProps) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
-  const { theme, mode } = useTheme();
-
-  // Portal hidup di document.body, DI LUAR wrapper ThemeProvider → bawa
-  // CSS vars + color-scheme secara eksplisit supaya tampilannya ikut tema app.
-  const cssVars = useMemo(() => toCssVarMap(theme), [theme]);
-
-  // Node portal dibuat sekali (lazy state), lalu ditempel/dilepas di effect —
-  // bukan pakai ref/read langsung di render supaya lolos react-hooks checks.
-  const [portalNode] = useState<HTMLDivElement | null>(() => {
-    if (typeof document === "undefined") return null;
-    const node = document.createElement("div");
-    node.setAttribute("data-nemo-toast-portal", "");
-    return node;
-  });
-
-  useEffect(() => {
-    if (!portalNode) return;
-    document.body.appendChild(portalNode);
-    return () => {
-      portalNode.remove();
-    };
-  }, [portalNode]);
 
   const dismiss = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -106,23 +83,19 @@ export function ToastProvider({
   return (
     <ToastContext.Provider value={value}>
       {children}
-      {portalNode &&
-        createPortal(
-          <div
-            data-theme={mode}
-            className={clsx(styles.viewport, styles[`viewport--${placement}`])}
-            style={{ ...cssVars, colorScheme: mode }}
-            role="region"
-            aria-label="Notifikasi"
-            aria-live="polite"
-            aria-relevant="additions"
-          >
-            {toasts.map((t) => (
-              <ToastView key={t.id} item={t} onDismiss={dismiss} />
-            ))}
-          </div>,
-          portalNode
-        )}
+      <Portal>
+        <div
+          className={clsx(styles.viewport, styles[`viewport--${placement}`])}
+          role="region"
+          aria-label="Notifikasi"
+          aria-live="polite"
+          aria-relevant="additions"
+        >
+          {toasts.map((t) => (
+            <ToastView key={t.id} item={t} onDismiss={dismiss} />
+          ))}
+        </div>
+      </Portal>
     </ToastContext.Provider>
   );
 }

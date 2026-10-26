@@ -77,7 +77,15 @@ export interface ThemeProviderProps {
   as?: ElementType;
   className?: string;
   style?: CSSProperties;
+  /**
+   * Warna surface wrapper. Bertujuan menutup bocor canvas: area transparan
+   * di dalam wrapper duduk di atas token (flip per mode), bukan warna
+   * canvas browser. `false` = tanpa background.
+   */
+  surface?: string | false;
 }
+
+const DEFAULT_SURFACE = "var(--nemo-neutral-50, #f8f9fa)";
 
 export function ThemeProvider({
   children,
@@ -86,6 +94,7 @@ export function ThemeProvider({
   as: Component = "div",
   className,
   style,
+  surface,
 }: ThemeProviderProps): ReactElement {
   const [mode, setMode] = useState<ThemeMode>(defaultMode);
 
@@ -101,12 +110,15 @@ export function ThemeProvider({
     [mergedTheme, mode],
   );
 
+  // surface sebelum ...style supaya user bisa override background secara eksplisit.
+  const surfaceStyle = surface !== false ? { background: surface ?? DEFAULT_SURFACE } : {};
+
   return (
     <ThemeContext.Provider value={value}>
       <Component
         data-theme={mode}
         className={className}
-        style={{ ...style, colorScheme: mode, ...cssVars }}
+        style={{ ...surfaceStyle, ...style, colorScheme: mode, ...cssVars }}
       >
         {children}
       </Component>

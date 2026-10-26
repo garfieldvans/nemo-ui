@@ -1,0 +1,46 @@
+$popover-z-index: 1400; // zIndex.popover — selapis dengan menu, di bawah tooltip (1500)
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
+    border-radius: var(--nemo-radius-sm, 4px);
+  }
+}
+
+.panel {
+  position: fixed;
+  z-index: $popover-z-index;
+  min-width: 220px;
+  max-width: calc(100vw - 32px);
+  padding: 12px;
+  background: var(--nemo-neutral-0, #ffffff);
+  border: 1px solid var(--nemo-neutral-200, #e8eaed);
+  border-radius: var(--nemo-radius-md, 8px);
+  box-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
+  color: var(--nemo-neutral-900, #202124);
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+  animation: popover-in 0.15s ease;
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
