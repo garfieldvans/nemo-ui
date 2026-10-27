@@ -150,14 +150,22 @@ describe("Select", () => {
     expect(screen.queryByRole("listbox")).toBeNull();
   });
 
-  it("shows error with alert role", () => {
-    render(<Select options={options} error="Wajib dipilih" />);
+  it("shows error with alert role and aria-errormessage", () => {
+    render(<Select options={options} id="plan" error="Wajib dipilih" />);
+    const combo = screen.getByRole("combobox");
+    expect(combo).toHaveAttribute("aria-invalid", "true");
+    expect(combo).toHaveAttribute("aria-errormessage", "plan-helper");
     expect(screen.getByRole("alert")).toHaveTextContent("Wajib dipilih");
   });
 
   it("shows helper text", () => {
-    render(<Select options={options} helperText="Minimal satu paket" />);
+    render(<Select options={options} id="plan" helperText="Minimal satu paket" />);
+    const combo = screen.getByRole("combobox");
     expect(screen.getByText("Minimal satu paket")).toBeDefined();
+    // Helper biasa tidak boleh ditandai sebagai error.
+    expect(combo).toHaveAttribute("aria-describedby", "plan-helper");
+    expect(combo).not.toHaveAttribute("aria-invalid", "true");
+    expect(combo).not.toHaveAttribute("aria-errormessage");
   });
 
   it("shows the selected label from a controlled value", () => {

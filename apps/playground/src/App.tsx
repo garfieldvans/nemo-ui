@@ -32,19 +32,25 @@ import {
   Tooltip,
   Popover,
   Menu,
+  Tabs,
+  Table,
+  Pagination,
+  type TableColumn,
   type DrawerProps,
 } from "@nemo/ui";
 import { useState, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
 
 function Section({
   title,
+  id,
   children,
 }: {
   title: string;
+  id?: string;
   children: ReactNode;
 }) {
   return (
-    <section style={{ marginTop: spacing[10] }}>
+    <section id={id} style={{ marginTop: spacing[10] }}>
       <Typography
         variant="overline"
         color="neutral"
@@ -60,6 +66,32 @@ function Section({
       </Typography>
       {children}
     </section>
+  );
+}
+
+function GroupTitle({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        marginTop: spacing[8],
+        marginBottom: spacing[1],
+        display: "flex",
+        alignItems: "center",
+        gap: spacing[3],
+      }}
+    >
+      <Typography variant="h3" color="neutral">
+        {children}
+      </Typography>
+      <div
+        aria-hidden
+        style={{
+          flex: 1,
+          height: 1,
+          background: "var(--nemo-neutral-200, #E8EAED)",
+        }}
+      />
+    </div>
   );
 }
 
@@ -90,6 +122,66 @@ const columnStyle: CSSProperties = {
   maxWidth: 420,
   marginBottom: spacing[5],
 };
+
+const toc: { id: string; label: string }[] = [
+  { id: "typography", label: "Typography" },
+  { id: "button", label: "Button" },
+  { id: "input", label: "Input" },
+  { id: "textarea", label: "Textarea" },
+  { id: "select", label: "Select" },
+  { id: "checkbox", label: "Checkbox" },
+  { id: "radio", label: "Radio" },
+  { id: "switch", label: "Switch" },
+  { id: "form-field", label: "FormField" },
+  { id: "alert", label: "Alert" },
+  { id: "toast", label: "Toast" },
+  { id: "skeleton", label: "Skeleton" },
+  { id: "spinner", label: "Spinner" },
+  { id: "progress", label: "Progress" },
+  { id: "tabs", label: "Tabs" },
+  { id: "pagination", label: "Pagination" },
+  { id: "overlay", label: "Modal & Drawer" },
+  { id: "tooltip", label: "Tooltip" },
+  { id: "popover", label: "Popover" },
+  { id: "menu", label: "Menu" },
+  { id: "table", label: "Table" },
+  { id: "card", label: "Card" },
+  { id: "badge", label: "Badge" },
+  { id: "avatar", label: "Avatar" },
+  { id: "divider-stack", label: "Divider & Stack" },
+  { id: "form-pendaftaran", label: "Form Pendaftaran" },
+];
+
+function TableOfContents() {
+  return (
+    <nav
+      aria-label="Daftar komponen"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: spacing[2],
+        marginTop: spacing[6],
+      }}
+    >
+      {toc.map((item) => (
+        <a
+          key={item.id}
+          href={`#${item.id}`}
+          style={{
+            padding: "4px 10px",
+            border: "1px solid var(--nemo-neutral-300, #DADCE0)",
+            borderRadius: "var(--nemo-radius-full, 9999px)",
+            fontSize: 13,
+            color: "var(--nemo-neutral-700, #5F6368)",
+            textDecoration: "none",
+          }}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  );
+}
 
 const planOptions = [
   { value: "starter", label: "Starter" },
@@ -290,6 +382,93 @@ function CheckIcon() {
   );
 }
 
+function TabsSection() {
+  const items = [
+    {
+      value: "ringkasan",
+      label: "Ringkasan",
+      content: <p>Ringkasan aktivitas project minggu ini.</p>,
+    },
+    {
+      value: "anggota",
+      label: "Anggota",
+      content: <p>Andi (Admin), Budi (Editor), Citra (Viewer).</p>,
+    },
+    {
+      value: "setelan",
+      label: "Setelan",
+      disabled: true,
+      content: <p>Pengaturan project.</p>,
+    },
+  ];
+  return (
+    <div style={{ ...columnStyle, maxWidth: 560 }}>
+      <SubLabel>Line variant</SubLabel>
+      <Tabs items={items} defaultValue="ringkasan" ariaLabel="Info project" />
+      <SubLabel>Pill variant</SubLabel>
+      <Tabs
+        items={items}
+        defaultValue="ringkasan"
+        variant="pill"
+        ariaLabel="Info project (pill)"
+      />
+    </div>
+  );
+}
+
+type Member = { id: number; nama: string; peran: string; status: string };
+
+const members: Member[] = [
+  { id: 1, nama: "Andi Pratama", peran: "Admin", status: "Aktif" },
+  { id: 2, nama: "Budi Santoso", peran: "Editor", status: "Aktif" },
+  { id: 3, nama: "Citra Dewi", peran: "Viewer", status: "Nonaktif" },
+];
+
+const memberColumns: TableColumn<Member>[] = [
+  { key: "nama", header: "Nama" },
+  { key: "peran", header: "Peran" },
+  {
+    key: "status",
+    header: "Status",
+    align: "right",
+    render: (row) => <Badge color={row.status === "Aktif" ? "success" : "neutral"}>{row.status}</Badge>,
+  },
+];
+
+function TableSection() {
+  return (
+    <div style={{ ...columnStyle, maxWidth: 560 }}>
+      <SubLabel>Striped + caption</SubLabel>
+      <Table
+        columns={memberColumns}
+        data={members}
+        rowKey={(row) => String(row.id)}
+        caption="Daftar anggota tim"
+        striped
+      />
+      <SubLabel>Empty state</SubLabel>
+      <Table
+        columns={memberColumns}
+        data={[]}
+        rowKey={() => ""}
+        emptyText="Belum ada anggota"
+      />
+    </div>
+  );
+}
+
+function PaginationSection() {
+  const [page, setPage] = useState(2);
+  return (
+    <div style={rowStyle}>
+      <Pagination page={page} pageCount={12} onChange={setPage} />
+      <Typography variant="caption" color="neutral">
+        Halaman {page} dari 12
+      </Typography>
+    </div>
+  );
+}
+
 function PlaygroundContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -354,10 +533,47 @@ function PlaygroundContent() {
           </Button>
         </div>
         <Divider style={{ marginTop: spacing[6] }} />
+        <TableOfContents />
       </header>
 
+      {/* ===== Foundations ===== */}
+      <GroupTitle>Foundations</GroupTitle>
+
+      {/* Typography */}
+      <Section title="Typography" id="typography">
+        <SubLabel>Heading</SubLabel>
+        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
+          <Typography variant="h1" color="neutral">Heading 1</Typography>
+          <Typography variant="h2" color="neutral">Heading 2</Typography>
+          <Typography variant="h3" color="neutral">Heading 3</Typography>
+          <Typography variant="h4" color="neutral">Heading 4</Typography>
+        </div>
+
+        <SubLabel>Body & warna</SubLabel>
+        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
+          <Typography variant="body" color="neutral">Body text — Default</Typography>
+          <Typography variant="body" color="primary">Body text — Primary</Typography>
+          <Typography variant="body" color="success">Body text — Success</Typography>
+          <Typography variant="body" color="warning">Body text — Warning</Typography>
+          <Typography variant="body" color="error">Body text — Error</Typography>
+          <Typography variant="body" color="info">Body text — Info</Typography>
+        </div>
+
+        <SubLabel>Lainnya</SubLabel>
+        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
+          <Typography variant="caption" color="neutral">Caption text</Typography>
+          <Typography variant="overline" color="neutral">Overline text</Typography>
+          <Typography variant="button" color="neutral">Button text</Typography>
+          <Typography variant="body" color="neutral" align="center">Center aligned</Typography>
+          <Typography as="span" variant="body" color="primary">Semantic span element</Typography>
+        </div>
+      </Section>
+
+      {/* ===== Actions ===== */}
+      <GroupTitle>Actions</GroupTitle>
+
       {/* Button */}
-      <Section title="Button">
+      <Section title="Button" id="button">
         <SubLabel>Filled (default)</SubLabel>
         <div style={rowStyle}>
           <Button>Primary</Button>
@@ -393,8 +609,11 @@ function PlaygroundContent() {
         </div>
       </Section>
 
+      {/* ===== Forms ===== */}
+      <GroupTitle>Forms</GroupTitle>
+
       {/* Input */}
-      <Section title="Input">
+      <Section title="Input" id="input">
         <SubLabel>Variant</SubLabel>
         <div style={columnStyle}>
           <Input label="Email" placeholder="you@example.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -417,7 +636,7 @@ function PlaygroundContent() {
         <div style={columnStyle}>
           <Input label="Error state" placeholder="Error" error="Format tidak valid" />
           <Input label="Warning state" placeholder="Warning" warning="Perhatian: data tidak lengkap" />
-          <Input label="Success state" placeholder="Success" success="Data valid" value="valid@email.com" />
+          <Input label="Success state" placeholder="Success" success="Data valid" defaultValue="valid@email.com" />
         </div>
 
         <SubLabel>Ukuran</SubLabel>
@@ -454,13 +673,13 @@ function PlaygroundContent() {
 
         <SubLabel>Disabled, required</SubLabel>
         <div style={columnStyle}>
-          <Input label="Disabled Input" value="Cannot edit" disabled />
+          <Input label="Disabled Input" defaultValue="Cannot edit" disabled />
           <Input label="Required Field" placeholder="Required" required />
         </div>
       </Section>
 
       {/* Textarea */}
-      <Section title="Textarea">
+      <Section title="Textarea" id="textarea">
         <SubLabel>Variant</SubLabel>
         <div style={{ ...columnStyle, maxWidth: 560 }}>
           <Textarea label="Outlined (default)" placeholder="Enter your message..." rows={3} />
@@ -481,12 +700,12 @@ function PlaygroundContent() {
           <Textarea label="Clearable" placeholder="Type and clear" clearable defaultValue="Try clearing me" rows={3} />
           <Textarea label="Floating Label" placeholder=" " floatingLabel rows={3} />
           <Textarea label="With Icon" placeholder="Add a note..." rows={3} />
-          <Textarea label="Disabled" value="Cannot edit" disabled rows={3} />
+          <Textarea label="Disabled" defaultValue="Cannot edit" disabled rows={3} />
         </div>
       </Section>
 
       {/* Select */}
-      <Section title="Select">
+      <Section title="Select" id="select">
         <SubLabel>Variant & status</SubLabel>
         <div style={columnStyle}>
           <Select label="Paket (controlled)" options={planOptions} value={plan} onChange={setPlan} />
@@ -507,7 +726,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Checkbox */}
-      <Section title="Checkbox">
+      <Section title="Checkbox" id="checkbox">
         <div style={columnStyle}>
           <Checkbox label="Terima syarat & ketentuan" checked={agreed} onChange={(e: ChangeEvent<HTMLInputElement>) => setAgreed(e.target.checked)} />
           <Checkbox label="Berlangganan newsletter" defaultChecked />
@@ -526,7 +745,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Radio */}
-      <Section title="Radio">
+      <Section title="Radio" id="radio">
         <SubLabel>RadioGroup vertikal (controlled)</SubLabel>
         <div style={{ marginBottom: spacing[5] }}>
           <RadioGroup name="play-rg" label="Mode billing" value={billing} onChange={setBilling}>
@@ -554,7 +773,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Switch */}
-      <Section title="Switch">
+      <Section title="Switch" id="switch">
         <SubLabel>Pengaturan</SubLabel>
         <div style={columnStyle}>
           <Switch label="Aktifkan notifikasi" checked={notifications} onChange={(e: ChangeEvent<HTMLInputElement>) => setNotifications(e.target.checked)} />
@@ -571,7 +790,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* FormField */}
-      <Section title="FormField">
+      <Section title="FormField" id="form-field">
         <SubLabel>Vertikal</SubLabel>
         <div style={columnStyle}>
           <FormField label="Nama lengkap" htmlFor="play-nama" required width="full">
@@ -596,8 +815,11 @@ function PlaygroundContent() {
         </div>
       </Section>
 
+      {/* ===== Feedback ===== */}
+      <GroupTitle>Feedback</GroupTitle>
+
       {/* Alert */}
-      <Section title="Alert">
+      <Section title="Alert" id="alert">
         <SubLabel>Surface (default)</SubLabel>
         <div style={{ ...columnStyle, maxWidth: 560 }}>
           <Alert tone="success" title="Berhasil disimpan">Perubahan terakhir sudah tersimpan.</Alert>
@@ -612,8 +834,13 @@ function PlaygroundContent() {
         </div>
       </Section>
 
+      {/* Toast */}
+      <Section title="Toast" id="toast">
+        <ToastSection />
+      </Section>
+
       {/* Skeleton */}
-      <Section title="Skeleton">
+      <Section title="Skeleton" id="skeleton">
         <SubLabel>Text & multiple lines</SubLabel>
         <div style={columnStyle}>
           <Skeleton />
@@ -628,7 +855,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Spinner */}
-      <Section title="Spinner">
+      <Section title="Spinner" id="spinner">
         <SubLabel>Ukuran</SubLabel>
         <div style={rowStyle}>
           <Spinner size="sm" />
@@ -646,7 +873,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Progress */}
-      <Section title="Progress">
+      <Section title="Progress" id="progress">
         <SubLabel>Line</SubLabel>
         <div style={{ ...columnStyle, maxWidth: 480 }}>
           <Progress value={45} />
@@ -662,63 +889,52 @@ function PlaygroundContent() {
         </div>
       </Section>
 
-      {/* Toast */}
-      <Section title="Toast">
-        <ToastSection />
+      {/* ===== Navigation ===== */}
+      <GroupTitle>Navigation</GroupTitle>
+
+      {/* Tabs */}
+      <Section title="Tabs" id="tabs">
+        <TabsSection />
       </Section>
 
+      {/* Pagination */}
+      <Section title="Pagination" id="pagination">
+        <PaginationSection />
+      </Section>
+
+      {/* ===== Overlays ===== */}
+      <GroupTitle>Overlays</GroupTitle>
+
       {/* Overlay */}
-      <Section title="Overlay">
+      <Section title="Overlay" id="overlay">
         <OverlaySection />
       </Section>
 
       {/* Tooltip */}
-      <Section title="Tooltip">
+      <Section title="Tooltip" id="tooltip">
         <TooltipSection />
       </Section>
 
       {/* Popover */}
-      <Section title="Popover">
+      <Section title="Popover" id="popover">
         <PopoverSection />
       </Section>
 
       {/* Menu */}
-      <Section title="Menu">
+      <Section title="Menu" id="menu">
         <MenuSection />
       </Section>
 
-      {/* Typography */}
-      <Section title="Typography">
-        <SubLabel>Heading</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
-          <Typography variant="h1" color="neutral">Heading 1</Typography>
-          <Typography variant="h2" color="neutral">Heading 2</Typography>
-          <Typography variant="h3" color="neutral">Heading 3</Typography>
-          <Typography variant="h4" color="neutral">Heading 4</Typography>
-        </div>
+      {/* ===== Data Display ===== */}
+      <GroupTitle>Data Display</GroupTitle>
 
-        <SubLabel>Body & warna</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
-          <Typography variant="body" color="neutral">Body text — Default</Typography>
-          <Typography variant="body" color="primary">Body text — Primary</Typography>
-          <Typography variant="body" color="success">Body text — Success</Typography>
-          <Typography variant="body" color="warning">Body text — Warning</Typography>
-          <Typography variant="body" color="error">Body text — Error</Typography>
-          <Typography variant="body" color="info">Body text — Info</Typography>
-        </div>
-
-        <SubLabel>Lainnya</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
-          <Typography variant="caption" color="neutral">Caption text</Typography>
-          <Typography variant="overline" color="neutral">Overline text</Typography>
-          <Typography variant="button" color="neutral">Button text</Typography>
-          <Typography variant="body" color="neutral" align="center">Center aligned</Typography>
-          <Typography as="span" variant="body" color="primary">Semantic span element</Typography>
-        </div>
+      {/* Table */}
+      <Section title="Table" id="table">
+        <TableSection />
       </Section>
 
       {/* Card */}
-      <Section title="Card">
+      <Section title="Card" id="card">
         <div style={{ display: "flex", gap: spacing[4], flexWrap: "wrap" }}>
           <Card style={{ maxWidth: 320 }}>
             <CardHeader
@@ -751,9 +967,9 @@ function PlaygroundContent() {
             <CardHeader title="Statistik" subtitle="Ringkasan mingguan" />
             <CardBody>
               <Stack direction="column" spacing={2}>
-                <span>Komponen: 9</span>
-                <span>Tests: 40+</span>
-                <span>Stories: 9</span>
+                <span>Komponen: 27</span>
+                <span>Tests: 274</span>
+                <span>Stories: 26</span>
               </Stack>
             </CardBody>
           </Card>
@@ -761,7 +977,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Badge */}
-      <Section title="Badge">
+      <Section title="Badge" id="badge">
         <div style={rowStyle}>
           <Badge>Primary</Badge>
           <Badge color="success">Success</Badge>
@@ -776,7 +992,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Avatar */}
-      <Section title="Avatar">
+      <Section title="Avatar" id="avatar">
         <div style={rowStyle}>
           <Avatar name="Andi Pratama" color="primary" />
           <Avatar name="Budi Santoso" color="success" />
@@ -800,7 +1016,7 @@ function PlaygroundContent() {
       </Section>
 
       {/* Divider & Stack */}
-      <Section title="Divider & Stack">
+      <Section title="Divider & Stack" id="divider-stack">
         <SubLabel>Stack vertikal dengan divider</SubLabel>
         <Stack direction="column" spacing={3} divider={<Divider />} style={{ maxWidth: 420, marginBottom: spacing[5] }}>
           <span>Baris pertama</span>
@@ -823,8 +1039,11 @@ function PlaygroundContent() {
         </div>
       </Section>
 
+      {/* ===== Examples ===== */}
+      <GroupTitle>Examples</GroupTitle>
+
       {/* Form Example */}
-      <Section title="Form Pendaftaran">
+      <Section title="Form Pendaftaran" id="form-pendaftaran">
         <Card style={{ maxWidth: 480 }}>
           <CardHeader
             title="Buat Akun"

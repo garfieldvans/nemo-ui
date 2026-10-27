@@ -4,6 +4,29 @@
   "private": false,
   "type": "module",
   "license": "MIT",
+  "description": "Modern React component library with CSS Variables theming, dark mode, and full TypeScript support.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garfieldvans/nemo-ui.git",
+    "directory": "packages/ui"
+  },
+  "bugs": "https://github.com/garfieldvans/nemo-ui/issues",
+  "homepage": "https://github.com/garfieldvans/nemo-ui#readme",
+  "keywords": [
+    "react",
+    "component-library",
+    "ui",
+    "typescript",
+    "css-variables",
+    "dark-mode",
+    "design-tokens"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -42,7 +65,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
-    "clsx": "^2.1.1",
+    "esbuild": "^0.28.0",
     "jsdom": "^30.0.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",

@@ -291,6 +291,7 @@ export const Select = forwardRef<SelectRef, SelectProps>(
             }
             aria-autocomplete={searchable ? "list" : undefined}
             aria-invalid={hasError}
+            aria-errormessage={hasError ? `${inputId}-helper` : undefined}
             aria-describedby={showHelper ? `${inputId}-helper` : undefined}
           />
           {showClear && (

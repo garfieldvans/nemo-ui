@@ -1,0 +1,85 @@
+.tablist {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--nemo-neutral-200, #E8EAED);
+}
+
+.tablist--pill {
+  display: inline-flex;
+  gap: 0;
+  padding: 3px;
+  border: none;
+  border-radius: var(--nemo-radius-md, 8px);
+  background: var(--nemo-neutral-100, #F1F3F4);
+}
+
+.tab {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; // tumpang tindih dengan garis tablist
+  background: transparent;
+  color: var(--nemo-neutral-600, #80868B);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+
+  &:hover:not([aria-disabled="true"]):not(.tab--active) {
+    color: var(--nemo-neutral-900, #202124);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
+    border-radius: var(--nemo-radius-sm, 4px);
+  }
+
+  &--sm {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  &--active {
+    color: var(--nemo-primary-600, #1A73E8);
+    border-bottom-color: var(--nemo-primary-500, #4285F4);
+  }
+
+  &--disabled {
+    opacity: var(--nemo-opacity-disabled, 0.4);
+    cursor: not-allowed;
+  }
+}
+
+// Pill variant — kapsul di atas latar abu
+.tablist--pill .tab {
+  border-bottom: none;
+  margin-bottom: 0;
+  border-radius: var(--nemo-radius-sm, 4px);
+
+  &.tab--active {
+    background: var(--nemo-neutral-0, #FFFFFF);
+    color: var(--nemo-primary-600, #1A73E8);
+    box-shadow: var(--nemo-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
+  }
+}
+
+.panel {
+  padding-top: 16px;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
+    border-radius: var(--nemo-radius-sm, 4px);
+  }
+}

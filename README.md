@@ -45,6 +45,9 @@ pnpm storybook    # open Storybook on port 6006
 ### Basic Usage
 
 ```tsx
+// Wajib — CSS tidak di-attach otomatis oleh entry JS;
+// tanpa baris ini komponen tampil tanpa styling.
+import "@nemo/ui/index.css";
 import { ThemeProvider, Button, Input, Typography } from "@nemo/ui";
 
 function App() {
@@ -132,6 +135,39 @@ Dark vars are applied three ways (safely layered):
 | **Tooltip** | SCSS Module | Hover / focus trigger, placement, open/close delays |
 | **Popover** | SCSS Module | Trigger + floating panel, placement, offset, auto-flip |
 | **Menu** | SCSS Module | Trigger + items, divider, item states and selection pattern |
+| **Tabs** | SCSS Module | ARIA tablist, line/pill variants, arrow-key navigation that skips disabled, controlled/uncontrolled |
+| **Table** | SCSS Module | Generic `columns`/`data`, custom cell render, align, striped, empty state |
+| **Pagination** | SCSS Module | Page window with ellipsis, first/prev/next/last, controlled `page` / uncontrolled `defaultPage` |
+
+---
+
+## API Conventions
+
+Canonical API patterns — keep these when adding new components.
+
+### Controlled / uncontrolled
+
+| Family | Pattern | Components |
+|--------|---------|------------|
+| Native form | `value` / `checked` + `onChange(event)` + `defaultValue` / `defaultChecked` (React native) | Input, Textarea, Checkbox, Radio, Switch |
+| Composite value | `value` + `defaultValue` + `onChange(value)` — receives the value, not the event (Pagination uses `page` + `defaultPage`) | Select, RadioGroup, Tabs, Pagination |
+| Modal overlay | controlled-only: `open` + `onOpenChange` | Modal, Drawer |
+| Non-modal overlay | both: `open` + `onOpenChange` + `defaultOpen` | Popover, Menu |
+
+### Form status
+
+- Text-entry fields (Input, Textarea, Select): full status set — `status`, `error`, `warning`, `success`, `helperText`. Render precedence: error > warning > success > status.
+- Binary controls (Checkbox, Radio, Switch): `error` + `helperText` only — sufficient for on/off choices.
+- The helper/error message is rendered by the field itself (`role="alert"`, `aria-describedby`, `aria-invalid`, plus `aria-errormessage` on error). `FormField` is only the label/layout layer — do not pass `error` to both layers at once or the message renders twice.
+
+### Slots vs sub-components vs provider
+
+- Slot props for dialogs: `title`, `description`, `footer` (Modal, Drawer).
+- Namespaced sub-components when they share a contract with their parent: `Menu.Item`, `Menu.Divider`.
+- Flat exports for presentational sections: `CardHeader`, `CardBody`, `CardFooter`.
+- Provider + hook for imperative/transient APIs: `ToastProvider` + `useToast()`.
+
+Overlay behavior rules (Portal, modal vs non-modal, Escape, focus, scroll lock) live in [`packages/ui/src/styles/overlay-contract.md`](packages/ui/src/styles/overlay-contract.md).
 
 ---
 
@@ -229,6 +265,7 @@ Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Stor
 - Select, Checkbox, Radio, RadioGroup, Switch, FormField
 - Skeleton, Spinner, Progress, Alert, Toast
 - Modal, Drawer, Tooltip, Popover, Menu
+- Tabs, Table, Pagination
 
 ### Near-term
 

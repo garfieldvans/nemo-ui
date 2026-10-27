@@ -166,4 +166,94 @@ describe("ToastProvider", () => {
     );
     consoleError.mockRestore();
   });
+
+  it("stacks multiple toasts in trigger order", () => {
+    renderTrigger((toast) => {
+      toast.success("Pertama");
+      toast.info("Kedua");
+      toast.warning("Ketiga");
+    });
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    expect(screen.getByText("Pertama")).toBeDefined();
+    expect(screen.getByText("Kedua")).toBeDefined();
+    expect(screen.getByText("Ketiga")).toBeDefined();
+
+    // Urutan di DOM sesuai urutan pemanggilan (warning = role alert, jadi
+    // cek urutan lewat children viewport, bukan lewat role status).
+    const region = screen.getByRole("region", { name: "Notifikasi" });
+    const texts = Array.from(region.children).map((el) => el.textContent);
+    expect(texts[0]).toContain("Pertama");
+    expect(texts[1]).toContain("Kedua");
+    expect(texts[2]).toContain("Ketiga");
+  });
+
+  it("keeps independent timers for toasts with different durations", () => {
+    renderTrigger((toast) => {
+      toast.info("Singkat", { duration: 1000 });
+      toast.info("Panjang", { duration: 5000 });
+    });
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    // Toast dengan durasi 1000ms sudah hilang, 5000ms masih ada.
+    expect(screen.queryByText("Singkat")).toBeNull();
+    expect(screen.getByText("Panjang")).toBeDefined();
+
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(screen.queryByText("Panjang")).toBeNull();
+  });
+
+  it("pauses auto-dismiss while hovered and resumes after leave", () => {
+    renderTrigger((toast) => toast.success("Hover dulu"));
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    const toastEl = screen.getByText("Hover dulu").closest('[role="status"]') as HTMLElement;
+
+    // Hover → timer pause.
+    fireEvent.mouseEnter(toastEl);
+    act(() => {
+      vi.advanceTimersByTime(10000);
+    });
+    expect(screen.getByText("Hover dulu")).toBeDefined();
+
+    // Leave → timer jalan lagi dari awal.
+    fireEvent.mouseLeave(toastEl);
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(screen.queryByText("Hover dulu")).toBeNull();
+  });
+
+  it("dismissAll clears toasts that have been visible for a while", () => {
+    let calls = 0;
+    renderTrigger((toast) => {
+      calls += 1;
+      if (calls === 1) {
+        toast.success("Tahan", { duration: 0 });
+        toast.info("Juga tahan", { duration: 0 });
+      } else {
+        toast.dismissAll();
+      }
+    });
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+    expect(screen.getByText("Tahan")).toBeDefined();
+    expect(screen.getByText("Juga tahan")).toBeDefined();
+
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+    // duration: 0 → tetap tampil walau waktu berjalan.
+    expect(screen.getByText("Tahan")).toBeDefined();
+    expect(screen.getByText("Juga tahan")).toBeDefined();
+
+    // Klik kedua → dismissAll.
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+    expect(screen.queryByText("Tahan")).toBeNull();
+    expect(screen.queryByText("Juga tahan")).toBeNull();
+  });
 });

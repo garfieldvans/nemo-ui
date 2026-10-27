@@ -107,16 +107,28 @@ Saat tertutup:
 
 ## 7. Controlled vs uncontrolled
 
-Semua komponen overlay yang memiliki state "terbuka / tertutup" harus punya API yang dapat digunakan dalam kedua mode:
+Aturan main (sesuai kondisi implementasi saat ini):
 
-- Controlled: props `open` + `onOpenChange`.
-- Uncontrolled: props `defaultOpen` dan/atau mekanisme toggle internal.
+### Modal-type (Modal, Drawer): controlled-only
+
+- Wajib: `open` + `onOpenChange`.
+- Alasan: dialog biasanya mewakili state aplikasi (alur, route, konfirmasi)
+  yang memang dikontrol oleh parent — tidak punya mode `defaultOpen`.
+- Komponen overlay modal-type BARU boleh mengikuti pola ini, asalkan
+  didokumentasikan di types komponennya.
+
+### Non-modal (Popover, Menu): keduanya
+
+- Controlled: `open` + `onOpenChange`.
+- Uncontrolled: `defaultOpen` (state dikelola komponen).
+- Jika `open` diberikan, komponen bersikap controlled; jika hanya
+  `defaultOpen`, komponen mengelola statenya sendiri.
 
 Penting:
 
-- Jika `open` diberikan, komponen harus bersikap controlled.
-- Jika hanya `defaultOpen`, komponen boleh mengelola 상태nya sendiri.
-- API kontrol harus konsisten lintas komponen.
+- API kontrol harus konsisten lintas komponen dalam kategorinya masing-masing.
+- Tooltip di luar kedua kategori ini: statusnya diatur hover/focus + timer,
+  tanpa `open` / `onOpenChange`.
 
 ## 8. Tutup dari overlay / klik luar
 

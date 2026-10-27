@@ -130,6 +130,8 @@ export const Input = forwardRef<InputRef, InputProps>(
             aria-describedby={showHelper ? `${inputId}-helper` : undefined}
             disabled={disabled}
             readOnly={readOnly}
+            value={value}
+            onChange={onChange}
             {...props}
           />
           {suffix && <span className={styles.suffix} aria-hidden="true">{suffix}</span>}
@@ -298,6 +300,8 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
             disabled={disabled}
             readOnly={readOnly}
             rows={rows}
+            value={value}
+            onChange={onChange}
             {...props}
           />
           {suffix && <span className={styles.suffix} aria-hidden="true">{suffix}</span>}
