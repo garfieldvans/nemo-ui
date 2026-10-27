@@ -23,3 +23,13 @@ body {
 .nemo-page {
   min-height: 100vh;
 }
+
+/* Canvas per theme — nilai --nemo-canvas-* di-set inline oleh App dari
+   ThemeMaps.themeSurfaces(). Fallback = surface default dari token. */
+.nemo-page[data-theme="light"] {
+  background-color: var(--nemo-canvas-light, #f8f9fa);
+}
+
+.nemo-page[data-theme="dark"] {
+  background-color: var(--nemo-canvas-dark, #17181c);
+}

@@ -29,6 +29,18 @@
 //     dulu apakah perubahan itu memang bagian dari static CSS atau sebaiknya
 //     masuk ke `tokens.ts`.
 // ============================================================================
+
+// Inter font — Google Fonts, gratis untuk komersial
+// Dokumentasi: https://fonts.google.com/specimen/Inter
+// 👇 Font face loaded dari Google Fonts CDN
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v15/UcC73Firl7l6czZJVmBLJeQTUBR7o.ttf) format("ttf");
+}
+
 :root {
   // Colors — primary
   --nemo-primary-50: #E8F0FE;
@@ -101,7 +113,13 @@
   --nemo-opacity-pressed: 0.8;
 
   color-scheme: light;
+  --nemo-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
+
+// Warna theme per palette kini di-mapping lewat JS:
+// lihat src/theme/ThemeMaps.ts (diterapkan oleh ThemeProvider sebagai token
+// inline di wrapper & Portal — bukan lewat CSS class, karena inline style
+// mengalahkan rule biasa di elemen yang sama).
 
 // Dark theme — data attribute selectors
 :root[data-theme="dark"],

@@ -62,14 +62,6 @@ export const Default: Story = {
   render: (args) => <ToastDemo placement={args.placement} />,
 };
 
-export const CustomDuration: Story = {
-  render: () => (
-    <ToastProvider>
-      <DurationDemo />
-    </ToastProvider>
-  ),
-};
-
 function DurationDemo() {
   const toast = useToast();
   return (
@@ -82,6 +74,14 @@ function DurationDemo() {
     </Button>
   );
 }
+
+export const CustomDuration: Story = {
+  render: () => (
+    <ToastProvider>
+      <DurationDemo />
+    </ToastProvider>
+  ),
+};
 
 export const WithAction: Story = {
   render: () => (

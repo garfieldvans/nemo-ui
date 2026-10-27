@@ -35,6 +35,11 @@ import {
   Tabs,
   Table,
   Pagination,
+  themeNames,
+  toThemeOverride,
+  themeSurfaces,
+  primaryColor,
+  type ThemeName,
   type TableColumn,
   type DrawerProps,
 } from "@nemo/ui";
@@ -182,6 +187,13 @@ function TableOfContents() {
     </nav>
   );
 }
+
+const themeLabels: Record<ThemeName, string> = {
+  sapphireOceanSerenity: "Sapphire",
+  deepSea: "Deep Sea",
+  monochromeRed: "Monochrome",
+  cinnamon: "Cinnamon",
+};
 
 const planOptions = [
   { value: "starter", label: "Starter" },
@@ -469,7 +481,13 @@ function PaginationSection() {
   );
 }
 
-function PlaygroundContent() {
+function PlaygroundContent({
+  themeName,
+  onThemeChange,
+}: {
+  themeName: ThemeName;
+  onThemeChange: (name: ThemeName) => void;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");
@@ -524,6 +542,37 @@ function PlaygroundContent() {
                 Komponen React yang konsisten, ringan, dan siap untuk dark mode.
               </Typography>
             </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: spacing[2] }}>
+            {themeNames.map((name) => (
+              <Button
+                key={name}
+                variant="outlined"
+                size="sm"
+                aria-pressed={themeName === name}
+                title={themeLabels[name]}
+                onClick={() => onThemeChange(name)}
+                style={
+                  themeName === name
+                    ? {
+                        borderColor: "var(--nemo-primary-500, #4285F4)",
+                        color: "var(--nemo-primary-500, #4285F4)",
+                      }
+                    : undefined
+                }
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    display: "inline-block",
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    background: primaryColor(name),
+                  }}
+                />
+              </Button>
+            ))}
           </div>
           <Button
             variant="outlined"
@@ -667,7 +716,7 @@ function PlaygroundContent() {
             clearable
             defaultValue="Try clearing me"
           />
-          <Input label="Floating Label" placeholder=" " floatingLabel />
+          <Input label="Floating Label" placeholder=" " />
           <Input label="Full Width Input" placeholder="Full width" fullWidth />
         </div>
 
@@ -698,7 +747,7 @@ function PlaygroundContent() {
         <SubLabel>Custom</SubLabel>
         <div style={{ ...columnStyle, maxWidth: 560 }}>
           <Textarea label="Clearable" placeholder="Type and clear" clearable defaultValue="Try clearing me" rows={3} />
-          <Textarea label="Floating Label" placeholder=" " floatingLabel rows={3} />
+          <Textarea label="Floating Label" placeholder=" " rows={3} />
           <Textarea label="With Icon" placeholder="Add a note..." rows={3} />
           <Textarea label="Disabled" defaultValue="Cannot edit" disabled rows={3} />
         </div>
@@ -1096,10 +1145,25 @@ function PlaygroundContent() {
 }
 
 function App() {
+  const [themeName, setThemeName] = useState<ThemeName>("sapphireOceanSerenity");
+  const surfaces = themeSurfaces(themeName);
+
   return (
-    <ThemeProvider className="nemo-page">
+    <ThemeProvider
+      className="nemo-page"
+      theme={toThemeOverride(themeName)}
+      surface={false}
+      // Canvas mode-aware: inline style provider tidak bisa bercabang per
+      // mode, jadi kedua var ini dibaca oleh rule di index.css.
+      style={
+        {
+          "--nemo-canvas-light": surfaces.light,
+          "--nemo-canvas-dark": surfaces.dark,
+        } as CSSProperties
+      }
+    >
       <ToastProvider>
-        <PlaygroundContent />
+        <PlaygroundContent themeName={themeName} onThemeChange={setThemeName} />
       </ToastProvider>
     </ThemeProvider>
   );
