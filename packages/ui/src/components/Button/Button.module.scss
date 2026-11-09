@@ -46,6 +46,14 @@
     }
   }
 
+  &.button--secondary {
+    background: var(--nemo-secondary-500, #8B5CF6);
+
+    &:hover:not(:disabled) {
+      background: var(--nemo-secondary-600, #7C3AED);
+    }
+  }
+
   &.button--success {
     background: var(--nemo-success, #34A853);
 
@@ -86,6 +94,15 @@
     }
   }
 
+  &.button--secondary {
+    border-color: var(--nemo-secondary-500, #8B5CF6);
+    color: var(--nemo-secondary-500, #8B5CF6);
+
+    &:hover:not(:disabled) {
+      background: var(--nemo-secondary-50, #F5F3FF);
+    }
+  }
+
   &.button--success {
     border-color: var(--nemo-success, #34A853);
     color: var(--nemo-success, #34A853);
@@ -123,6 +140,14 @@
 
     &:hover:not(:disabled) {
       background: var(--nemo-primary-50, #E8F0FE);
+    }
+  }
+
+  &.button--secondary {
+    color: var(--nemo-secondary-500, #8B5CF6);
+
+    &:hover:not(:disabled) {
+      background: var(--nemo-secondary-50, #F5F3FF);
     }
   }
 

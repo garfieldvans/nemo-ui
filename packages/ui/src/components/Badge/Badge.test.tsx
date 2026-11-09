@@ -28,6 +28,11 @@ describe("Badge", () => {
     expect(badge.className).toContain("badge--sm");
   });
 
+  it("applies secondary color class", () => {
+    render(<Badge color="secondary">Baru</Badge>);
+    expect(screen.getByText("Baru").className).toContain("badge--secondary");
+  });
+
   it("renders dot variant as a status role without text", () => {
     render(<Badge variant="dot" color="error" />);
     const dot = screen.getByRole("status");

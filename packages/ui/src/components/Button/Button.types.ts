@@ -8,6 +8,7 @@ export type ButtonVariant = "filled" | "outlined" | "text";
 
 export type ButtonColor =
   | "primary"
+  | "secondary"
   | "success"
   | "warning"
   | "error";

@@ -163,21 +163,26 @@ export function toThemeOverride(name: ThemeName): ThemeOverride {
 
   const success = resolve("success");
   const text = resolve("text");
+  const secondary = resolve("secondary");
+
+  // Skala warna dari satu warna dasar (resep sama untuk primary & secondary).
+  const scale = (b: string) => ({
+    "50": mix(12, soft),
+    "100": mix(25, soft),
+    "200": mix(42, soft),
+    "300": mix(62, soft),
+    "400": mix(82, soft),
+    "500": b,
+    "600": mix(86, "#000"),
+    "700": mix(74, "#000"),
+    "800": mix(64, "#000"),
+    "900": mix(54, "#000"),
+  });
 
   return {
     colors: {
-      primary: {
-        "50": mix(12, soft),
-        "100": mix(25, soft),
-        "200": mix(42, soft),
-        "300": mix(62, soft),
-        "400": mix(82, soft),
-        "500": base,
-        "600": mix(86, "#000"),
-        "700": mix(74, "#000"),
-        "800": mix(64, "#000"),
-        "900": mix(54, "#000"),
-      },
+      primary: scale(base),
+      ...(secondary ? { secondary: scale(secondary) } : {}),
       ...(success ? { success } : {}),
       ...(text
         ? {

@@ -59,6 +59,24 @@
   }
 }
 
+.badge--secondary {
+  &.badge--filled {
+    background: var(--nemo-secondary-500, #8B5CF6);
+    color: var(--nemo-neutral-0, #FFFFFF);
+    border-color: var(--nemo-secondary-500, #8B5CF6);
+  }
+
+  &.badge--outlined {
+    background: transparent;
+    color: var(--nemo-secondary-500, #8B5CF6);
+    border-color: var(--nemo-secondary-500, #8B5CF6);
+  }
+
+  &.badge--dot {
+    background: var(--nemo-secondary-500, #8B5CF6);
+  }
+}
+
 .badge--success {
   &.badge--filled {
     background: var(--nemo-success, #34A853);

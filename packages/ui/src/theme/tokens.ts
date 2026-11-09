@@ -12,6 +12,7 @@ type ColorScale = Record<string, string>;
 
 export interface ThemeColors {
   primary: ColorScale;
+  secondary: ColorScale;
   neutral: ColorScale;
   success: string;
   warning: string;
@@ -63,6 +64,7 @@ export type ThemeOverride = DeepPartial<ThemeTokens>;
 export const defaultTheme: ThemeTokens = {
   colors: {
     primary: { ...colors.primary },
+    secondary: { ...colors.secondary },
     neutral: { ...colors.neutral },
     success: colors.success,
     warning: colors.warning,
@@ -98,6 +100,18 @@ export const darkTheme: ThemeTokens = {
       700: "#1967D2",
       800: "#185ABC",
       900: "#174EA6",
+    },
+    secondary: {
+      50: "#251B47",
+      100: "#2E2358",
+      200: "#3B2E71",
+      300: "#4C3C94",
+      400: "#8B78FA",
+      500: "#8B5CF6",
+      600: "#7C3AED",
+      700: "#6D28D9",
+      800: "#5B21B6",
+      900: "#4C1D95",
     },
     neutral: {
       0: "#0F1013",
@@ -162,6 +176,7 @@ export function toCssVarMap(
 
   // colors
   flatten(tokens.colors.primary, `--${namespace}-primary`, map);
+  flatten(tokens.colors.secondary, `--${namespace}-secondary`, map);
   flatten(tokens.colors.neutral, `--${namespace}-neutral`, map);
   map[`--${namespace}-success`] = tokens.colors.success;
   map[`--${namespace}-warning`] = tokens.colors.warning;
