@@ -64,19 +64,19 @@ $toast-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
   animation: toast-enter 0.2s ease;
 
   &--success .toast-icon {
-    color: var(--nemo-success, #34a853);
+    color: var(--nemo-success-text, #0d652d);
   }
 
   &--info .toast-icon {
-    color: var(--nemo-primary-500, #4285f4);
+    color: var(--nemo-primary-text, #1967d2);
   }
 
   &--warning .toast-icon {
-    color: var(--nemo-warning, #fbbc04);
+    color: var(--nemo-warning-text, #7a4e00);
   }
 
   &--error .toast-icon {
-    color: var(--nemo-error, #ea4335);
+    color: var(--nemo-error-text, #a50e0e);
   }
 }
 
@@ -102,7 +102,7 @@ $toast-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
   margin-top: 2px;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--nemo-neutral-600, #80868b);
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 .toast-action {
@@ -120,7 +120,7 @@ $toast-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
   background: transparent;
   border: none;
   border-radius: var(--nemo-radius-sm, 4px);
-  color: var(--nemo-neutral-400, #bdc1c6);
+  color: var(--nemo-neutral-600, #80868b);
   cursor: pointer;
   transition: color 0.2s ease;
 

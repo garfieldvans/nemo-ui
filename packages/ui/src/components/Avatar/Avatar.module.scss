@@ -49,22 +49,22 @@
 
   &--primary {
     background: var(--nemo-primary-100, #E8F0FE);
-    color: var(--nemo-primary-700, #1967D2);
+    color: var(--nemo-primary-text, #1967D2);
   }
 
   &--success {
     background: color-mix(in srgb, var(--nemo-success, #34A853) 15%, transparent);
-    color: var(--nemo-success, #34A853);
+    color: var(--nemo-success-text, #0D652D);
   }
 
   &--warning {
     background: color-mix(in srgb, var(--nemo-warning, #FBBC04) 15%, transparent);
-    color: var(--nemo-warning, #FBBC04);
+    color: var(--nemo-warning-text, #7A4E00);
   }
 
   &--error {
     background: color-mix(in srgb, var(--nemo-error, #EA4335) 15%, transparent);
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
   }
 
   &--neutral {

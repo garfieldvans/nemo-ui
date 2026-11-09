@@ -14,13 +14,20 @@ export function Typography({
 }: TypographyProps) {
   const { theme } = useTheme();
 
+  // Tone mode-aware: warna brand dicampur CanvasText (hitam di mode terang,
+  // putih di mode gelap) supaya teks lolos kontras AA di kedua mode —
+  // warna brand murni sering gagal (kuning 1.6:1 di atas putih, dst).
+  const textTone = (hex: string, pct = 60) =>
+    `color-mix(in srgb, ${hex} ${pct}%, CanvasText)`;
+
   const colorMap = {
-    primary: theme.colors.primary[600],
+    primary: textTone(theme.colors.primary["500"]),
     neutral: theme.colors.neutral[900],
-    success: theme.colors.success,
-    warning: theme.colors.warning,
-    error: theme.colors.error,
-    info: theme.colors.info,
+    success: textTone(theme.colors.success),
+    // Kuning perlu porsi lebih ke arah hitam/putih biar lolos 4.5:1.
+    warning: textTone(theme.colors.warning, 45),
+    error: textTone(theme.colors.error),
+    info: textTone(theme.colors.info),
   };
 
   const variantMap: Record<TypographyVariant, string> = {

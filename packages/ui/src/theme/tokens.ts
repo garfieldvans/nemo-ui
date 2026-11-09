@@ -184,6 +184,31 @@ export function toCssVarMap(
   map[`--${namespace}-info`] = tokens.colors.info;
   flatten(tokens.colors.surface, `--${namespace}-surface`, map);
 
+  // Tone mode-aware (CanvasText = hitam di mode terang, putih di mode gelap):
+  // - `*-text` : warna teks/ikon/border di atas canvas — dicampur 60% ke
+  //   CanvasText supaya kontras AA di KEDUA mode (warna brand murni sering
+  //   gagal, mis. kuning 1.6:1 di atas putih).
+  // - `*-fill` : bg elemen filled yang berteks neutral-0 (putih di light,
+  //   gelap di dark) — dicampur 78% ke CanvasText supaya teks kontras.
+  const textTone = (hex: string, pct = 60) =>
+    `color-mix(in srgb, ${hex} ${pct}%, CanvasText)`;
+  const fillTone = (hex: string) =>
+    `color-mix(in srgb, ${hex} 65%, CanvasText)`;
+  const tones: Array<[string, string, number?]> = [
+    ["primary", tokens.colors.primary["500"]],
+    ["secondary", tokens.colors.secondary["500"]],
+    ["success", tokens.colors.success],
+    // Kuning butuh porsi warna lebih sedikit (lebih ke arah hitam/putih)
+    // supaya lolos 4.5:1 di atas canvas terang maupun gelap.
+    ["warning", tokens.colors.warning, 45],
+    ["error", tokens.colors.error],
+    ["info", tokens.colors.info],
+  ];
+  for (const [name, hex, pct] of tones) {
+    map[`--${namespace}-${name}-text`] = textTone(hex, pct);
+    map[`--${namespace}-${name}-fill`] = fillTone(hex);
+  }
+
   // spacing
   flatten(tokens.spacing, `--${namespace}-spacing`, map);
 

@@ -41,7 +41,7 @@ $field-width-lg: 560px;
 }
 
 .field-required {
-  color: var(--nemo-error, #ea4335);
+  color: var(--nemo-error-text, #a50e0e);
   font-weight: 400;
 }
 
@@ -76,10 +76,10 @@ $field-width-lg: 560px;
 
 .field-helper {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 .field-error {
   font-size: $helper-font-size;
-  color: var(--nemo-error, #ea4335);
+  color: var(--nemo-error-text, #a50e0e);
 }

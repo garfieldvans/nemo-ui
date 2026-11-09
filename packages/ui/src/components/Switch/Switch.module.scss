@@ -84,7 +84,7 @@ $switch-transition: all 0.2s ease;
 
 // Checked — input precedes the track in the DOM
 .switch-input:checked + .switch-track {
-  background: var(--nemo-primary-500, #4285f4);
+  background: var(--nemo-primary-fill, #1f5bb8);
 }
 
 .switch-input:checked + .switch-track .switch-thumb {
@@ -96,7 +96,7 @@ $switch-transition: all 0.2s ease;
 }
 
 .switch-input:checked + .switch-track--success {
-  background: var(--nemo-success, #34a853);
+  background: var(--nemo-success-fill, #14803a);
 }
 
 // Focus ring — track lights up when native input focused via keyboard
@@ -117,9 +117,9 @@ $switch-transition: all 0.2s ease;
 
 .helper-text {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 
   &--error {
-    color: var(--nemo-error, #ea4335);
+    color: var(--nemo-error-text, #a50e0e);
   }
 }

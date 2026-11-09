@@ -35,27 +35,29 @@
 
 // Filled variant
 .button--filled {
-  color: white;
+  // neutral-0 mengikuti mode: putih di light, gelap di dark — dipasangkan
+  // dengan bg *-fill (dicampur CanvasText) supaya kontras AA di dua mode.
+  color: var(--nemo-neutral-0, #FFFFFF);
   border: none;
 
   &.button--primary {
-    background: var(--nemo-primary-500, #4285F4);
+    background: var(--nemo-primary-fill, #1F5BB8);
 
     &:hover:not(:disabled) {
-      background: var(--nemo-primary-600, #1A73E8);
+      filter: brightness(0.92);
     }
   }
 
   &.button--secondary {
-    background: var(--nemo-secondary-500, #8B5CF6);
+    background: var(--nemo-secondary-fill, #5B3AB0);
 
     &:hover:not(:disabled) {
-      background: var(--nemo-secondary-600, #7C3AED);
+      filter: brightness(0.92);
     }
   }
 
   &.button--success {
-    background: var(--nemo-success, #34A853);
+    background: var(--nemo-success-fill, #14803A);
 
     &:hover:not(:disabled) {
       filter: brightness(0.9);
@@ -63,8 +65,10 @@
   }
 
   &.button--warning {
+    // Kuning tetap kuning dua mode → teks disimpan gelap agar terbaca
+    // (neutral-900 jadi terang di mode gelap dan menabrak bg kuning).
     background: var(--nemo-warning, #FBBC04);
-    color: var(--nemo-neutral-900, #202124);
+    color: #171717;
 
     &:hover:not(:disabled) {
       filter: brightness(0.95);
@@ -72,7 +76,7 @@
   }
 
   &.button--error {
-    background: var(--nemo-error, #EA4335);
+    background: var(--nemo-error-fill, #A50E0E);
 
     &:hover:not(:disabled) {
       filter: brightness(0.9);
@@ -86,8 +90,8 @@
   border: 1px solid;
 
   &.button--primary {
-    border-color: var(--nemo-primary-500, #4285F4);
-    color: var(--nemo-primary-500, #4285F4);
+    border-color: var(--nemo-primary-text, #1967D2);
+    color: var(--nemo-primary-text, #1967D2);
 
     &:hover:not(:disabled) {
       background: var(--nemo-primary-50, #E8F0FE);
@@ -95,8 +99,8 @@
   }
 
   &.button--secondary {
-    border-color: var(--nemo-secondary-500, #8B5CF6);
-    color: var(--nemo-secondary-500, #8B5CF6);
+    border-color: var(--nemo-secondary-text, #4C1D95);
+    color: var(--nemo-secondary-text, #4C1D95);
 
     &:hover:not(:disabled) {
       background: var(--nemo-secondary-50, #F5F3FF);
@@ -104,8 +108,8 @@
   }
 
   &.button--success {
-    border-color: var(--nemo-success, #34A853);
-    color: var(--nemo-success, #34A853);
+    border-color: var(--nemo-success-text, #0D652D);
+    color: var(--nemo-success-text, #0D652D);
 
     &:hover:not(:disabled) {
       background: color-mix(in srgb, var(--nemo-success, #34A853) 10%, transparent);
@@ -113,8 +117,8 @@
   }
 
   &.button--warning {
-    border-color: var(--nemo-warning, #FBBC04);
-    color: var(--nemo-warning, #FBBC04);
+    border-color: var(--nemo-warning-text, #7A4E00);
+    color: var(--nemo-warning-text, #7A4E00);
 
     &:hover:not(:disabled) {
       background: color-mix(in srgb, var(--nemo-warning, #FBBC04) 10%, transparent);
@@ -122,8 +126,8 @@
   }
 
   &.button--error {
-    border-color: var(--nemo-error, #EA4335);
-    color: var(--nemo-error, #EA4335);
+    border-color: var(--nemo-error-text, #A50E0E);
+    color: var(--nemo-error-text, #A50E0E);
 
     &:hover:not(:disabled) {
       background: color-mix(in srgb, var(--nemo-error, #EA4335) 10%, transparent);
@@ -136,7 +140,7 @@
   background: transparent;
 
   &.button--primary {
-    color: var(--nemo-primary-500, #4285F4);
+    color: var(--nemo-primary-text, #1967D2);
 
     &:hover:not(:disabled) {
       background: var(--nemo-primary-50, #E8F0FE);
@@ -144,7 +148,7 @@
   }
 
   &.button--secondary {
-    color: var(--nemo-secondary-500, #8B5CF6);
+    color: var(--nemo-secondary-text, #4C1D95);
 
     &:hover:not(:disabled) {
       background: var(--nemo-secondary-50, #F5F3FF);
@@ -152,7 +156,7 @@
   }
 
   &.button--success {
-    color: var(--nemo-success, #34A853);
+    color: var(--nemo-success-text, #0D652D);
 
     &:hover:not(:disabled) {
       background: color-mix(in srgb, var(--nemo-success, #34A853) 10%, transparent);
@@ -160,7 +164,7 @@
   }
 
   &.button--warning {
-    color: var(--nemo-warning, #FBBC04);
+    color: var(--nemo-warning-text, #7A4E00);
 
     &:hover:not(:disabled) {
       background: color-mix(in srgb, var(--nemo-warning, #FBBC04) 10%, transparent);
@@ -168,7 +172,7 @@
   }
 
   &.button--error {
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
 
     &:hover:not(:disabled) {
       background: color-mix(in srgb, var(--nemo-error, #EA4335) 10%, transparent);

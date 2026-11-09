@@ -23,7 +23,7 @@
   border-bottom: 2px solid transparent;
   margin-bottom: -1px; // tumpang tindih dengan garis tablist
   background: transparent;
-  color: var(--nemo-neutral-600, #80868B);
+  color: var(--nemo-neutral-700, #5F6368);
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
@@ -51,8 +51,8 @@
   }
 
   &--active {
-    color: var(--nemo-primary-600, #1A73E8);
-    border-bottom-color: var(--nemo-primary-500, #4285F4);
+    color: var(--nemo-primary-text, #1967D2);
+    border-bottom-color: var(--nemo-primary-text, #1967D2);
   }
 
   &--disabled {
@@ -69,7 +69,7 @@
 
   &.tab--active {
     background: var(--nemo-neutral-0, #FFFFFF);
-    color: var(--nemo-primary-600, #1A73E8);
+    color: var(--nemo-primary-text, #1967D2);
     box-shadow: var(--nemo-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
   }
 }

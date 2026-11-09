@@ -36,38 +36,61 @@ $alert-gap: 12px;
   }
 
   &--filled {
-    color: #ffffff;
+    // neutral-0 mengikuti mode; bg *-fill dicampur CanvasText → kontras AA.
+    color: var(--nemo-neutral-0, #FFFFFF);
     border-left: 4px solid transparent;
 
     &.alert--success {
-      background: var(--nemo-success, #34a853);
+      background: var(--nemo-success-fill, #14803A);
     }
 
     &.alert--info {
-      background: var(--nemo-primary-500, #4285f4);
+      background: var(--nemo-primary-fill, #1F5BB8);
     }
 
     &.alert--warning {
+      // Kuning tetap kuning di dua mode → semua turunannya teks gelap.
       background: var(--nemo-warning, #fbbc04);
+      color: #171717;
+
+      .alert-icon {
+        color: #171717;
+      }
+
+      .alert-description {
+        color: rgba(23, 23, 23, 0.92);
+      }
+
+      .alert-close {
+        color: rgba(23, 23, 23, 0.85);
+
+        &:hover:not(:disabled) {
+          color: #171717;
+        }
+
+        &:focus-visible {
+          box-shadow: 0 0 0 2px rgba(23, 23, 23, 0.5);
+        }
+      }
     }
 
     &.alert--error {
-      background: var(--nemo-error, #ea4335);
+      background: var(--nemo-error-fill, #A50E0E);
     }
 
     .alert-description {
-      color: rgba(255, 255, 255, 0.92);
+      color: var(--nemo-neutral-0, #FFFFFF);
     }
 
     .alert-close {
-      color: rgba(255, 255, 255, 0.85);
+      color: color-mix(in srgb, var(--nemo-neutral-0, #FFFFFF) 85%, transparent);
 
       &:hover:not(:disabled) {
-        color: #ffffff;
+        color: var(--nemo-neutral-0, #FFFFFF);
       }
 
       &:focus-visible {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--nemo-neutral-0, #FFFFFF) 60%, transparent);
       }
     }
   }
@@ -78,27 +101,27 @@ $alert-gap: 12px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-600, #80868b);
 }
 
 .alert--success .alert-icon {
-  color: var(--nemo-success, #34a853);
+  color: var(--nemo-success-text, #0d652d);
 }
 
 .alert--info .alert-icon {
-  color: var(--nemo-primary-500, #4285f4);
+  color: var(--nemo-primary-text, #1967d2);
 }
 
 .alert--warning .alert-icon {
-  color: var(--nemo-warning, #fbbc04);
+  color: var(--nemo-warning-text, #7a4e00);
 }
 
 .alert--error .alert-icon {
-  color: var(--nemo-error, #ea4335);
+  color: var(--nemo-error-text, #a50e0e);
 }
 
 .alert--filled .alert-icon {
-  color: #ffffff;
+  color: var(--nemo-neutral-0, #FFFFFF);
 }
 
 .alert-content {
@@ -133,7 +156,7 @@ $alert-gap: 12px;
   background: transparent;
   border: none;
   border-radius: var(--nemo-radius-sm, 4px);
-  color: var(--nemo-neutral-400, #bdc1c6);
+  color: var(--nemo-neutral-600, #80868b);
   cursor: pointer;
   transition: color 0.2s ease;
 

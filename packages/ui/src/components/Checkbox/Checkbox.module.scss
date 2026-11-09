@@ -52,7 +52,8 @@ $checkbox-transition: all 0.15s ease;
   border: 2px solid var(--nemo-neutral-300, #dadce0);
   border-radius: var(--nemo-radius-sm, 4px);
   background: var(--nemo-neutral-0, #ffffff);
-  color: #ffffff;
+  // Centang mengikuti mode: putih di light, gelap di dark — pasangkan dgn bg *-fill.
+  color: var(--nemo-neutral-0, #ffffff);
   transition: $checkbox-transition;
 
   svg {
@@ -73,27 +74,28 @@ $checkbox-transition: all 0.15s ease;
 // Checked & indeterminate — input precedes the box in the DOM
 .checkbox-input:checked + .checkbox-box,
 .checkbox-input:indeterminate + .checkbox-box {
-  border-color: var(--nemo-primary-500, #4285f4);
-  background: var(--nemo-primary-500, #4285f4);
+  border-color: var(--nemo-primary-fill, #1f5bb8);
+  background: var(--nemo-primary-fill, #1f5bb8);
 }
 
 .checkbox-input:checked + .checkbox-box--warning,
 .checkbox-input:indeterminate + .checkbox-box--warning {
+  // Kuning dua mode → centang disimpan gelap agar terbaca.
   border-color: var(--nemo-warning, #fbbc04);
   background: var(--nemo-warning, #fbbc04);
-  color: var(--nemo-neutral-900, #202124);
+  color: #171717;
 }
 
 .checkbox-input:checked + .checkbox-box--success,
 .checkbox-input:indeterminate + .checkbox-box--success {
-  border-color: var(--nemo-success, #34a853);
-  background: var(--nemo-success, #34a853);
+  border-color: var(--nemo-success-fill, #14803a);
+  background: var(--nemo-success-fill, #14803a);
 }
 
 .checkbox-input:checked + .checkbox-box--error,
 .checkbox-input:indeterminate + .checkbox-box--error {
-  border-color: var(--nemo-error, #ea4335);
-  background: var(--nemo-error, #ea4335);
+  border-color: var(--nemo-error-fill, #a50e0e);
+  background: var(--nemo-error-fill, #a50e0e);
 }
 
 .checkbox-input:checked + .checkbox-box--neutral,
@@ -121,9 +123,9 @@ $checkbox-transition: all 0.15s ease;
 
 .helper-text {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 
   &--error {
-    color: var(--nemo-error, #ea4335);
+    color: var(--nemo-error-text, #a50e0e);
   }
 }

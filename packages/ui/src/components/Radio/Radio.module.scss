@@ -85,36 +85,36 @@ $radio-transition: all 0.15s ease;
 
 // Checked — input precedes the control in the DOM
 .radio-input:checked + .radio-control {
-  border-color: var(--nemo-primary-500, #4285f4);
+  border-color: var(--nemo-primary-fill, #1f5bb8);
 }
 
 .radio-input:checked + .radio-control .radio-dot {
-  background: var(--nemo-primary-500, #4285f4);
+  background: var(--nemo-primary-fill, #1f5bb8);
   transform: scale(1);
 }
 
 .radio-input:checked + .radio-control--success {
-  border-color: var(--nemo-success, #34a853);
+  border-color: var(--nemo-success-fill, #14803a);
 }
 
 .radio-input:checked + .radio-control--success .radio-dot {
-  background: var(--nemo-success, #34a853);
+  background: var(--nemo-success-fill, #14803a);
 }
 
 .radio-input:checked + .radio-control--warning {
-  border-color: var(--nemo-warning, #fbbc04);
+  border-color: var(--nemo-warning-fill, #7a4e00);
 }
 
 .radio-input:checked + .radio-control--warning .radio-dot {
-  background: var(--nemo-warning, #fbbc04);
+  background: var(--nemo-warning-fill, #7a4e00);
 }
 
 .radio-input:checked + .radio-control--error {
-  border-color: var(--nemo-error, #ea4335);
+  border-color: var(--nemo-error-fill, #a50e0e);
 }
 
 .radio-input:checked + .radio-control--error .radio-dot {
-  background: var(--nemo-error, #ea4335);
+  background: var(--nemo-error-fill, #a50e0e);
 }
 
 .radio-input:checked + .radio-control--neutral {
@@ -144,10 +144,10 @@ $radio-transition: all 0.15s ease;
 
 .helper-text {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 
   &--error {
-    color: var(--nemo-error, #ea4335);
+    color: var(--nemo-error-text, #a50e0e);
   }
 }
 
@@ -163,7 +163,7 @@ $radio-transition: all 0.15s ease;
 }
 
 .group-required {
-  color: var(--nemo-error, #ea4335);
+  color: var(--nemo-error-text, #a50e0e);
   font-weight: 400;
 }
 

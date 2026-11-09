@@ -57,7 +57,7 @@ $prefix-suffix-width: 48px;
     pointer-events: none;
     background: transparent;
     padding: 0 4px;
-    color: var(--nemo-neutral-500, #9AA0A6);
+    color: var(--nemo-neutral-700, #5F6368);
     font-size: $input-font-size-md;
     font-weight: 400;
     white-space: nowrap;
@@ -72,7 +72,7 @@ $prefix-suffix-width: 48px;
 }
 
 .required-asterisk {
-  color: var(--nemo-error, #EA4335);
+  color: var(--nemo-error-text, #A50E0E);
   font-weight: 400;
 }
 
@@ -88,11 +88,22 @@ $prefix-suffix-width: 48px;
     cursor: not-allowed;
     background: var(--nemo-neutral-100, #F1F3F4) !important;
     border-color: transparent !important;
+
+    // Base bg datang dari container — inner dibuat transparan.
+    .input,
+    .textarea {
+      background: transparent;
+    }
   }
 
   &--readonly {
     opacity: 0.8;
     background: var(--nemo-neutral-50, #F8F9FA) !important;
+
+    .input,
+    .textarea {
+      background: transparent;
+    }
   }
 
   &--has-value {
@@ -128,7 +139,7 @@ $prefix-suffix-width: 48px;
   border-radius: inherit;
 
   &::placeholder {
-    color: var(--nemo-neutral-500, #9AA0A6);
+    color: var(--nemo-neutral-700, #5F6368);
     opacity: 1;
   }
 
@@ -187,6 +198,12 @@ $prefix-suffix-width: 48px;
   background: var(--nemo-neutral-50, #F8F9FA);
   border: 1px solid transparent;
 
+  // Container memberi base bg — inner transparan supaya tidak tertutup.
+  .input,
+  .textarea {
+    background: transparent;
+  }
+
   &:hover:not(.input-container--disabled):not(.input-container--readonly) {
     background: var(--nemo-neutral-100, #F1F3F4);
   }
@@ -217,6 +234,13 @@ $prefix-suffix-width: 48px;
 .input-container--ghost {
   background: transparent;
   border: 1px solid transparent;
+
+  // Ghost tanpa base bg sendiri — inner transparan supaya hover/focus
+  // container terlihat; teks duduk di canvas yang sudah bertema.
+  .input,
+  .textarea {
+    background: transparent;
+  }
 
   &:hover:not(.input-container--disabled):not(.input-container--readonly) {
     background: var(--nemo-neutral-50, #F8F9FA);
@@ -252,16 +276,16 @@ $prefix-suffix-width: 48px;
 
   .input,
   .textarea {
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
   }
 
   .icon {
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
   }
 
   .prefix,
   .suffix {
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
   }
 }
 
@@ -287,12 +311,12 @@ $prefix-suffix-width: 48px;
   }
 
   .icon {
-    color: var(--nemo-warning, #FBBC04);
+    color: var(--nemo-warning-text, #7A4E00);
   }
 
   .prefix,
   .suffix {
-    color: var(--nemo-warning, #FBBC04);
+    color: var(--nemo-warning-text, #7A4E00);
   }
 }
 
@@ -318,12 +342,12 @@ $prefix-suffix-width: 48px;
   }
 
   .icon {
-    color: var(--nemo-success, #34A853);
+    color: var(--nemo-success-text, #0D652D);
   }
 
   .prefix,
   .suffix {
-    color: var(--nemo-success, #34A853);
+    color: var(--nemo-success-text, #0D652D);
   }
 }
 
@@ -335,7 +359,7 @@ $prefix-suffix-width: 48px;
   justify-content: center;
   width: $input-icon-size;
   height: $input-icon-size;
-  color: var(--nemo-neutral-400, #BDC1C6);
+  color: var(--nemo-neutral-600, #80868B);
   pointer-events: none;
   flex-shrink: 0;
   transition: color 0.2s ease;
@@ -378,14 +402,14 @@ $prefix-suffix-width: 48px;
     width: auto;
     height: auto;
     padding: 4px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--nemo-neutral-400, #BDC1C6);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--nemo-neutral-600, #80868B);
 
-    &:hover {
-      color: var(--nemo-neutral-700, #5F6368);
-    }
+  &:hover {
+    color: var(--nemo-neutral-700, #5F6368);
+  }
 
     &:focus-visible {
       outline: none;
@@ -433,7 +457,7 @@ $prefix-suffix-width: 48px;
   justify-content: center;
   width: $prefix-suffix-width;
   height: 100%;
-  color: var(--nemo-neutral-500, #9AA0A6);
+  color: var(--nemo-neutral-700, #5F6368);
   pointer-events: none;
   font-size: $input-font-size-md;
   font-weight: 500;
@@ -514,19 +538,19 @@ $prefix-suffix-width: 48px;
 // Helper text
 .helper-text {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-500, #9AA0A6);
+  color: var(--nemo-neutral-700, #5F6368);
   transition: color 0.2s ease;
 
   &--error {
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
   }
 
   &--warning {
-    color: var(--nemo-warning, #FBBC04);
+    color: var(--nemo-warning-text, #7A4E00);
   }
 
   &--success {
-    color: var(--nemo-success, #34A853);
+    color: var(--nemo-success-text, #0D652D);
   }
 }
 
@@ -539,10 +563,10 @@ $prefix-suffix-width: 48px;
 
 .char-count {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-400, #BDC1C6);
+  color: var(--nemo-neutral-700, #5F6368);
   font-variant-numeric: tabular-nums;
 
   &--exceeded {
-    color: var(--nemo-error, #EA4335);
+    color: var(--nemo-error-text, #A50E0E);
   }
 }

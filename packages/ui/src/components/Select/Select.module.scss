@@ -50,7 +50,7 @@ $select-transition: all 0.2s ease;
 }
 
 .required-asterisk {
-  color: var(--nemo-error, #ea4335);
+  color: var(--nemo-error-text, #a50e0e);
   font-weight: 400;
 }
 
@@ -66,6 +66,11 @@ $select-transition: all 0.2s ease;
     cursor: not-allowed;
     background: var(--nemo-neutral-100, #f1f3f4) !important;
     border-color: transparent !important;
+
+    // Base bg datang dari container — inner dibuat transparan.
+    .select-input {
+      background: transparent;
+    }
   }
 }
 
@@ -82,7 +87,7 @@ $select-transition: all 0.2s ease;
   border-radius: inherit;
 
   &::placeholder {
-    color: var(--nemo-neutral-500, #9aa0a6);
+    color: var(--nemo-neutral-700, #5f6368);
     opacity: 1;
   }
 
@@ -123,6 +128,11 @@ $select-transition: all 0.2s ease;
   background: var(--nemo-neutral-50, #f8f9fa);
   border: 1px solid transparent;
 
+  // Container memberi base bg — inner transparan supaya tidak tertutup.
+  .select-input {
+    background: transparent;
+  }
+
   &:hover:not(.select-container--disabled) {
     background: var(--nemo-neutral-100, #f1f3f4);
   }
@@ -153,6 +163,12 @@ $select-transition: all 0.2s ease;
 .select-container--ghost {
   background: transparent;
   border: 1px solid transparent;
+
+  // Ghost tanpa base bg sendiri — inner transparan supaya hover/focus
+  // container terlihat; teks duduk di canvas yang sudah bertema.
+  .select-input {
+    background: transparent;
+  }
 
   &:hover:not(.select-container--disabled) {
     background: var(--nemo-neutral-50, #f8f9fa);
@@ -226,7 +242,7 @@ $select-transition: all 0.2s ease;
   justify-content: center;
   width: $select-icon-size;
   height: $select-icon-size;
-  color: var(--nemo-neutral-400, #bdc1c6);
+  color: var(--nemo-neutral-600, #80868b);
   pointer-events: none;
   flex-shrink: 0;
 }
@@ -246,7 +262,7 @@ $select-transition: all 0.2s ease;
   background: transparent;
   border: none;
   border-radius: var(--nemo-radius-sm, 4px);
-  color: var(--nemo-neutral-400, #bdc1c6);
+  color: var(--nemo-neutral-600, #80868b);
   cursor: pointer;
   transition: color 0.2s ease;
 
@@ -320,7 +336,7 @@ $select-transition: all 0.2s ease;
 
   &--selected {
     font-weight: 500;
-    color: var(--nemo-primary-700, #1967d2);
+    color: var(--nemo-primary-text, #1967d2);
   }
 
   &--disabled {
@@ -331,29 +347,29 @@ $select-transition: all 0.2s ease;
 
 .option-description {
   font-size: 12px;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 .select-empty {
   padding: 8px 10px;
   font-size: $select-font-size-md;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 // Helper text
 .helper-text {
   font-size: $helper-font-size;
-  color: var(--nemo-neutral-500, #9aa0a6);
+  color: var(--nemo-neutral-700, #5f6368);
 
   &--error {
-    color: var(--nemo-error, #ea4335);
+    color: var(--nemo-error-text, #a50e0e);
   }
 
   &--warning {
-    color: var(--nemo-warning, #fbbc04);
+    color: var(--nemo-warning-text, #7a4e00);
   }
 
   &--success {
-    color: var(--nemo-success, #34a853);
+    color: var(--nemo-success-text, #0d652d);
   }
 }

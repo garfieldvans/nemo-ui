@@ -43,7 +43,7 @@ import {
   type TableColumn,
   type DrawerProps,
 } from "@nemo/ui";
-import { useState, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
+import { useState, useEffect, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
 
 function Section({
   title,
@@ -502,6 +502,21 @@ function PlaygroundContent({
   const [agreed, setAgreed] = useState(false);
   const { mode, setMode } = useTheme();
 
+  // Persist mode light/dark ke localStorage + sinkron color-scheme di <html>
+  // (body/overscroll/scrollbar mengikuti mode, bukan putih #f8f9fa di dark).
+  useEffect(() => {
+    try {
+      localStorage.setItem(MODE_STORAGE_KEY, mode);
+    } catch {
+      // abai kalau storage tidak tersedia
+    }
+    document.documentElement.style.colorScheme = mode;
+    // <html> perlu data-theme supaya blok statis media-query prefers-color-scheme
+    // tidak menyalakan token gelap di OS gelap saat mode light (neutral-0 dsb
+    // diwarisi anak dan menolak canvas wrapper).
+    document.documentElement.dataset.theme = mode;
+  }, [mode]);
+
   return (
     <div
       style={{
@@ -528,8 +543,8 @@ function PlaygroundContent({
                 width: 44,
                 height: 44,
                 borderRadius: 10,
-                backgroundColor: "var(--nemo-primary-500, #4285F4)",
-                color: "#FFFFFF",
+                backgroundColor: "var(--nemo-primary-fill, #1F5BB8)",
+                color: "var(--nemo-neutral-0, #FFFFFF)",
                 fontWeight: 700,
                 fontSize: 22,
                 display: "flex",
@@ -540,12 +555,17 @@ function PlaygroundContent({
               N
             </div>
             <div>
-              <Typography variant="h1" color="neutral">
-                Nemo UI
-              </Typography>
-              <Typography variant="body" color="neutral">
-                Komponen React yang konsisten, ringan, dan siap untuk dark mode.
-              </Typography>
+              <div>
+                <Typography variant="h1" color="neutral">
+                  Nemo UI
+                </Typography>
+              </div>
+              <div>
+
+                <Typography variant="body" color="neutral">
+                  Komponen React yang konsisten, ringan, dan siap untuk dark mode.
+                </Typography>
+              </div>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: spacing[2] }}>
@@ -560,9 +580,9 @@ function PlaygroundContent({
                 style={
                   themeName === name
                     ? {
-                        borderColor: "var(--nemo-primary-500, #4285F4)",
-                        color: "var(--nemo-primary-500, #4285F4)",
-                      }
+                      borderColor: "var(--nemo-primary-500, #4285F4)",
+                      color: "var(--nemo-primary-500, #4285F4)",
+                    }
                     : undefined
                 }
               >
@@ -884,7 +904,7 @@ function PlaygroundContent({
         <SubLabel>Filled</SubLabel>
         <div style={{ ...columnStyle, maxWidth: 560 }}>
           <Alert tone="success" variant="filled" title="Berhasil disimpan">Perubahan tersimpan.</Alert>
-          <Alert tone="error" variant="filled" title="Terjadi kesalahan" action={<Button size="sm" variant="text" style={{ color: "#FFFFFF" }}>Coba lagi</Button>}>Gagal menyimpan data.</Alert>
+          <Alert tone="error" variant="filled" title="Terjadi kesalahan" action={<Button size="sm" variant="text" style={{ color: "var(--nemo-neutral-0, #FFFFFF)" }}>Coba lagi</Button>}>Gagal menyimpan data.</Alert>
         </div>
       </Section>
 
@@ -1134,7 +1154,7 @@ function PlaygroundContent({
               <Divider />
               <Typography variant="caption" color="neutral" align="center">
                 Sudah punya akun?{" "}
-                <a href="#" style={{ color: "var(--nemo-primary-600, #1A73E8)" }}>
+                <a href="#" style={{ color: "var(--nemo-primary-text, #1967D2)" }}>
                   Masuk di sini
                 </a>
               </Typography>
@@ -1149,6 +1169,18 @@ function PlaygroundContent({
   );
 }
 
+const MODE_STORAGE_KEY = "nemo-playground-mode";
+
+function loadStoredMode(): "light" | "dark" {
+  try {
+    const stored = localStorage.getItem(MODE_STORAGE_KEY);
+    if (stored === "dark" || stored === "light") return stored;
+  } catch {
+    // storage tidak tersedia — pakai default.
+  }
+  return "light";
+}
+
 function App() {
   const [themeName, setThemeName] = useState<ThemeName>("sapphireOceanSerenity");
   const surfaces = themeSurfaces(themeName);
@@ -1156,6 +1188,7 @@ function App() {
   return (
     <ThemeProvider
       className="nemo-page"
+      mode={loadStoredMode()}
       theme={toThemeOverride(themeName)}
       surface={false}
       // Canvas mode-aware: inline style provider tidak bisa bercabang per

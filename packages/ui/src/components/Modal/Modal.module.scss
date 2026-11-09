@@ -60,7 +60,7 @@ $modal-screen-padding: 16px;
   margin: 4px 0 0;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--nemo-neutral-600, #80868b);
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 .body {
@@ -91,7 +91,7 @@ $modal-screen-padding: 16px;
   background: transparent;
   border: none;
   border-radius: var(--nemo-radius-sm, 4px);
-  color: var(--nemo-neutral-400, #bdc1c6);
+  color: var(--nemo-neutral-600, #80868b);
   cursor: pointer;
   transition: color 0.2s ease;
 

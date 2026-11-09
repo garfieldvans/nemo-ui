@@ -14,7 +14,10 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa; /* fallback sebelum tema di-mount */
+  /* Canvas sistem: mengikuti color-scheme (di-sync dari mode ThemeProvider)
+     jadi overscroll di dark mode tidak kilatan terang. */
+  background-color: Canvas;
+  color: CanvasText;
 }
 
 /* Wrapper yang di-render ThemeProvider (class di-pass via <ThemeProvider className>).

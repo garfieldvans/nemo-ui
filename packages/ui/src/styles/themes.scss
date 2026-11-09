@@ -85,6 +85,23 @@
   --nemo-error: #EA4335;
   --nemo-info: #4285F4;
 
+  // Tone mode-aware (mirror of tokens.ts toCssVarMap):
+  // `*-text` untuk teks di atas canvas, `*-fill` untuk bg filled berteks neutral-0.
+  // var() mereferensikan 500 lokal jadi otomatis mengikuti blok gelap/terang.
+  --nemo-primary-text: color-mix(in srgb, var(--nemo-primary-500) 60%, CanvasText);
+  --nemo-primary-fill: color-mix(in srgb, var(--nemo-primary-500) 65%, CanvasText);
+  --nemo-secondary-text: color-mix(in srgb, var(--nemo-secondary-500) 60%, CanvasText);
+  --nemo-secondary-fill: color-mix(in srgb, var(--nemo-secondary-500) 65%, CanvasText);
+  --nemo-success-text: color-mix(in srgb, var(--nemo-success) 60%, CanvasText);
+  --nemo-success-fill: color-mix(in srgb, var(--nemo-success) 65%, CanvasText);
+  // Kuning butuh porsi warna lebih sedikit supaya lolos 4.5:1 dua mode.
+  --nemo-warning-text: color-mix(in srgb, var(--nemo-warning) 45%, CanvasText);
+  --nemo-warning-fill: color-mix(in srgb, var(--nemo-warning) 65%, CanvasText);
+  --nemo-error-text: color-mix(in srgb, var(--nemo-error) 60%, CanvasText);
+  --nemo-error-fill: color-mix(in srgb, var(--nemo-error) 65%, CanvasText);
+  --nemo-info-text: color-mix(in srgb, var(--nemo-info) 60%, CanvasText);
+  --nemo-info-fill: color-mix(in srgb, var(--nemo-info) 65%, CanvasText);
+
   // Colors — surfaces (for status-filled backgrounds)
   --nemo-surface-success: #f0fdf4;
   --nemo-surface-warning: #fffef0;
