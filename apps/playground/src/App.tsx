@@ -651,6 +651,7 @@ function PlaygroundContent({
         <SubLabel>Filled (default)</SubLabel>
         <div style={rowStyle}>
           <Button>Primary</Button>
+          <Button color="secondary">Secondary</Button>
           <Button color="success">Success</Button>
           <Button color="warning">Warning</Button>
           <Button color="error">Error</Button>
@@ -659,6 +660,7 @@ function PlaygroundContent({
         <SubLabel>Outlined</SubLabel>
         <div style={rowStyle}>
           <Button variant="outlined">Primary</Button>
+          <Button variant="outlined" color="secondary">Secondary</Button>
           <Button variant="outlined" color="success">Success</Button>
           <Button variant="outlined" color="warning">Warning</Button>
           <Button variant="outlined" color="error">Error</Button>
@@ -667,6 +669,7 @@ function PlaygroundContent({
         <SubLabel>Text</SubLabel>
         <div style={rowStyle}>
           <Button variant="text">Primary</Button>
+          <Button variant="text" color="secondary">Secondary</Button>
           <Button variant="text" color="success">Success</Button>
           <Button variant="text" color="warning">Warning</Button>
           <Button variant="text" color="error">Error</Button>
@@ -1054,6 +1057,7 @@ function PlaygroundContent({
       <Section title="Badge" id="badge">
         <div style={rowStyle}>
           <Badge>Primary</Badge>
+          <Badge color="secondary">Secondary</Badge>
           <Badge color="success">Success</Badge>
           <Badge color="warning">Warning</Badge>
           <Badge color="error">Error</Badge>
@@ -1169,7 +1173,20 @@ function PlaygroundContent({
   );
 }
 
+const THEME_STORAGE_KEY = "nemo-playground-theme";
 const MODE_STORAGE_KEY = "nemo-playground-mode";
+
+function loadStoredTheme(): ThemeName {
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored && (themeNames as readonly string[]).includes(stored)) {
+      return stored as ThemeName;
+    }
+  } catch {
+    // localStorage bisa diblokir (privacy mode) — pakai default.
+  }
+  return "sapphireOceanSerenity";
+}
 
 function loadStoredMode(): "light" | "dark" {
   try {
@@ -1182,8 +1199,17 @@ function loadStoredMode(): "light" | "dark" {
 }
 
 function App() {
-  const [themeName, setThemeName] = useState<ThemeName>("sapphireOceanSerenity");
+  const [themeName, setThemeName] = useState<ThemeName>(loadStoredTheme);
   const surfaces = themeSurfaces(themeName);
+
+  // Persist pilihan theme ke localStorage.
+  useEffect(() => {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, themeName);
+    } catch {
+      // abai kalau storage tidak tersedia
+    }
+  }, [themeName]);
 
   return (
     <ThemeProvider
