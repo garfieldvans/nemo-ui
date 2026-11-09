@@ -68,6 +68,87 @@ export const palette = {
       text: "deepBrown",
     },
   },
+
+  mintGreen: {
+    palette: {
+      mintGreen: "#ADEBB3",
+      sageGreen: "#9EB8A0",
+      forestGreen: "#58855C",
+      deepGreen: "#0D3311",
+    },
+    semantic: {
+      primary: "mintGreen",
+      secondary: "sageGreen",
+      accent: "forestGreen",
+      background: "mintGreen",
+      text: "deepGreen",
+    },
+  },
+
+  cinnabar: {
+    palette: {
+      cinnabar: "#E84B3D",
+      coralRed: "#EA5D50",
+      deepRed: "#921C11",
+      darkRed: "#3A0B07",
+      softRed: "#F6B5AF",
+    },
+    semantic: {
+      primary: "cinnabar",
+      secondary: "coralRed",
+      accent: "deepRed",
+      background: "softRed",
+      text: "darkRed",
+    },
+  },
+
+  glaucous: {
+    palette: {
+      glaucous: "#678DC6",
+      lightBlue: "#AEC6EB",
+      slateBlue: "#3E577D",
+      deepBlue: "#182F52",
+    },
+    semantic: {
+      primary: "glaucous",
+      secondary: "slateBlue",
+      accent: "lightBlue",
+      background: "lightBlue",
+      text: "deepBlue",
+    },
+  },
+
+  limeGreen: {
+    palette: {
+      limeGreen: "#89F336",
+      sageGreen: "#8BB06F",
+      oliveGreen: "#458018",
+      deepGreen: "#244709",
+    },
+    semantic: {
+      primary: "limeGreen",
+      secondary: "sageGreen",
+      accent: "oliveGreen",
+      background: "limeGreen",
+      text: "deepGreen",
+    },
+  },
+
+  gunmetalGray: {
+    palette: {
+      gunmetalGray: "#353E43",
+      iceBlue: "#B9D9EB",
+      steelBlue: "#628699",
+      deepNavy: "#041E2B",
+    },
+    semantic: {
+      primary: "gunmetalGray",
+      secondary: "steelBlue",
+      accent: "iceBlue",
+      background: "iceBlue",
+      text: "deepNavy",
+    },
+  },
 } as const;
 
 // ---------------------------------------------------------------------------

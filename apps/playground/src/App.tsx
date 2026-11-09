@@ -193,6 +193,11 @@ const themeLabels: Record<ThemeName, string> = {
   deepSea: "Deep Sea",
   monochromeRed: "Monochrome",
   cinnamon: "Cinnamon",
+  mintGreen: "Mint",
+  cinnabar: "Cinnabar",
+  glaucous: "Glaucous",
+  limeGreen: "Lime",
+  gunmetalGray: "Gunmetal",
 };
 
 const planOptions = [
