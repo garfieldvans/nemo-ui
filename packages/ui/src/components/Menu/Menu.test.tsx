@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import type { ReactNode } from "react";
 
 import { Menu } from "./Menu";
+import { Button } from "../Button/Button";
 import type { MenuProps } from "./Menu.types";
 
 function renderMenu(props: Partial<MenuProps> & { children?: ReactNode } = {}) {
@@ -149,6 +150,20 @@ describe("Menu", () => {
     fireEvent.click(trigger());
     expect(onOpenChange).toHaveBeenCalledWith(true);
     expect(screen.queryByRole("menu")).toBeNull();
+  });
+
+  it("does not nest a button when the trigger is already a button", () => {
+    const { container } = render(
+      <Menu trigger={<Button>Aksi</Button>} ariaLabel="Menu aksi">
+        <Menu.Item label="Ubah" />
+      </Menu>
+    );
+    const triggerButton = screen.getByRole("button", { name: "Aksi" });
+    expect(container.querySelector("button button")).toBeNull();
+
+    fireEvent.click(triggerButton);
+    expect(triggerButton).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("menu", { name: "Menu aksi" })).toBeDefined();
   });
 });
 

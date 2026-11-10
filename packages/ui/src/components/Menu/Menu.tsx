@@ -2,6 +2,7 @@ import {
   Children,
   Fragment,
   cloneElement,
+  isValidElement,
   useCallback,
   useId,
   useLayoutEffect,
@@ -234,7 +235,9 @@ function MenuImpl({
       }
       case "Escape":
         setOpen(false);
-        triggerEl?.focus();
+        // Fokus kembali ke elemen interaktif di dalam trigger (host span bisa
+        // membungkus <Button>), atau ke trigger itu sendiri.
+        (triggerEl?.querySelector<HTMLElement>("button, a[href], [tabindex]") ?? triggerEl)?.focus();
         break;
       case "Tab":
         setOpen(false);
@@ -245,21 +248,36 @@ function MenuImpl({
   const activeDescendant =
     activeIndex >= 0 && activeIndex < meta.length ? `${menuId}-item-${activeIndex}` : undefined;
 
+  const toggleOpen = () => {
+    setActiveIndex(-1);
+    setOpen(!isOpen);
+  };
+
+  // Bila trigger sudah berupa elemen interaktif (mis. <Button>), jangan bungkus
+  // lagi dengan <button> — cukup host tipis untuk pengukuran posisi.
+  const triggerNode = isValidElement(trigger) ? (
+    <span ref={buttonRef} className={styles["trigger-host"]} onClick={toggleOpen}>
+      {cloneElement(trigger as ReactElement<Record<string, unknown>>, {
+        "aria-haspopup": "menu",
+        "aria-expanded": isOpen,
+      })}
+    </span>
+  ) : (
+    <button
+      type="button"
+      ref={buttonRef}
+      aria-haspopup="menu"
+      aria-expanded={isOpen}
+      onClick={toggleOpen}
+      className={styles.trigger}
+    >
+      {trigger}
+    </button>
+  );
+
   return (
     <>
-      <button
-        type="button"
-        ref={buttonRef}
-        aria-haspopup="menu"
-        aria-expanded={isOpen}
-        onClick={() => {
-          setActiveIndex(-1);
-          setOpen(!isOpen);
-        }}
-        className={styles.trigger}
-      >
-        {trigger}
-      </button>
+      {triggerNode}
       {isOpen && (
         <Portal>
           <div

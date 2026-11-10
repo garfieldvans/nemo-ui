@@ -1,1177 +1,26 @@
 import {
-  spacing,
-  Button,
-  Input,
-  Textarea,
-  Typography,
+  themeNames,
+  themeSurfaces,
+  toThemeOverride,
+  ToastProvider,
   ThemeProvider,
   useTheme,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Badge,
-  Avatar,
-  AvatarGroup,
-  Divider,
-  Stack,
-  Select,
-  Checkbox,
-  Radio,
-  RadioGroup,
-  Switch,
-  FormField,
-  Skeleton,
-  Spinner,
-  Progress,
-  Alert,
-  ToastProvider,
-  useToast,
-  Modal,
-  Drawer,
-  Tooltip,
-  Popover,
-  Menu,
-  Tabs,
-  Table,
-  Pagination,
-  themeNames,
-  toThemeOverride,
-  themeSurfaces,
-  primaryColor,
   type ThemeName,
-  type TableColumn,
-  type DrawerProps,
 } from "@nemo/ui";
-import { useState, useEffect, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
-
-function Section({
-  title,
-  id,
-  children,
-}: {
-  title: string;
-  id?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section id={id} style={{ marginTop: spacing[10] }}>
-      <Typography
-        variant="overline"
-        color="neutral"
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-          fontSize: 13,
-          fontWeight: 700,
-          marginBottom: spacing[4],
-        }}
-      >
-        {title}
-      </Typography>
-      {children}
-    </section>
-  );
-}
-
-function GroupTitle({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        marginTop: spacing[8],
-        marginBottom: spacing[1],
-        display: "flex",
-        alignItems: "center",
-        gap: spacing[3],
-      }}
-    >
-      <Typography variant="h3" color="neutral">
-        {children}
-      </Typography>
-      <div
-        aria-hidden
-        style={{
-          flex: 1,
-          height: 1,
-          background: "var(--nemo-neutral-200, #E8EAED)",
-        }}
-      />
-    </div>
-  );
-}
-
-function SubLabel({ children }: { children: ReactNode }) {
-  return (
-    <Typography
-      variant="bodySmall"
-      color="neutral"
-      style={{ display: "block", marginBottom: spacing[3] }}
-    >
-      {children}
-    </Typography>
-  );
-}
-
-const rowStyle: CSSProperties = {
-  display: "flex",
-  gap: spacing[3],
-  flexWrap: "wrap",
-  alignItems: "center",
-  marginBottom: spacing[5],
-};
-
-const columnStyle: CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: spacing[3],
-  maxWidth: 420,
-  marginBottom: spacing[5],
-};
-
-const toc: { id: string; label: string }[] = [
-  { id: "typography", label: "Typography" },
-  { id: "button", label: "Button" },
-  { id: "input", label: "Input" },
-  { id: "textarea", label: "Textarea" },
-  { id: "select", label: "Select" },
-  { id: "checkbox", label: "Checkbox" },
-  { id: "radio", label: "Radio" },
-  { id: "switch", label: "Switch" },
-  { id: "form-field", label: "FormField" },
-  { id: "alert", label: "Alert" },
-  { id: "toast", label: "Toast" },
-  { id: "skeleton", label: "Skeleton" },
-  { id: "spinner", label: "Spinner" },
-  { id: "progress", label: "Progress" },
-  { id: "tabs", label: "Tabs" },
-  { id: "pagination", label: "Pagination" },
-  { id: "overlay", label: "Modal & Drawer" },
-  { id: "tooltip", label: "Tooltip" },
-  { id: "popover", label: "Popover" },
-  { id: "menu", label: "Menu" },
-  { id: "table", label: "Table" },
-  { id: "card", label: "Card" },
-  { id: "badge", label: "Badge" },
-  { id: "avatar", label: "Avatar" },
-  { id: "divider-stack", label: "Divider & Stack" },
-  { id: "form-pendaftaran", label: "Form Pendaftaran" },
-];
-
-function TableOfContents() {
-  return (
-    <nav
-      aria-label="Daftar komponen"
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: spacing[2],
-        marginTop: spacing[6],
-      }}
-    >
-      {toc.map((item) => (
-        <a
-          key={item.id}
-          href={`#${item.id}`}
-          style={{
-            padding: "4px 10px",
-            border: "1px solid var(--nemo-neutral-300, #DADCE0)",
-            borderRadius: "var(--nemo-radius-full, 9999px)",
-            fontSize: 13,
-            color: "var(--nemo-neutral-700, #5F6368)",
-            textDecoration: "none",
-          }}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
-  );
-}
-
-const themeLabels: Record<ThemeName, string> = {
-  sapphireOceanSerenity: "Sapphire",
-  deepSea: "Deep Sea",
-  monochromeRed: "Monochrome",
-  cinnamon: "Cinnamon",
-  mintGreen: "Mint",
-  cinnabar: "Cinnabar",
-  glaucous: "Glaucous",
-  limeGreen: "Lime",
-  gunmetalGray: "Gunmetal",
-};
-
-const planOptions = [
-  { value: "starter", label: "Starter" },
-  { value: "pro", label: "Pro", description: "Paling populer" },
-  { value: "enterprise", label: "Enterprise", description: "Untuk tim besar" },
-  { value: "vip", label: "VIP", disabled: true },
-];
-
-function ToastSection() {
-  const toast = useToast();
-  return (
-    <>
-      <SubLabel>Pemicu notifikasi</SubLabel>
-      <div style={rowStyle}>
-        <Button color="success" onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}>Success</Button>
-        <Button color="error" onClick={() => toast.error("Gagal menyimpan", { message: "Coba lagi beberapa saat.", duration: 6000 })}>Error</Button>
-        <Button color="warning" onClick={() => toast.warning("Hampir penuh", { message: "Bersihkan penyimpanan kamu." })}>Warning</Button>
-        <Button variant="outlined" onClick={() => toast.info("Informasi", { message: "Tersedia pembaruan terbaru." })}>Info</Button>
-        <Button variant="text" onClick={() => toast.dismissAll()}>Tutup semua</Button>
-      </div>
-    </>
-  );
-}
-
-function ModalDemo() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <Button variant="outlined" onClick={() => setOpen(true)}>
-        Buka modal
-      </Button>
-      <Modal
-        open={open}
-        onOpenChange={setOpen}
-        title="Hapus project?"
-        description="Aksi ini permanen dan tidak bisa dibatalkan."
-        footer={
-          <>
-            <Button variant="text" color="error" onClick={() => setOpen(false)}>
-              Tidak
-            </Button>
-            <Button color="error" onClick={() => setOpen(false)}>
-              Hapus
-            </Button>
-          </>
-        }
-      >
-        <p>
-          Project "Nemo UI" beserta seluruh riwayatnya akan dihapus selamanya.
-          Pastikan kamu sudah mem-backup data penting.
-        </p>
-      </Modal>
-    </>
-  );
-}
-
-function DrawerDemo() {
-  const [placement, setPlacement] = useState<DrawerProps["placement"]>("right");
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <div style={rowStyle}>
-        {(["left", "right", "top", "bottom"] as const).map((p) => (
-          <Button
-            key={p}
-            size="sm"
-            variant={placement === p ? "filled" : "outlined"}
-            onClick={() => {
-              setPlacement(p);
-              setOpen(true);
-            }}
-          >
-            {p}
-          </Button>
-        ))}
-      </div>
-      <Drawer
-        open={open}
-        onOpenChange={setOpen}
-        placement={placement}
-        title="Panel samping"
-        footer={
-          <>
-            <Button variant="text" onClick={() => setOpen(false)}>
-              Batal
-            </Button>
-            <Button onClick={() => setOpen(false)}>Terapkan</Button>
-          </>
-        }
-      >
-        <p>
-          Drawer menyajikan konten sekunder dari tepi layar. Coba ganti sisi dengan
-          tombol di atas, lalu klik backdrop atau tekan Escape untuk menutup.
-        </p>
-      </Drawer>
-    </>
-  );
-}
-
-function OverlaySection() {
-  return (
-    <>
-      <SubLabel>Modal</SubLabel>
-      <div style={rowStyle}>
-        <ModalDemo />
-      </div>
-      <SubLabel>Drawer — pilih posisi muncul</SubLabel>
-      <DrawerDemo />
-    </>
-  );
-}
-
-function TooltipSection() {
-  return (
-    <>
-      <div style={rowStyle}>
-        <Tooltip content="Menampilkan info saat hover atau fokus" placement="top" openDelay={0} closeDelay={0}>
-          <Button variant="outlined">Hover aku</Button>
-        </Tooltip>
-        <Tooltip content="Penyimpanan aman" placement="bottom" openDelay={0} closeDelay={0}>
-          <span style={{ cursor: "help", textDecoration: "underline dotted" }}>
-            Istilah penting
-          </span>
-        </Tooltip>
-      </div>
-    </>
-  );
-}
-
-function PopoverSection() {
-  return (
-    <>
-      <Popover
-        trigger={<Button variant="outlined">Atur filter</Button>}
-        ariaLabel="Panel filter"
-        placement="bottom"
-      >
-        <Stack direction="column" spacing={2}>
-          <p style={{ margin: 0, fontWeight: 600 }}>Filter daftar</p>
-          <p style={{ margin: 0, color: "var(--nemo-neutral-600, #80868b)" }}>
-            Pilih kriteria lalu terapkan untuk menyaring data.
-          </p>
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-            <Button size="sm" variant="text">
-              Reset
-            </Button>
-            <Button size="sm">Terapkan</Button>
-          </div>
-        </Stack>
-      </Popover>
-    </>
-  );
-}
-
-function MenuSection() {
-  const [view, setView] = useState("web");
-  const views = [
-    { value: "web", label: "Tampilan web" },
-    { value: "list", label: "Tampilan daftar" },
-    { value: "board", label: "Tampilan board" },
-  ] as const;
-  return (
-    <>
-      <Menu
-        trigger={<Button variant="outlined">{views.find((v) => v.value === view)?.label}</Button>}
-        ariaLabel="Pilih tampilan"
-      >
-        {views.map((v) => (
-          <Menu.Item
-            key={v.value}
-            label={v.label}
-            icon={v.value === view ? <CheckIcon /> : undefined}
-            onSelect={() => setView(v.value)}
-          />
-        ))}
-        <Menu.Divider />
-        <Menu.Item label="Reset ke default" disabled />
-      </Menu>
-    </>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M4 10.5l4 4L16 6.5" />
-    </svg>
-  );
-}
-
-function TabsSection() {
-  const items = [
-    {
-      value: "ringkasan",
-      label: "Ringkasan",
-      content: <p>Ringkasan aktivitas project minggu ini.</p>,
-    },
-    {
-      value: "anggota",
-      label: "Anggota",
-      content: <p>Andi (Admin), Budi (Editor), Citra (Viewer).</p>,
-    },
-    {
-      value: "setelan",
-      label: "Setelan",
-      disabled: true,
-      content: <p>Pengaturan project.</p>,
-    },
-  ];
-  return (
-    <div style={{ ...columnStyle, maxWidth: 560 }}>
-      <SubLabel>Line variant</SubLabel>
-      <Tabs items={items} defaultValue="ringkasan" ariaLabel="Info project" />
-      <SubLabel>Pill variant</SubLabel>
-      <Tabs
-        items={items}
-        defaultValue="ringkasan"
-        variant="pill"
-        ariaLabel="Info project (pill)"
-      />
-    </div>
-  );
-}
-
-type Member = { id: number; nama: string; peran: string; status: string };
-
-const members: Member[] = [
-  { id: 1, nama: "Andi Pratama", peran: "Admin", status: "Aktif" },
-  { id: 2, nama: "Budi Santoso", peran: "Editor", status: "Aktif" },
-  { id: 3, nama: "Citra Dewi", peran: "Viewer", status: "Nonaktif" },
-];
-
-const memberColumns: TableColumn<Member>[] = [
-  { key: "nama", header: "Nama" },
-  { key: "peran", header: "Peran" },
-  {
-    key: "status",
-    header: "Status",
-    align: "right",
-    render: (row) => <Badge color={row.status === "Aktif" ? "success" : "neutral"}>{row.status}</Badge>,
-  },
-];
-
-function TableSection() {
-  return (
-    <div style={{ ...columnStyle, maxWidth: 560 }}>
-      <SubLabel>Striped + caption</SubLabel>
-      <Table
-        columns={memberColumns}
-        data={members}
-        rowKey={(row) => String(row.id)}
-        caption="Daftar anggota tim"
-        striped
-      />
-      <SubLabel>Empty state</SubLabel>
-      <Table
-        columns={memberColumns}
-        data={[]}
-        rowKey={() => ""}
-        emptyText="Belum ada anggota"
-      />
-    </div>
-  );
-}
-
-function PaginationSection() {
-  const [page, setPage] = useState(2);
-  return (
-    <div style={rowStyle}>
-      <Pagination page={page} pageCount={12} onChange={setPage} />
-      <Typography variant="caption" color="neutral">
-        Halaman {page} dari 12
-      </Typography>
-    </div>
-  );
-}
-
-function PlaygroundContent({
-  themeName,
-  onThemeChange,
-}: {
-  themeName: ThemeName;
-  onThemeChange: (name: ThemeName) => void;
-}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [search, setSearch] = useState("");
-  const [plan, setPlan] = useState("pro");
-  const [billing, setBilling] = useState("monthly");
-  const [notifications, setNotifications] = useState(true);
-  const [agreed, setAgreed] = useState(false);
-  const { mode, setMode } = useTheme();
-
-  // Persist mode light/dark ke localStorage + sinkron color-scheme di <html>
-  // (body/overscroll/scrollbar mengikuti mode, bukan putih #f8f9fa di dark).
-  useEffect(() => {
-    try {
-      localStorage.setItem(MODE_STORAGE_KEY, mode);
-    } catch {
-      // abai kalau storage tidak tersedia
-    }
-    document.documentElement.style.colorScheme = mode;
-    // <html> perlu data-theme supaya blok statis media-query prefers-color-scheme
-    // tidak menyalakan token gelap di OS gelap saat mode light (neutral-0 dsb
-    // diwarisi anak dan menolak canvas wrapper).
-    document.documentElement.dataset.theme = mode;
-  }, [mode]);
-
-  return (
-    <div
-      style={{
-        maxWidth: 880,
-        margin: "0 auto",
-        padding: "64px 24px 128px",
-      }}
-    >
-      {/* Header */}
-      <header>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: spacing[4],
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: spacing[4] }}>
-            <div
-              aria-hidden
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: 10,
-                backgroundColor: "var(--nemo-primary-fill, #1F5BB8)",
-                color: "var(--nemo-neutral-0, #FFFFFF)",
-                fontWeight: 700,
-                fontSize: 22,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              N
-            </div>
-            <div>
-              <div>
-                <Typography variant="h1" color="neutral">
-                  Nemo UI
-                </Typography>
-              </div>
-              <div>
-
-                <Typography variant="body" color="neutral">
-                  Komponen React yang konsisten, ringan, dan siap untuk dark mode.
-                </Typography>
-              </div>
-            </div>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: spacing[2] }}>
-            {themeNames.map((name) => (
-              <Button
-                key={name}
-                variant="outlined"
-                size="sm"
-                aria-pressed={themeName === name}
-                title={themeLabels[name]}
-                onClick={() => onThemeChange(name)}
-                style={
-                  themeName === name
-                    ? {
-                      borderColor: "var(--nemo-primary-500, #4285F4)",
-                      color: "var(--nemo-primary-500, #4285F4)",
-                    }
-                    : undefined
-                }
-              >
-                <span
-                  aria-hidden
-                  style={{
-                    display: "inline-block",
-                    width: 12,
-                    height: 12,
-                    borderRadius: "50%",
-                    background: primaryColor(name),
-                  }}
-                />
-              </Button>
-            ))}
-          </div>
-          <Button
-            variant="outlined"
-            onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-          >
-            {mode === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
-          </Button>
-        </div>
-        <Divider style={{ marginTop: spacing[6] }} />
-        <TableOfContents />
-      </header>
-
-      {/* ===== Foundations ===== */}
-      <GroupTitle>Foundations</GroupTitle>
-
-      {/* Typography */}
-      <Section title="Typography" id="typography">
-        <SubLabel>Heading</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
-          <Typography variant="h1" color="neutral">Heading 1</Typography>
-          <Typography variant="h2" color="neutral">Heading 2</Typography>
-          <Typography variant="h3" color="neutral">Heading 3</Typography>
-          <Typography variant="h4" color="neutral">Heading 4</Typography>
-        </div>
-
-        <SubLabel>Body & warna</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
-          <Typography variant="body" color="neutral">Body text — Default</Typography>
-          <Typography variant="body" color="primary">Body text — Primary</Typography>
-          <Typography variant="body" color="success">Body text — Success</Typography>
-          <Typography variant="body" color="warning">Body text — Warning</Typography>
-          <Typography variant="body" color="error">Body text — Error</Typography>
-          <Typography variant="body" color="info">Body text — Info</Typography>
-        </div>
-
-        <SubLabel>Lainnya</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[2], marginBottom: spacing[5] }}>
-          <Typography variant="caption" color="neutral">Caption text</Typography>
-          <Typography variant="overline" color="neutral">Overline text</Typography>
-          <Typography variant="button" color="neutral">Button text</Typography>
-          <Typography variant="body" color="neutral" align="center">Center aligned</Typography>
-          <Typography as="span" variant="body" color="primary">Semantic span element</Typography>
-        </div>
-      </Section>
-
-      {/* ===== Actions ===== */}
-      <GroupTitle>Actions</GroupTitle>
-
-      {/* Button */}
-      <Section title="Button" id="button">
-        <SubLabel>Filled (default)</SubLabel>
-        <div style={rowStyle}>
-          <Button>Primary</Button>
-          <Button color="secondary">Secondary</Button>
-          <Button color="success">Success</Button>
-          <Button color="warning">Warning</Button>
-          <Button color="error">Error</Button>
-        </div>
-
-        <SubLabel>Outlined</SubLabel>
-        <div style={rowStyle}>
-          <Button variant="outlined">Primary</Button>
-          <Button variant="outlined" color="secondary">Secondary</Button>
-          <Button variant="outlined" color="success">Success</Button>
-          <Button variant="outlined" color="warning">Warning</Button>
-          <Button variant="outlined" color="error">Error</Button>
-        </div>
-
-        <SubLabel>Text</SubLabel>
-        <div style={rowStyle}>
-          <Button variant="text">Primary</Button>
-          <Button variant="text" color="secondary">Secondary</Button>
-          <Button variant="text" color="success">Success</Button>
-          <Button variant="text" color="warning">Warning</Button>
-          <Button variant="text" color="error">Error</Button>
-        </div>
-
-        <SubLabel>Ukuran & disabled</SubLabel>
-        <div style={rowStyle}>
-          <Button size="sm">Small</Button>
-          <Button size="md">Medium</Button>
-          <Button size="lg">Large</Button>
-          <Button disabled>Disabled</Button>
-          <Button variant="outlined" disabled>Outlined Disabled</Button>
-          <Button variant="text" disabled>Text Disabled</Button>
-        </div>
-      </Section>
-
-      {/* ===== Forms ===== */}
-      <GroupTitle>Forms</GroupTitle>
-
-      {/* Input */}
-      <Section title="Input" id="input">
-        <SubLabel>Variant</SubLabel>
-        <div style={columnStyle}>
-          <Input label="Email" placeholder="you@example.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input label="Password" placeholder="Enter password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} helperText="Minimal 8 karakter" />
-          <Input label="Search" placeholder="Search..." leftIcon={
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          } value={search} onChange={(e) => setSearch(e.target.value)} />
-        </div>
-
-        <SubLabel>Filled & ghost</SubLabel>
-        <div style={columnStyle}>
-          <Input label="Filled Email" placeholder="you@example.com" type="email" variant="filled" />
-          <Input label="Ghost Password" placeholder="Enter password" type="password" variant="ghost" helperText="Minimal 8 karakter" />
-        </div>
-
-        <SubLabel>Status</SubLabel>
-        <div style={columnStyle}>
-          <Input label="Error state" placeholder="Error" error="Format tidak valid" />
-          <Input label="Warning state" placeholder="Warning" warning="Perhatian: data tidak lengkap" />
-          <Input label="Success state" placeholder="Success" success="Data valid" defaultValue="valid@email.com" />
-        </div>
-
-        <SubLabel>Ukuran</SubLabel>
-        <div style={columnStyle}>
-          <Input label="Small" placeholder="Small size" size="sm" />
-          <Input label="Medium" placeholder="Medium size" size="md" />
-          <Input label="Large" placeholder="Large size" size="lg" />
-        </div>
-
-        <SubLabel>Actionable, prefix & float</SubLabel>
-        <div style={columnStyle}>
-          <Input
-            label="Password Toggle"
-            type="password"
-            placeholder="Enter password"
-            rightIcon={
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            }
-          />
-          <Input label="With Prefix" placeholder="000" prefix="$" />
-          <Input label="With Suffix" placeholder="Search..." suffix={<span>@domain.com</span>} />
-          <Input
-            label="Clearable"
-            placeholder="Type and clear"
-            clearable
-            defaultValue="Try clearing me"
-          />
-          <Input label="Floating Label" placeholder=" " />
-          <Input label="Full Width Input" placeholder="Full width" fullWidth />
-        </div>
-
-        <SubLabel>Disabled, required</SubLabel>
-        <div style={columnStyle}>
-          <Input label="Disabled Input" defaultValue="Cannot edit" disabled />
-          <Input label="Required Field" placeholder="Required" required />
-        </div>
-      </Section>
-
-      {/* Textarea */}
-      <Section title="Textarea" id="textarea">
-        <SubLabel>Variant</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 560 }}>
-          <Textarea label="Outlined (default)" placeholder="Enter your message..." rows={3} />
-          <Textarea label="Filled" placeholder="Enter your message..." variant="filled" rows={3} />
-          <Textarea label="Ghost" placeholder="Enter your message..." variant="ghost" rows={3} />
-        </div>
-
-        <SubLabel>Status, count & sizes</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 560 }}>
-          <Textarea label="Max length" placeholder="Max 100 characters" maxLength={100} showCount rows={3} />
-          <Textarea label="Error" placeholder="Error state" error="Pesan terlalu pendek" rows={3} />
-          <Textarea label="Success" placeholder="Success state" success="Pesan valid" rows={3} />
-          <Textarea label="Small" placeholder="Small size" size="sm" rows={3} />
-        </div>
-
-        <SubLabel>Custom</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 560 }}>
-          <Textarea label="Clearable" placeholder="Type and clear" clearable defaultValue="Try clearing me" rows={3} />
-          <Textarea label="Floating Label" placeholder=" " rows={3} />
-          <Textarea label="With Icon" placeholder="Add a note..." rows={3} />
-          <Textarea label="Disabled" defaultValue="Cannot edit" disabled rows={3} />
-        </div>
-      </Section>
-
-      {/* Select */}
-      <Section title="Select" id="select">
-        <SubLabel>Variant & status</SubLabel>
-        <div style={columnStyle}>
-          <Select label="Paket (controlled)" options={planOptions} value={plan} onChange={setPlan} />
-          <Select label="Paket Filled" options={planOptions} variant="filled" defaultValue="starter" />
-          <Select label="Paket Ghost" options={planOptions} variant="ghost" placeholder="Pilih paket..." />
-          <Select label="Search & clear" options={planOptions} defaultValue="pro" searchable clearable helperText="Ketik untuk mencari" />
-          <Select label="Error state" options={planOptions} status="error" error="Paket wajib dipilih" />
-          <Select label="Success state" options={planOptions} status="success" success="Paket valid" defaultValue="pro" />
-        </div>
-
-        <SubLabel>Ukuran & disabled</SubLabel>
-        <div style={columnStyle}>
-          <Select label="Small" options={planOptions} size="sm" defaultValue="starter" />
-          <Select label="Medium" options={planOptions} size="md" defaultValue="pro" />
-          <Select label="Large" options={planOptions} size="lg" defaultValue="pro" />
-          <Select label="Disabled" options={planOptions} defaultValue="pro" disabled />
-        </div>
-      </Section>
-
-      {/* Checkbox */}
-      <Section title="Checkbox" id="checkbox">
-        <div style={columnStyle}>
-          <Checkbox label="Terima syarat & ketentuan" checked={agreed} onChange={(e: ChangeEvent<HTMLInputElement>) => setAgreed(e.target.checked)} />
-          <Checkbox label="Berlangganan newsletter" defaultChecked />
-          <Checkbox label="Pilih semua" indeterminate />
-          <Checkbox label="Ceklis & disabled" defaultChecked disabled />
-          <Checkbox label="Error" error="Wajib dicentang" />
-        </div>
-        <SubLabel>Warna</SubLabel>
-        <div style={rowStyle}>
-          <Checkbox label="Primary" color="primary" defaultChecked />
-          <Checkbox label="Success" color="success" defaultChecked />
-          <Checkbox label="Warning" color="warning" defaultChecked />
-          <Checkbox label="Error" color="error" defaultChecked />
-          <Checkbox label="Neutral" color="neutral" defaultChecked />
-        </div>
-      </Section>
-
-      {/* Radio */}
-      <Section title="Radio" id="radio">
-        <SubLabel>RadioGroup vertikal (controlled)</SubLabel>
-        <div style={{ marginBottom: spacing[5] }}>
-          <RadioGroup name="play-rg" label="Mode billing" value={billing} onChange={setBilling}>
-            <Radio value="monthly" label="Bulanan" />
-            <Radio value="yearly" label="Tahunan" />
-            <Radio value="custom" label="Kustom" />
-          </RadioGroup>
-        </div>
-
-        <SubLabel>Horizontal, disabled & error</SubLabel>
-        <div style={{ display: "flex", flexDirection: "column", gap: spacing[5], marginBottom: spacing[5] }}>
-          <RadioGroup name="rg-orient" label="Orientasi" orientation="horizontal" defaultValue="landscape">
-            <Radio value="landscape" label="Lanskap" />
-            <Radio value="portrait" label="Potret" />
-          </RadioGroup>
-          <RadioGroup name="rg-disabled" label="Terkunci" disabled defaultValue="auto">
-            <Radio value="auto" label="Otomatis" />
-            <Radio value="manual" label="Manual" />
-          </RadioGroup>
-          <RadioGroup name="rg-error" label="Persetujuan" required error="Harus memilih salah satu">
-            <Radio value="ya" label="Ya" />
-            <Radio value="tidak" label="Tidak" />
-          </RadioGroup>
-        </div>
-      </Section>
-
-      {/* Switch */}
-      <Section title="Switch" id="switch">
-        <SubLabel>Pengaturan</SubLabel>
-        <div style={columnStyle}>
-          <Switch label="Aktifkan notifikasi" checked={notifications} onChange={(e: ChangeEvent<HTMLInputElement>) => setNotifications(e.target.checked)} />
-          <Switch label="Mode gelap otomatis" defaultChecked helperText="Mengikuti pengaturan perangkat" />
-          <Switch label="Hemat baterai" color="success" />
-          <Switch label="Terkunci (disabled)" disabled />
-        </div>
-        <SubLabel>Ukuran & warna</SubLabel>
-        <div style={rowStyle}>
-          <Switch size="sm" label="Small" defaultChecked />
-          <Switch size="md" label="Medium" defaultChecked />
-          <Switch color="success" label="Success" defaultChecked />
-        </div>
-      </Section>
-
-      {/* FormField */}
-      <Section title="FormField" id="form-field">
-        <SubLabel>Vertikal</SubLabel>
-        <div style={columnStyle}>
-          <FormField label="Nama lengkap" htmlFor="play-nama" required width="full">
-            <Input id="play-nama" placeholder="Nama lengkap" fullWidth />
-          </FormField>
-          <FormField label="Email" htmlFor="play-email" width="full" helperText="Dipakai untuk login.">
-            <Input id="play-email" type="email" placeholder="you@example.com" fullWidth />
-          </FormField>
-          <FormField label="Paket" htmlFor="play-plan-f" width="full" error="Wajib memilih paket">
-            <Select id="play-plan-f" options={planOptions} status="error" fullWidth />
-          </FormField>
-        </div>
-
-        <SubLabel>Horizontal</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 560 }}>
-          <FormField label="Nama lengkap" htmlFor="playh-nama" layout="horizontal" width="full">
-            <Input id="playh-nama" placeholder="Nama lengkap" fullWidth />
-          </FormField>
-          <FormField label="Paket" htmlFor="playh-plan" layout="horizontal" width="full">
-            <Select id="playh-plan" options={planOptions} defaultValue="pro" fullWidth />
-          </FormField>
-        </div>
-      </Section>
-
-      {/* ===== Feedback ===== */}
-      <GroupTitle>Feedback</GroupTitle>
-
-      {/* Alert */}
-      <Section title="Alert" id="alert">
-        <SubLabel>Surface (default)</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 560 }}>
-          <Alert tone="success" title="Berhasil disimpan">Perubahan terakhir sudah tersimpan.</Alert>
-          <Alert tone="info" title="Info">Pembaruan baru tersedia.</Alert>
-          <Alert tone="warning" title="Perhatian" closable>Kuota kamu hampir habis.</Alert>
-          <Alert tone="error" title="Gagal" closable>Terjadi kesalahan saat menyimpan.</Alert>
-        </div>
-        <SubLabel>Filled</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 560 }}>
-          <Alert tone="success" variant="filled" title="Berhasil disimpan">Perubahan tersimpan.</Alert>
-          <Alert tone="error" variant="filled" title="Terjadi kesalahan" action={<Button size="sm" variant="text" style={{ color: "var(--nemo-neutral-0, #FFFFFF)" }}>Coba lagi</Button>}>Gagal menyimpan data.</Alert>
-        </div>
-      </Section>
-
-      {/* Toast */}
-      <Section title="Toast" id="toast">
-        <ToastSection />
-      </Section>
-
-      {/* Skeleton */}
-      <Section title="Skeleton" id="skeleton">
-        <SubLabel>Text & multiple lines</SubLabel>
-        <div style={columnStyle}>
-          <Skeleton />
-          <Skeleton lines={3} animation="wave" />
-        </div>
-        <SubLabel>Circle & rect</SubLabel>
-        <div style={rowStyle}>
-          <Skeleton variant="circle" width={48} height={48} />
-          <Skeleton variant="rect" width={160} height={56} animation="wave" />
-          <Skeleton variant="rect" width={200} height={80} animation="wave" />
-        </div>
-      </Section>
-
-      {/* Spinner */}
-      <Section title="Spinner" id="spinner">
-        <SubLabel>Ukuran</SubLabel>
-        <div style={rowStyle}>
-          <Spinner size="sm" />
-          <Spinner size="md" />
-          <Spinner size="lg" />
-        </div>
-        <SubLabel>Warna</SubLabel>
-        <div style={rowStyle}>
-          <Spinner color="primary" />
-          <Spinner color="success" />
-          <Spinner color="warning" />
-          <Spinner color="error" />
-          <Spinner color="neutral" />
-        </div>
-      </Section>
-
-      {/* Progress */}
-      <Section title="Progress" id="progress">
-        <SubLabel>Line</SubLabel>
-        <div style={{ ...columnStyle, maxWidth: 480 }}>
-          <Progress value={45} />
-          <Progress value={72} showValue color="success" />
-          <Progress value={100} showValue color="error" />
-          <Progress indeterminate />
-        </div>
-        <SubLabel>Circle</SubLabel>
-        <div style={rowStyle}>
-          <Progress variant="circle" value={68} showValue />
-          <Progress variant="circle" value={35} color="warning" showValue />
-          <Progress variant="circle" indeterminate color="success" />
-        </div>
-      </Section>
-
-      {/* ===== Navigation ===== */}
-      <GroupTitle>Navigation</GroupTitle>
-
-      {/* Tabs */}
-      <Section title="Tabs" id="tabs">
-        <TabsSection />
-      </Section>
-
-      {/* Pagination */}
-      <Section title="Pagination" id="pagination">
-        <PaginationSection />
-      </Section>
-
-      {/* ===== Overlays ===== */}
-      <GroupTitle>Overlays</GroupTitle>
-
-      {/* Overlay */}
-      <Section title="Overlay" id="overlay">
-        <OverlaySection />
-      </Section>
-
-      {/* Tooltip */}
-      <Section title="Tooltip" id="tooltip">
-        <TooltipSection />
-      </Section>
-
-      {/* Popover */}
-      <Section title="Popover" id="popover">
-        <PopoverSection />
-      </Section>
-
-      {/* Menu */}
-      <Section title="Menu" id="menu">
-        <MenuSection />
-      </Section>
-
-      {/* ===== Data Display ===== */}
-      <GroupTitle>Data Display</GroupTitle>
-
-      {/* Table */}
-      <Section title="Table" id="table">
-        <TableSection />
-      </Section>
-
-      {/* Card */}
-      <Section title="Card" id="card">
-        <div style={{ display: "flex", gap: spacing[4], flexWrap: "wrap" }}>
-          <Card style={{ maxWidth: 320 }}>
-            <CardHeader
-              title="Pengaturan Akun"
-              subtitle="Kelola profil dan keamanan akun"
-              action={<Badge color="success">Aktif</Badge>}
-            />
-            <CardBody>
-              Info akun sudah diperbarui. Pastikan email yang terdaftar benar
-              supaya notifikasi penting tetap sampai.
-            </CardBody>
-            <CardFooter>
-              <Button size="sm">Simpan</Button>
-              <Button size="sm" variant="text">Batal</Button>
-            </CardFooter>
-          </Card>
-
-          <Card variant="outlined" style={{ maxWidth: 320 }}>
-            <CardHeader title="Proyek" subtitle="Daftar proyek aktif" />
-            <CardBody>
-              <Stack direction="column" spacing={3}>
-                <span>Nemo UI — in progress</span>
-                <span>Playground — done</span>
-                <span>Storybook — done</span>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          <Card variant="filled" style={{ maxWidth: 320 }}>
-            <CardHeader title="Statistik" subtitle="Ringkasan mingguan" />
-            <CardBody>
-              <Stack direction="column" spacing={2}>
-                <span>Komponen: 27</span>
-                <span>Tests: 274</span>
-                <span>Stories: 26</span>
-              </Stack>
-            </CardBody>
-          </Card>
-        </div>
-      </Section>
-
-      {/* Badge */}
-      <Section title="Badge" id="badge">
-        <div style={rowStyle}>
-          <Badge>Primary</Badge>
-          <Badge color="secondary">Secondary</Badge>
-          <Badge color="success">Success</Badge>
-          <Badge color="warning">Warning</Badge>
-          <Badge color="error">Error</Badge>
-          <Badge color="neutral">Neutral</Badge>
-          <Badge variant="outlined">Outlined</Badge>
-          <Badge variant="outlined" color="success">Outlined Success</Badge>
-          <Badge variant="dot" color="error" />
-          <Badge size="sm" color="success">Small</Badge>
-        </div>
-      </Section>
-
-      {/* Avatar */}
-      <Section title="Avatar" id="avatar">
-        <div style={rowStyle}>
-          <Avatar name="Andi Pratama" color="primary" />
-          <Avatar name="Budi Santoso" color="success" />
-          <Avatar name="Citra Dewi" color="warning" />
-          <Avatar name="Dwi Lestari" size="lg" color="error" />
-          <Avatar
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop"
-            alt="Foto profil"
-          />
-          <Avatar shape="square" name="Nemo UI" size="lg" />
-        </div>
-
-        <SubLabel>AvatarGroup (max 3)</SubLabel>
-        <AvatarGroup max={3}>
-          <Avatar name="Andi Pratama" color="primary" />
-          <Avatar name="Budi Santoso" color="success" />
-          <Avatar name="Citra Dewi" color="warning" />
-          <Avatar name="Dwi Lestari" color="error" />
-          <Avatar name="Eko Prasetyo" color="neutral" />
-        </AvatarGroup>
-      </Section>
-
-      {/* Divider & Stack */}
-      <Section title="Divider & Stack" id="divider-stack">
-        <SubLabel>Stack vertikal dengan divider</SubLabel>
-        <Stack direction="column" spacing={3} divider={<Divider />} style={{ maxWidth: 420, marginBottom: spacing[5] }}>
-          <span>Baris pertama</span>
-          <span>Baris kedua</span>
-          <span>Baris ketiga</span>
-        </Stack>
-
-        <SubLabel>Stack horizontal</SubLabel>
-        <Stack direction="row" spacing={3} wrap style={{ marginBottom: spacing[5] }}>
-          <Badge color="primary">Primary</Badge>
-          <Badge color="success">Success</Badge>
-          <Badge color="warning">Warning</Badge>
-        </Stack>
-
-        <SubLabel>Divider vertikal</SubLabel>
-        <div style={{ display: "flex", alignItems: "center", height: 48, gap: spacing[3] }}>
-          <span>Kiri</span>
-          <Divider orientation="vertical" />
-          <span>Kanan</span>
-        </div>
-      </Section>
-
-      {/* ===== Examples ===== */}
-      <GroupTitle>Examples</GroupTitle>
-
-      {/* Form Example */}
-      <Section title="Form Pendaftaran" id="form-pendaftaran">
-        <Card style={{ maxWidth: 480 }}>
-          <CardHeader
-            title="Buat Akun"
-            subtitle="Mulai gratis, tanpa kartu kredit"
-            action={<Badge color="primary">v0.1</Badge>}
-          />
-          <CardBody>
-            <Stack direction="column" spacing={spacing[4]}>
-              <FormField label="Nama lengkap" htmlFor="reg-nama" required width="full">
-                <Input id="reg-nama" placeholder="Nama lengkap" fullWidth />
-              </FormField>
-              <FormField label="Email" htmlFor="reg-email" required width="full">
-                <Input id="reg-email" type="email" placeholder="you@example.com" fullWidth />
-              </FormField>
-              <FormField label="Password" htmlFor="reg-pass" required width="full" helperText="Minimal 8 karakter">
-                <Input id="reg-pass" type="password" placeholder="Enter password" fullWidth />
-              </FormField>
-              <FormField label="Paket" htmlFor="reg-plan" required width="full">
-                <Select id="reg-plan" options={planOptions} placeholder="Pilih paket..." value={plan} onChange={setPlan} fullWidth />
-              </FormField>
-              <FormField label="Mode billing" width="full">
-                <RadioGroup name="reg-billing" value={billing} onChange={setBilling}>
-                  <Radio value="monthly" label="Bulanan" />
-                  <Radio value="yearly" label="Tahunan" />
-                </RadioGroup>
-              </FormField>
-              <Checkbox
-                label="Saya menyetujui syarat & ketentuan"
-                checked={agreed}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setAgreed(e.target.checked)}
-                error={agreed ? undefined : "Wajib menyetujui syarat sebelum mendaftar"}
-              />
-              <Button style={{ width: "100%" }}>Daftar</Button>
-              <Divider />
-              <Typography variant="caption" color="neutral" align="center">
-                Sudah punya akun?{" "}
-                <a href="#" style={{ color: "var(--nemo-primary-text, #1967D2)" }}>
-                  Masuk di sini
-                </a>
-              </Typography>
-            </Stack>
-          </CardBody>
-          <CardFooter>
-            <Badge variant="outlined" color="success">Semua sistem normal</Badge>
-          </CardFooter>
-        </Card>
-      </Section>
-    </div>
-  );
-}
+import { useEffect, useState, type CSSProperties } from "react";
+import { SiteFooter } from "./components/SiteFooter";
+import { SiteHeader } from "./components/SiteHeader";
+import { getComponentDoc } from "./docs";
+import { ComponentPage } from "./pages/ComponentPage";
+import {
+  ComponentsIndex,
+  DocsOverview,
+  GettingStarted,
+  Theming,
+} from "./pages/Docs";
+import { Home } from "./pages/Home";
+import { Playground } from "./pages/Playground";
+import { Link, useRoute } from "./router";
 
 const THEME_STORAGE_KEY = "nemo-playground-theme";
 const MODE_STORAGE_KEY = "nemo-playground-mode";
@@ -1198,16 +47,100 @@ function loadStoredMode(): "light" | "dark" {
   return "light";
 }
 
+function NotFound() {
+  return (
+    <div className="site-container" style={{ padding: "96px 24px 128px" }}>
+      <p className="site-eyebrow">404</p>
+      <h1 style={{ fontSize: 40, letterSpacing: "-0.03em", margin: "12px 0" }}>
+        Halaman tidak ditemukan
+      </h1>
+      <p className="site-lead" style={{ marginBottom: 28 }}>
+        Alamat yang kamu buka tidak ada di dokumentasi ini. Coba mulai dari
+        halaman utama atau daftar komponen.
+      </p>
+      <div className="site-cta-row">
+        <Link to="/" className="site-button">
+          Kembali ke beranda
+        </Link>
+        <Link to="/docs/components" className="site-button site-button--outlined">
+          Lihat komponen
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function renderRoute(path: string) {
+  if (path === "/") return <Home />;
+  if (path === "/playground") return <Playground />;
+  if (path === "/docs") return <DocsOverview />;
+  if (path === "/docs/getting-started") return <GettingStarted />;
+  if (path === "/docs/theming") return <Theming />;
+  if (path === "/docs/components") return <ComponentsIndex />;
+
+  if (path.startsWith("/docs/components/")) {
+    const slug = path.slice("/docs/components/".length);
+    const doc = getComponentDoc(slug);
+    if (doc) return <ComponentPage doc={doc} />;
+  }
+
+  return <NotFound />;
+}
+
+function Site({
+  themeName,
+  onThemeChange,
+}: {
+  themeName: ThemeName;
+  onThemeChange: (name: ThemeName) => void;
+}) {
+  const path = useRoute();
+  const { mode } = useTheme();
+
+  // Sinkronkan color-scheme <html> supaya scrollbar & overscroll ikut mode,
+  // dan tulis data-theme agar media query prefers-color-scheme di CSS tidak
+  // menyalakan token gelap saat mode terang.
+  useEffect(() => {
+    try {
+      localStorage.setItem(MODE_STORAGE_KEY, mode);
+    } catch {
+      // abaikan bila storage tidak tersedia
+    }
+    document.documentElement.style.colorScheme = mode;
+    document.documentElement.dataset.theme = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    const slug = path.startsWith("/docs/components/")
+      ? path.slice("/docs/components/".length)
+      : "";
+    const doc = slug ? getComponentDoc(slug) : undefined;
+    document.title = doc ? `${doc.name} — Nemo UI` : "Nemo UI — Dokumentasi";
+  }, [path]);
+
+  return (
+    <div className="site-shell">
+      <a href="#main" className="site-skip">
+        Lompat ke konten
+      </a>
+      <SiteHeader themeName={themeName} onThemeChange={onThemeChange} />
+      <main id="main" className="site-main">
+        {renderRoute(path)}
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+
 function App() {
   const [themeName, setThemeName] = useState<ThemeName>(loadStoredTheme);
   const surfaces = themeSurfaces(themeName);
 
-  // Persist pilihan theme ke localStorage.
   useEffect(() => {
     try {
       localStorage.setItem(THEME_STORAGE_KEY, themeName);
     } catch {
-      // abai kalau storage tidak tersedia
+      // abaikan bila storage tidak tersedia
     }
   }, [themeName]);
 
@@ -1227,7 +160,7 @@ function App() {
       }
     >
       <ToastProvider>
-        <PlaygroundContent themeName={themeName} onThemeChange={setThemeName} />
+        <Site themeName={themeName} onThemeChange={setThemeName} />
       </ToastProvider>
     </ThemeProvider>
   );

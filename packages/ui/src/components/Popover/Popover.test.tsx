@@ -124,4 +124,18 @@ describe("Popover", () => {
       vi.restoreAllMocks();
     }
   });
+
+  it("does not nest a button when the trigger is already a button", () => {
+    const { container } = render(
+      <Popover trigger={<Button>Atur filter</Button>} ariaLabel="Konten popover">
+        Isi
+      </Popover>
+    );
+    const trigger = screen.getByRole("button", { name: "Atur filter" });
+    expect(container.querySelector("button button")).toBeNull();
+
+    fireEvent.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(panelAria()).toBeDefined();
+  });
 });

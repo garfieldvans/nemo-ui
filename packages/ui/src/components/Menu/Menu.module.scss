@@ -17,6 +17,13 @@ $menu-z-index: 1400; // zIndex.popover — selapis dengan popover, di bawah tool
   }
 }
 
+// Host untuk trigger yang sudah berupa elemen interaktif — hanya mengatur
+// layout, tanpa menambah tombol baru.
+.trigger-host {
+  display: inline-flex;
+  align-items: center;
+}
+
 .panel {
   position: fixed;
   z-index: $menu-z-index;

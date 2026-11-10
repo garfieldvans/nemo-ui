@@ -1,8 +1,11 @@
 import {
+  cloneElement,
+  isValidElement,
   useCallback,
   useLayoutEffect,
   useState,
   type CSSProperties,
+  type ReactElement,
 } from "react";
 import styles from "./Popover.module.scss";
 
@@ -101,18 +104,33 @@ export function Popover({
     ...style,
   };
 
+  const toggleOpen = () => setOpen(!isOpen);
+
+  // Trigger yang sudah berupa elemen (mis. <Button>) dirender apa adanya agar
+  // tidak menjadi <button> di dalam <button>. Host span hanya untuk posisi.
+  const triggerNode = isValidElement(trigger) ? (
+    <span ref={buttonRef} className={styles["trigger-host"]} onClick={toggleOpen}>
+      {cloneElement(trigger as ReactElement<Record<string, unknown>>, {
+        "aria-haspopup": "dialog",
+        "aria-expanded": isOpen,
+      })}
+    </span>
+  ) : (
+    <button
+      type="button"
+      ref={buttonRef}
+      aria-haspopup="dialog"
+      aria-expanded={isOpen}
+      onClick={toggleOpen}
+      className={styles.trigger}
+    >
+      {trigger}
+    </button>
+  );
+
   return (
     <>
-      <button
-        type="button"
-        ref={buttonRef}
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        onClick={() => setOpen(!isOpen)}
-        className={styles.trigger}
-      >
-        {trigger}
-      </button>
+      {triggerNode}
       {isOpen && (
         <Portal>
           <div
