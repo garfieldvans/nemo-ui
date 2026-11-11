@@ -165,6 +165,27 @@ describe("Menu", () => {
     expect(triggerButton).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByRole("menu", { name: "Menu aksi" })).toBeDefined();
   });
+
+  it("asChild renders the trigger element directly and keeps its handler", () => {
+    const onClick = vi.fn();
+    const { container } = render(
+      <Menu asChild trigger={<Button onClick={onClick}>Aksi</Button>} ariaLabel="Menu aksi">
+        <Menu.Item label="Ubah" />
+      </Menu>
+    );
+    const triggerButton = screen.getByRole("button", { name: "Aksi" });
+    expect(container.firstElementChild).toBe(triggerButton);
+    expect(triggerButton).toHaveAttribute("aria-haspopup", "menu");
+
+    fireEvent.click(triggerButton);
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(triggerButton).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("menu", { name: "Menu aksi" })).toBeDefined();
+
+    // Ref trigger terpasang ke elemen child → mousedown pada trigger bukan klik luar.
+    fireEvent.mouseDown(triggerButton);
+    expect(screen.getByRole("menu", { name: "Menu aksi" })).toBeDefined();
+  });
 });
 
 function listOfItems() {

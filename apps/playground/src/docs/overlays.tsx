@@ -43,6 +43,22 @@ function ModalDemo() {
   );
 }
 
+// Sengaja tidak meneruskan ref/props — contoh mode asChild={false} di Tooltip.
+function ReflessBadge({ children }: { children: string }) {
+  return (
+    <span
+      style={{
+        padding: "2px 8px",
+        border: "1px dashed currentColor",
+        borderRadius: 999,
+        cursor: "help",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
 function DrawerDemo() {
   const [placement, setPlacement] =
     useState<DrawerProps["placement"]>("right");
@@ -296,6 +312,23 @@ export const overlaysDocs: ComponentDoc[] = [
           </>
         ),
       },
+      {
+        id: "as-child",
+        title: "asChild",
+        code: `// Komponen ini hanya menerima children, tanpa ref/props
+function ReflessBadge({ children }) {
+  return <span className="badge">{children}</span>;
+}
+
+<Tooltip content="Tetap muncul tanpa meneruskan ref" asChild={false}>
+  <ReflessBadge>Beta</ReflessBadge>
+</Tooltip>`,
+        preview: (
+          <Tooltip content="Tetap muncul tanpa meneruskan ref" asChild={false}>
+            <ReflessBadge>Beta</ReflessBadge>
+          </Tooltip>
+        ),
+      },
     ],
     props: [
       {
@@ -306,7 +339,15 @@ export const overlaysDocs: ComponentDoc[] = [
       {
         name: "children",
         type: "ReactElement",
-        description: "Satu elemen trigger (button, link, span, dan sebagainya).",
+        description:
+          "Satu elemen trigger: button, link, span, dan sebagainya.",
+      },
+      {
+        name: "asChild",
+        type: "boolean",
+        default: "true",
+        description:
+          "Render trigger langsung tanpa wrapper (default). Set false untuk membungkusnya dalam span, mis. bila komponen trigger tidak meneruskan ref/props.",
       },
       {
         name: "placement",
@@ -377,12 +418,53 @@ export const overlaysDocs: ComponentDoc[] = [
           </Popover>
         ),
       },
+      {
+        id: "as-child",
+        title: "asChild",
+        code: `<Popover
+  asChild
+  trigger={
+    <a href="#filter" style={{ color: "inherit", textDecoration: "underline" }}>
+      Atur filter
+    </a>
+  }
+  ariaLabel="Panel filter"
+>
+  <p style={{ margin: 0 }}>Trigger berupa link — tidak ada tombol tambahan.</p>
+</Popover>`,
+        preview: (
+          <Popover
+            asChild
+            trigger={
+              <a
+                href="#filter"
+                style={{ color: "inherit", textDecoration: "underline" }}
+              >
+                Atur filter
+              </a>
+            }
+            ariaLabel="Panel filter (asChild)"
+          >
+            <p style={{ margin: 0 }}>
+              Trigger berupa link — tidak ada tombol tambahan.
+            </p>
+          </Popover>
+        ),
+      },
     ],
     props: [
       {
         name: "trigger",
         type: "ReactNode",
-        description: "Konten yang dirender di dalam tombol trigger.",
+        description:
+          "Konten trigger; string dirender sebagai tombol internal, elemen dirender apa adanya di dalam host tipis.",
+      },
+      {
+        name: "asChild",
+        type: "boolean",
+        default: "false",
+        description:
+          "Jadikan trigger sendiri sebagai elemen trigger tanpa wrapper; ref dan handler klik milik trigger tetap dipertahankan.",
       },
       {
         name: "children",

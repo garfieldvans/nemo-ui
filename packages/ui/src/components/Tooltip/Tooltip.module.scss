@@ -1,6 +1,13 @@
 $tooltip-z-index: 1500; // zIndex.tooltip
 $tooltip-arrow: 5px;
 
+// Host untuk mode asChild={false} — hanya membungkus trigger agar handler
+// hover/fokus bisa dipasang tanpa mengubah elemen child.
+.trigger-host {
+  display: inline-flex;
+  align-items: center;
+}
+
 .tooltip {
   position: fixed;
   z-index: $tooltip-z-index;

@@ -3,19 +3,24 @@ import {
   isValidElement,
   useCallback,
   useLayoutEffect,
+  useMemo,
   useState,
   type CSSProperties,
+  type MouseEvent as ReactMouseEvent,
   type ReactElement,
+  type Ref,
 } from "react";
 import styles from "./Popover.module.scss";
 
 import type { PopoverProps } from "./Popover.types";
 import { clsx } from "../../utils/clsx";
+import { composeRefs } from "../../utils/composeRefs";
 import { Portal } from "../internal/Portal";
 import { useFloating } from "../internal/useFloating";
 
 export function Popover({
   trigger,
+  asChild = false,
   children,
   open,
   onOpenChange,
@@ -106,9 +111,34 @@ export function Popover({
 
   const toggleOpen = () => setOpen(!isOpen);
 
+  // asChild: trigger itu sendiri yang menjadi elemen trigger (tanpa wrapper),
+  // dengan ref/handler digabung ke milik child.
+  const childTrigger =
+    asChild && isValidElement(trigger)
+      ? (trigger as ReactElement<Record<string, unknown>>)
+      : null;
+  const childOnClick = childTrigger?.props.onClick as
+    | ((event: ReactMouseEvent<HTMLElement>) => void)
+    | undefined;
+  const childRef = childTrigger?.props.ref as Ref<HTMLElement> | undefined;
+  const childTriggerRef = useMemo(
+    () => composeRefs(childRef, buttonRef),
+    [childRef, buttonRef]
+  );
+
   // Trigger yang sudah berupa elemen (mis. <Button>) dirender apa adanya agar
   // tidak menjadi <button> di dalam <button>. Host span hanya untuk posisi.
-  const triggerNode = isValidElement(trigger) ? (
+  const triggerNode = childTrigger ? (
+    cloneElement(childTrigger, {
+      ref: childTriggerRef,
+      "aria-haspopup": "dialog",
+      "aria-expanded": isOpen,
+      onClick: (event: ReactMouseEvent<HTMLElement>) => {
+        childOnClick?.(event);
+        if (!event.defaultPrevented) toggleOpen();
+      },
+    })
+  ) : isValidElement(trigger) ? (
     <span ref={buttonRef} className={styles["trigger-host"]} onClick={toggleOpen}>
       {cloneElement(trigger as ReactElement<Record<string, unknown>>, {
         "aria-haspopup": "dialog",

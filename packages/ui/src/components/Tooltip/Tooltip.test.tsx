@@ -75,6 +75,21 @@ describe("Tooltip", () => {
     expect(screen.getByRole("tooltip")).toBeDefined();
   });
 
+  it("asChild={false} wraps the trigger and leaves it unmodified", () => {
+    render(
+      <Tooltip content="Info" asChild={false} openDelay={0} closeDelay={0}>
+        <button type="button">Hover</button>
+      </Tooltip>
+    );
+    const trigger = screen.getByRole("button", { name: "Hover" });
+    const host = trigger.parentElement as HTMLElement;
+    expect(host.tagName).toBe("SPAN");
+    expect(trigger).not.toHaveAttribute("aria-describedby");
+
+    fireEvent.mouseEnter(host);
+    expect(screen.getByRole("tooltip")).toHaveTextContent("Info");
+  });
+
   it("sets data-placement on the tooltip", () => {
     render(
       <Tooltip content="Info" placement="right" openDelay={0} closeDelay={0}>

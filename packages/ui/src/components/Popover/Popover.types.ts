@@ -3,8 +3,14 @@ import type { CSSProperties, ReactNode } from "react";
 export type PopoverPlacement = "top" | "right" | "bottom" | "left";
 
 export interface PopoverProps {
-  /** Elemen ya di-render dalam trigger button. */
+  /** Elemen yang dirender sebagai trigger (string = tombol internal). */
   trigger: ReactNode;
+  /**
+   * Jadikan `trigger` sendiri sebagai elemen trigger: ref, aria, dan handler
+   * klik diteruskan langsung tanpa wrapper. `trigger` harus satu elemen React.
+   * Default false.
+   */
+  asChild?: boolean;
   /** Konten panel popover. */
   children: ReactNode;
   /** Controlled (tanpa ini = internal state). */

@@ -7,6 +7,14 @@ export interface TooltipProps {
   content: ReactNode;
   /** Elemen trigger tunggal (button/link/dll). */
   children: ReactElement;
+  /**
+   * Render `children` langsung sebagai trigger (default true) — setara
+   * `asChild` di Menu/Popover. Bila `false`, trigger dibungkus host `<span>`
+   * dan handler hover/fokus dipasang di host, sehingga tooltip tetap bekerja
+   * pada komponen yang tidak meneruskan ref/props (aria-describedby tidak
+   * ikut masuk ke child).
+   */
+  asChild?: boolean;
   /** Posisi default relatif terhadap trigger. Default "top". */
   placement?: TooltipPlacement;
   /** Delay muncul (ms). Default 100. */

@@ -6,16 +6,19 @@ import {
   useCallback,
   useId,
   useLayoutEffect,
+  useMemo,
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent as ReactMouseEvent,
   type ReactElement,
   type ReactNode,
+  type Ref,
 } from "react";
 import styles from "./Menu.module.scss";
 
 import type { MenuItemProps, MenuProps } from "./Menu.types";
 import { clsx } from "../../utils/clsx";
+import { composeRefs } from "../../utils/composeRefs";
 import { Portal } from "../internal/Portal";
 import { useFloating } from "../internal/useFloating";
 
@@ -116,6 +119,7 @@ function flattenChildren(children: ReactNode): ReactNode[] {
 // menjebak fokus di dalam panel sepenuhnya.
 function MenuImpl({
   trigger,
+  asChild = false,
   children,
   open,
   onOpenChange,
@@ -253,9 +257,34 @@ function MenuImpl({
     setOpen(!isOpen);
   };
 
+  // asChild: trigger itu sendiri yang menjadi elemen trigger (tanpa wrapper),
+  // dengan ref/handler digabung ke milik child.
+  const childTrigger =
+    asChild && isValidElement(trigger)
+      ? (trigger as ReactElement<Record<string, unknown>>)
+      : null;
+  const childOnClick = childTrigger?.props.onClick as
+    | ((event: ReactMouseEvent<HTMLElement>) => void)
+    | undefined;
+  const childRef = childTrigger?.props.ref as Ref<HTMLElement> | undefined;
+  const childTriggerRef = useMemo(
+    () => composeRefs(childRef, buttonRef),
+    [childRef, buttonRef]
+  );
+
   // Bila trigger sudah berupa elemen interaktif (mis. <Button>), jangan bungkus
   // lagi dengan <button> — cukup host tipis untuk pengukuran posisi.
-  const triggerNode = isValidElement(trigger) ? (
+  const triggerNode = childTrigger ? (
+    cloneElement(childTrigger, {
+      ref: childTriggerRef,
+      "aria-haspopup": "menu",
+      "aria-expanded": isOpen,
+      onClick: (event: ReactMouseEvent<HTMLElement>) => {
+        childOnClick?.(event);
+        if (!event.defaultPrevented) toggleOpen();
+      },
+    })
+  ) : isValidElement(trigger) ? (
     <span ref={buttonRef} className={styles["trigger-host"]} onClick={toggleOpen}>
       {cloneElement(trigger as ReactElement<Record<string, unknown>>, {
         "aria-haspopup": "menu",

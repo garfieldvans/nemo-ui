@@ -40,6 +40,7 @@ function mergeHandler(
 export function Tooltip({
   content,
   children,
+  asChild = true,
   placement = "top",
   openDelay = DEFAULT_OPEN_DELAY,
   closeDelay = DEFAULT_CLOSE_DELAY,
@@ -100,14 +101,25 @@ export function Tooltip({
   /* eslint-disable react-hooks/refs -- rule salah-positif: closure yang membaca
   ref timer hanya dijalankan saat event (bukan render), tapi rule hanya mengenal
   event prop di JSX, bukan handler hasil mergeHandler() pada anak yang di-clone. */
-  const trigger = cloneElement(children as ReactElement<Record<string, unknown>>, {
+  const triggerProps = {
     "aria-describedby": disabled ? undefined : tooltipId,
     ref: composeRefs<HTMLElement>(childRef, floating.triggerRef),
     onMouseEnter: mergeHandler(childProps.onMouseEnter, handleEnter),
     onMouseLeave: mergeHandler(childProps.onMouseLeave, handleLeave),
     onFocus: mergeHandler(childProps.onFocus, handleEnter),
     onBlur: mergeHandler(childProps.onBlur, handleLeave),
-  });
+  };
+
+  // asChild (default): trigger milik user dipakai apa adanya. Tanpa asChild,
+  // trigger dimasukkan ke host span agar tooltip tetap hidup pada komponen
+  // yang tidak meneruskan ref/props.
+  const trigger = asChild ? (
+    cloneElement(children as ReactElement<Record<string, unknown>>, triggerProps)
+  ) : (
+    <span className={styles["trigger-host"]} {...triggerProps}>
+      {children}
+    </span>
+  );
   /* eslint-enable react-hooks/refs */
 
   const { top: panelTop, left: panelLeft } = floating.position ?? {};

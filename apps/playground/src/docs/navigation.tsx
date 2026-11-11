@@ -266,12 +266,53 @@ export const navigationDocs: ComponentDoc[] = [
 </Menu>`,
         preview: <MenuDemo />,
       },
+      {
+        id: "as-child",
+        title: "asChild",
+        code: `<Menu
+  asChild
+  trigger={
+    <a href="#tampilan" style={{ color: "inherit", textDecoration: "underline" }}>
+      Tampilan web
+    </a>
+  }
+  ariaLabel="Pilih tampilan"
+>
+  <Menu.Item label="Tampilan daftar" />
+  <Menu.Item label="Tampilan board" />
+</Menu>`,
+        preview: (
+          <Menu
+            asChild
+            trigger={
+              <a
+                href="#tampilan"
+                style={{ color: "inherit", textDecoration: "underline" }}
+              >
+                Tampilan web
+              </a>
+            }
+            ariaLabel="Pilih tampilan (asChild)"
+          >
+            <Menu.Item label="Tampilan daftar" />
+            <Menu.Item label="Tampilan board" />
+          </Menu>
+        ),
+      },
     ],
     props: [
       {
         name: "trigger",
         type: "ReactNode",
-        description: "Konten tombol trigger.",
+        description:
+          "Konten trigger; string dirender sebagai tombol internal, elemen dirender apa adanya di dalam host tipis.",
+      },
+      {
+        name: "asChild",
+        type: "boolean",
+        default: "false",
+        description:
+          "Jadikan trigger sendiri sebagai elemen trigger tanpa wrapper; ref dan handler klik milik trigger tetap dipertahankan.",
       },
       {
         name: "children",

@@ -138,4 +138,25 @@ describe("Popover", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(panelAria()).toBeDefined();
   });
+
+  it("asChild renders the trigger element directly and keeps its handler", () => {
+    const onClick = vi.fn();
+    const { container } = render(
+      <Popover asChild trigger={<Button onClick={onClick}>Atur filter</Button>} ariaLabel="Konten popover">
+        Isi
+      </Popover>
+    );
+    const trigger = screen.getByRole("button", { name: "Atur filter" });
+    expect(container.firstElementChild).toBe(trigger);
+    expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(panelAria()).toBeDefined();
+
+    // Ref trigger terpasang ke elemen child → mousedown pada trigger bukan klik luar.
+    fireEvent.mouseDown(trigger);
+    expect(panelAria()).toBeDefined();
+  });
 });

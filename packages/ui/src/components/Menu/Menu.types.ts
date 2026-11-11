@@ -3,8 +3,14 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 export type MenuPlacement = "top" | "right" | "bottom" | "left";
 
 export interface MenuProps {
-  /** Elemen ya dirender dalam trigger button. */
+  /** Elemen yang dirender sebagai trigger (string = tombol internal). */
   trigger: ReactNode;
+  /**
+   * Jadikan `trigger` sendiri sebagai elemen trigger: ref, aria, dan handler
+   * klik diteruskan langsung tanpa wrapper. `trigger` harus satu elemen React.
+   * Default false.
+   */
+  asChild?: boolean;
   /** Isi list: `Menu.Item` / `Menu.Divider` / elemen lain. */
   children: ReactNode;
   /** Controlled (tanpa ini = internal state). */
