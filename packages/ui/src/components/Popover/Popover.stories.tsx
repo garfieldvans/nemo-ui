@@ -88,6 +88,33 @@ export const Placements: Story = {
   ),
 };
 
+export const AsChild: Story = {
+  render: (args) => (
+    <div style={{ padding: "64px 0" }}>
+      <Popover
+        {...args}
+        asChild
+        trigger={
+          <a
+            href="#popover-as-child"
+            style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
+          >
+            Atur filter (link)
+          </a>
+        }
+        ariaLabel="Panel filter dari link"
+      >
+        <Stack spacing={2}>
+          <p style={{ margin: 0, fontWeight: 600 }}>Filter daftar</p>
+          <p style={{ margin: 0, color: "var(--nemo-neutral-600)" }}>
+            Trigger di sini adalah link, bukan tombol tambahan.
+          </p>
+        </Stack>
+      </Popover>
+    </div>
+  ),
+};
+
 export const Controlled: Story = {
   render: () => (
     <ControlledDemo />

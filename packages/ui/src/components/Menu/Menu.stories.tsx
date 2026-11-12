@@ -78,6 +78,31 @@ export const Placements: Story = {
   ),
 };
 
+export const AsChild: Story = {
+  render: (args) => (
+    <div style={{ padding: "64px 0" }}>
+      <Menu
+        {...args}
+        asChild
+        trigger={
+          <a
+            href="#menu-as-child"
+            style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
+          >
+            Aksi (link)
+          </a>
+        }
+        ariaLabel="Menu dari link"
+      >
+        <Menu.Item label="Ubah" />
+        <Menu.Item label="Duplikat" />
+        <Menu.Divider />
+        <Menu.Item label="Hapus" disabled />
+      </Menu>
+    </div>
+  ),
+};
+
 function WithSelectedItemDemo() {
   const [active, setActive] = useState("web");
   const views = [

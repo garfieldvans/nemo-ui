@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { ToastProvider } from "./ToastProvider";
-import type { ToastProviderProps } from "./Toast.types";
 import { useToast } from "./useToast";
 import { Button } from "../Button/Button";
 
@@ -33,33 +32,35 @@ export default meta;
 
 type Story = StoryObj<typeof ToastProvider>;
 
-function ToastDemo({ placement }: { placement?: ToastProviderProps["placement"] }) {
+function ToastButtons() {
   const toast = useToast();
   return (
-    <ToastProvider placement={placement}>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <Button color="success" onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}>
-          Success
-        </Button>
-        <Button color="error" onClick={() => toast.error("Gagal", { message: "Coba lagi beberapa saat.", duration: 6000 })}>
-          Error
-        </Button>
-        <Button color="warning" onClick={() => toast.warning("Hampir penuh", { message: "Bersihkan penyimpanan." })}>
-          Warning
-        </Button>
-        <Button variant="outlined" onClick={() => toast.info("Info", { message: "Tersedia pembaruan baru." })}>
-          Info
-        </Button>
-        <Button variant="text" onClick={() => toast.dismissAll()}>
-          Dismiss all
-        </Button>
-      </div>
-    </ToastProvider>
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <Button color="success" onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}>
+        Success
+      </Button>
+      <Button color="error" onClick={() => toast.error("Gagal", { message: "Coba lagi beberapa saat.", duration: 6000 })}>
+        Error
+      </Button>
+      <Button color="warning" onClick={() => toast.warning("Hampir penuh", { message: "Bersihkan penyimpanan." })}>
+        Warning
+      </Button>
+      <Button variant="outlined" onClick={() => toast.info("Info", { message: "Tersedia pembaruan baru." })}>
+        Info
+      </Button>
+      <Button variant="text" onClick={() => toast.dismissAll()}>
+        Dismiss all
+      </Button>
+    </div>
   );
 }
 
 export const Default: Story = {
-  render: (args) => <ToastDemo placement={args.placement} />,
+  render: (args) => (
+    <ToastProvider placement={args.placement} maxToasts={args.maxToasts}>
+      <ToastButtons />
+    </ToastProvider>
+  ),
 };
 
 function DurationDemo() {
@@ -112,36 +113,49 @@ function ActionDemo() {
   );
 }
 
+const placements = [
+  "top-left",
+  "top-center",
+  "top-right",
+  "bottom-left",
+  "bottom-center",
+  "bottom-right",
+] as const;
+
+// Satu provider per posisi: tiap provider punya viewport sendiri, jadi toast
+// benar-benar muncul di sudut yang dipilih (bukan satu viewport default).
 export const Placements: Story = {
   render: () => (
-    <ToastProvider>
-      <PlacementGrid />
-    </ToastProvider>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+        gap: 12,
+      }}
+    >
+      {placements.map((p) => (
+        <ToastProvider key={p} placement={p}>
+          <PlacementButton placement={p} />
+        </ToastProvider>
+      ))}
+    </div>
   ),
 };
 
-function PlacementGrid() {
+function PlacementButton({ placement }: { placement: (typeof placements)[number] }) {
   const toast = useToast();
-  const placements = [
-    "top-right",
-    "top-left",
-    "top-center",
-    "bottom-right",
-    "bottom-left",
-    "bottom-center",
-  ] as const;
   return (
-    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-      {placements.map((p) => (
-        <Button
-          key={p}
-          variant="outlined"
-          size="sm"
-          onClick={() => toast.info(p, { message: `Muncul di ${p}` })}
-        >
-          {p}
-        </Button>
-      ))}
-    </div>
+    <Button
+      variant="outlined"
+      size="sm"
+      onClick={() =>
+        toast.info(placement, {
+          message: `Muncul di ${placement}`,
+          duration: 2000,
+        })
+      }
+    >
+      {placement}
+    </Button>
   );
 }

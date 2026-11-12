@@ -73,6 +73,47 @@ export const InlineText: Story = {
   ),
 };
 
+// Sengaja tidak meneruskan ref/props — memperagakan mode asChild={false}.
+function ReflessBadge({ children }: { children: string }) {
+  return (
+    <span
+      style={{
+        padding: "2px 8px",
+        border: "1px dashed currentColor",
+        borderRadius: 999,
+        cursor: "help",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+export const AsChild: Story = {
+  render: () => (
+    <div style={{ padding: "64px 0" }}>
+      <Stack direction="row" spacing={8} align="center">
+        <Tooltip content="Trigger berupa link" openDelay={0} closeDelay={0}>
+          <a
+            href="#tooltip-as-child"
+            style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
+          >
+            Istilah (link)
+          </a>
+        </Tooltip>
+        <Tooltip
+          content="Tetap muncul tanpa meneruskan ref"
+          asChild={false}
+          openDelay={0}
+          closeDelay={0}
+        >
+          <ReflessBadge>Beta</ReflessBadge>
+        </Tooltip>
+      </Stack>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   render: () => (
     <Tooltip content="Tidak muncul" disabled>
