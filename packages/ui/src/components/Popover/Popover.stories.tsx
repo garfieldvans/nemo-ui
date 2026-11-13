@@ -52,6 +52,7 @@ export const Default: Story = {
 };
 
 export const Placements: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ padding: "96px 0" }}>
       <Stack direction="row" spacing={8} align="center">
@@ -116,6 +117,7 @@ export const AsChild: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <ControlledDemo />
   ),

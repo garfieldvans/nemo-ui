@@ -55,6 +55,7 @@ export const Default: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack spacing={4}>
       <ModalDemo size="sm" title="Size sm" description="max-width 400px">
@@ -71,6 +72,7 @@ export const Sizes: Story = {
 };
 
 export const WithFooter: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <ModalDemo
       title="Hapus project?"
@@ -89,6 +91,7 @@ export const WithFooter: Story = {
 };
 
 export const WithoutHeader: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <ModalDemo>
       <p>Modal tanpa header — konten penuh sejak atas. Tutup via backdrop atau Escape.</p>

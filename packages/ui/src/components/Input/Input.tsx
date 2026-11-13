@@ -225,7 +225,9 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
     const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
     const showClear = clearable && value && !disabled && !readOnly;
     const charCount = typeof value === "string" ? value.length : 0;
-    const showCharCount = showCount && maxLength;
+    const showCharCount = Boolean(showCount && maxLength);
+    // Counter bisa tampil sendiri tanpa helper/error text.
+    const showFooter = showHelper || showCharCount;
 
     const wrapperClasses = clsx(
       styles["input-wrapper"],
@@ -330,13 +332,15 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
             </button>
           )}
         </div>
-        {showHelper && (
+        {showFooter && (
           <div className={clsx(styles["helper-row"], showCharCount && styles["helper-row--with-count"])}>
-            <span id={`${inputId}-helper`} className={helperTextClasses} role="alert" aria-live="polite">
-              {error || warning || success || helperText}
-            </span>
+            {showHelper && (
+              <span id={`${inputId}-helper`} className={helperTextClasses} role="alert" aria-live="polite">
+                {error || warning || success || helperText}
+              </span>
+            )}
             {showCharCount && (
-              <span className={clsx(styles["char-count"], charCount > maxLength && styles["char-count--exceeded"])}>
+              <span className={clsx(styles["char-count"], maxLength !== undefined && charCount > maxLength && styles["char-count--exceeded"])}>
                 {charCount}/{maxLength}
               </span>
             )}

@@ -54,6 +54,7 @@ export const Default: Story = {
 };
 
 export const Placements: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ padding: "96px 0" }}>
       <div style={{ display: "flex", gap: 24, justifyContent: "center" }}>
@@ -130,5 +131,6 @@ function WithSelectedItemDemo() {
 }
 
 export const WithSelectedItem: Story = {
+  parameters: { controls: { disable: true } },
   render: () => <WithSelectedItemDemo />,
 };

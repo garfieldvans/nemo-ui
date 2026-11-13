@@ -33,6 +33,7 @@ export const Standalone: Story = {
 };
 
 export const Default: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup name="plan" defaultValue="pro" label="Pilih paket">
       <Radio value="starter" label="Starter" />
@@ -43,6 +44,7 @@ export const Default: Story = {
 };
 
 export const Horizontal: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup
       name="gender"
@@ -57,6 +59,7 @@ export const Horizontal: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup
       name="mode"
@@ -71,6 +74,7 @@ export const Disabled: Story = {
 };
 
 export const WithDisabledOption: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup name="plan" defaultValue="pro" label="Pilih paket">
       <Radio value="starter" label="Starter" />
@@ -81,6 +85,7 @@ export const WithDisabledOption: Story = {
 };
 
 export const WithError: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup
       name="plan"
@@ -95,6 +100,7 @@ export const WithError: Story = {
 };
 
 export const WithHelperText: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup
       name="billing"
@@ -109,6 +115,7 @@ export const WithHelperText: Story = {
 };
 
 export const Colors: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="column" spacing={4}>
       {(["primary", "success", "warning", "error", "neutral"] as const).map(
@@ -128,6 +135,7 @@ export const Colors: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <RadioGroup name="size" defaultValue="md" label="Ukuran" orientation="horizontal">
       <Radio value="sm" size="sm" label="Small" />

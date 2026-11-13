@@ -61,6 +61,7 @@ export const WithAction: Story = {
 };
 
 export const AllTones: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 480 }}>
       <Alert tone="success" title="Success">Data berhasil disimpan.</Alert>

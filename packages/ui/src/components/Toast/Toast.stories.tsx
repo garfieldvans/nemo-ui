@@ -77,6 +77,7 @@ function DurationDemo() {
 }
 
 export const CustomDuration: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <ToastProvider>
       <DurationDemo />
@@ -85,6 +86,7 @@ export const CustomDuration: Story = {
 };
 
 export const WithAction: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <ToastProvider>
       <ActionDemo />
@@ -125,6 +127,7 @@ const placements = [
 // Satu provider per posisi: tiap provider punya viewport sendiri, jadi toast
 // benar-benar muncul di sudut yang dipilih (bukan satu viewport default).
 export const Placements: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div
       style={{

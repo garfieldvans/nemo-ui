@@ -59,6 +59,7 @@ export const Default: Story = {
 };
 
 export const Placements: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack spacing={4}>
       <DrawerDemo placement="right" title="Dari kanan" />
@@ -70,6 +71,7 @@ export const Placements: Story = {
 };
 
 export const WithFooter: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <DrawerDemo
       title="Atur filter"
@@ -86,6 +88,7 @@ export const WithFooter: Story = {
 };
 
 export const WithoutHeader: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <DrawerDemo placement="bottom" size="sm">
       <p>Drawer tanpa header — tutup via backdrop atau Escape.</p>

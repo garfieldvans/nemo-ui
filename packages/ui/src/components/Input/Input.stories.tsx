@@ -63,7 +63,7 @@ export const WithError: Story = {
     label: "Email",
     type: "email",
     placeholder: "you@example.com",
-    value: "invalid-email",
+    defaultValue: "invalid-email",
     error: "Please enter a valid email address",
   },
 };
@@ -81,7 +81,7 @@ export const WithSuccess: Story = {
     label: "Success Input",
     placeholder: "Success state",
     success: "Data is valid",
-    value: "valid@email.com",
+    defaultValue: "valid@email.com",
   },
 };
 
@@ -244,14 +244,21 @@ export const AllStatuses: Story = {
       <Input label="Default" placeholder="Default state" />
       <Input label="Error" placeholder="Error state" error="Something went wrong" />
       <Input label="Warning" placeholder="Warning state" warning="Please check" />
-      <Input label="Success" placeholder="Success state" success="All good" value="valid@email.com" />
+      <Input label="Success" placeholder="Success state" success="All good" defaultValue="valid@email.com" />
     </div>
   ),
 };
 
 type TextareaStory = StoryObj<typeof Textarea>;
 
+// Meta file ini memakai `component: Input`, jadi story textarea butuh render
+// eksplisit; tanpa ini Storybook merender Input dan props textarea bocor ke DOM.
+const renderTextarea: NonNullable<TextareaStory["render"]> = (args) => (
+  <Textarea {...args} />
+);
+
 export const TextareaDefault: TextareaStory = {
+  render: renderTextarea,
   args: {
     placeholder: "Enter your message...",
     rows: 4,
@@ -259,6 +266,7 @@ export const TextareaDefault: TextareaStory = {
 };
 
 export const TextareaWithLabel: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Message",
     placeholder: "Enter your message...",
@@ -267,6 +275,7 @@ export const TextareaWithLabel: TextareaStory = {
 };
 
 export const TextareaWithHelperText: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Bio",
     placeholder: "Tell us about yourself",
@@ -276,16 +285,18 @@ export const TextareaWithHelperText: TextareaStory = {
 };
 
 export const TextareaWithError: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Message",
     placeholder: "Enter your message...",
-    value: "short",
+    defaultValue: "short",
     error: "Message must be at least 10 characters",
     rows: 4,
   },
 };
 
 export const TextareaWithMaxLength: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "With Character Count",
     placeholder: "Max 100 characters",
@@ -296,6 +307,7 @@ export const TextareaWithMaxLength: TextareaStory = {
 };
 
 export const TextareaFilled: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Filled Textarea",
     placeholder: "Filled variant",
@@ -305,6 +317,7 @@ export const TextareaFilled: TextareaStory = {
 };
 
 export const TextareaGhost: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Ghost Textarea",
     placeholder: "Ghost variant",
@@ -314,6 +327,7 @@ export const TextareaGhost: TextareaStory = {
 };
 
 export const TextareaSmall: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Small Textarea",
     placeholder: "Small size",
@@ -323,6 +337,7 @@ export const TextareaSmall: TextareaStory = {
 };
 
 export const TextareaLarge: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Large Textarea",
     placeholder: "Large size",
@@ -332,6 +347,7 @@ export const TextareaLarge: TextareaStory = {
 };
 
 export const TextareaClearable: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Clearable Textarea",
     placeholder: "Type and clear",
@@ -342,6 +358,7 @@ export const TextareaClearable: TextareaStory = {
 };
 
 export const TextareaFloatingLabel: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Floating Label",
     placeholder: " ",
@@ -351,6 +368,7 @@ export const TextareaFloatingLabel: TextareaStory = {
 };
 
 export const TextareaWithLeftIcon: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "With Icon",
     placeholder: "Add a note...",
@@ -368,6 +386,7 @@ export const TextareaWithLeftIcon: TextareaStory = {
 };
 
 export const TextareaDisabled: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Disabled Textarea",
     placeholder: "Disabled",
@@ -377,6 +396,7 @@ export const TextareaDisabled: TextareaStory = {
 };
 
 export const TextareaReadOnly: TextareaStory = {
+  render: renderTextarea,
   args: {
     label: "Readonly Textarea",
     value: "This is readonly content",

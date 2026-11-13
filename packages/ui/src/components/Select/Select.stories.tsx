@@ -74,6 +74,7 @@ export const NotSearchable: Story = {
 };
 
 export const Variants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="column" spacing={4}>
       <Select options={plans} variant="filled" label="Filled" defaultValue="pro" />
@@ -84,6 +85,7 @@ export const Variants: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="row" spacing={4} wrap>
       <Select options={plans} label="Small" size="sm" defaultValue="starter" />
@@ -94,6 +96,7 @@ export const Sizes: Story = {
 };
 
 export const Statuses: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="column" spacing={4}>
       <Select options={plans} status="error" error="Paket wajib dipilih" />
@@ -112,6 +115,7 @@ export const WithHelperText: Story = {
 };
 
 export const WithLeftIcon: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Select
       options={plans}
@@ -174,6 +178,7 @@ export const FullWidth: Story = {
 };
 
 export const WithDescriptions: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Select
       options={plans}

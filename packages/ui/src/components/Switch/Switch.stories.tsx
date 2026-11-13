@@ -72,6 +72,7 @@ export const WithHelperText: Story = {
 };
 
 export const Colors: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="row" spacing={4} wrap>
       <Switch color="primary" label="Primary" defaultChecked />
@@ -81,6 +82,7 @@ export const Colors: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="row" spacing={6} wrap>
       <Switch size="sm" label="Small" defaultChecked />
@@ -90,6 +92,7 @@ export const Sizes: Story = {
 };
 
 export const States: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="column" spacing={4}>
       <Switch label="Off" />

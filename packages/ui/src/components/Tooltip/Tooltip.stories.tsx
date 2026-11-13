@@ -41,6 +41,7 @@ export const Default: Story = {
 };
 
 export const Placements: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ padding: "80px 0" }}>
       <Stack direction="row" spacing={8} align="center">
@@ -62,6 +63,7 @@ export const Placements: Story = {
 };
 
 export const InlineText: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <p style={{ maxWidth: 420 }}>
       Klaim file{" "}
@@ -90,6 +92,7 @@ function ReflessBadge({ children }: { children: string }) {
 }
 
 export const AsChild: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ padding: "64px 0" }}>
       <Stack direction="row" spacing={8} align="center">
@@ -115,6 +118,7 @@ export const AsChild: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <Tooltip content="Tidak muncul" disabled>
       <Button variant="outlined">Tooltip nonaktif</Button>
