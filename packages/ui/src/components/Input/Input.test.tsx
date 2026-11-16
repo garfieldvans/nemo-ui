@@ -151,4 +151,23 @@ describe("Input", () => {
     await user.type(textarea, "x");
     expect(onChange).toHaveBeenCalled();
   });
+
+  it("shows the character count without helper text", () => {
+    render(
+      <Textarea label="Pesan" value="halo" maxLength={10} showCount onChange={() => {}} />
+    );
+
+    expect(screen.getByText("4/10")).toBeDefined();
+    // Tidak ada helper/error text, jadi tidak boleh ada elemen alert kosong.
+    expect(screen.queryByRole("alert")).toBeNull();
+  });
+
+  it("updates the character count for an uncontrolled textarea", async () => {
+    const user = userEvent.setup();
+    render(<Textarea label="Pesan" maxLength={10} showCount defaultValue="ha" />);
+    expect(screen.getByText("2/10")).toBeDefined();
+
+    await user.type(screen.getByLabelText("Pesan"), "lo!");
+    expect(screen.getByText("5/10")).toBeDefined();
+  });
 });

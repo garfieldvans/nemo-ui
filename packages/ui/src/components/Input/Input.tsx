@@ -2,7 +2,7 @@ import styles from "./Input.module.scss";
 
 import type { InputProps, TextareaProps } from "./Input.types";
 import { clsx } from "../../utils/clsx";
-import { useRef, useImperativeHandle, forwardRef } from "react";
+import { useRef, useState, useImperativeHandle, forwardRef } from "react";
 
 type InputRef = Pick<HTMLInputElement, "focus" | "blur" | "select" | "setSelectionRange">;
 type TextareaRef = Pick<HTMLTextAreaElement, "focus" | "blur" | "select" | "setSelectionRange">;
@@ -199,6 +199,7 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
       disabled,
       readOnly,
       value,
+      defaultValue,
       onChange,
       rows = 3,
       maxLength,
@@ -224,7 +225,13 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
     const showHelper = hasError || hasWarning || hasSuccess || Boolean(helperText);
     const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
     const showClear = clearable && value && !disabled && !readOnly;
-    const charCount = typeof value === "string" ? value.length : 0;
+    // Counter harus tetap berjalan untuk textarea uncontrolled (tanpa prop value).
+    const [uncontrolledLength, setUncontrolledLength] = useState(
+      typeof defaultValue === "string" ? defaultValue.length : 0
+    );
+    const charCount = value === undefined
+      ? uncontrolledLength
+      : typeof value === "string" ? value.length : 0;
     const showCharCount = Boolean(showCount && maxLength);
     // Counter bisa tampil sendiri tanpa helper/error text.
     const showFooter = showHelper || showCharCount;
@@ -260,6 +267,11 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
       hasWarning && styles["helper-text--warning"],
       hasSuccess && styles["helper-text--success"]
     );
+
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (value === undefined) setUncontrolledLength(e.currentTarget.value.length);
+      onChange?.(e);
+    };
 
     const handleClear = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -303,7 +315,8 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
             readOnly={readOnly}
             rows={rows}
             value={value}
-            onChange={onChange}
+            defaultValue={defaultValue}
+            onChange={handleChange}
             {...props}
           />
           {suffix && <span className={styles.suffix} aria-hidden="true">{suffix}</span>}
