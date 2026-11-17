@@ -1,6 +1,9 @@
 import { useState } from "react";
 import {
   Checkbox,
+  Combobox,
+  DatePicker,
+  FileUpload,
   FormField,
   Input,
   Radio,
@@ -10,6 +13,7 @@ import {
   Switch,
   Textarea,
 } from "@nemo/ui";
+import type { ComboboxOption, FileUploadRejection } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
 
 const plans = [
@@ -65,6 +69,71 @@ function BillingRadioGroup() {
       <Radio value="yearly" label="Tahunan" />
       <Radio value="custom" label="Kustom" />
     </RadioGroup>
+  );
+}
+
+const frameworks: ComboboxOption[] = [
+  { label: "React", value: "react", description: "Library UI berbasis komponen" },
+  { label: "Vue", value: "vue", description: "Framework progresif" },
+  { label: "Svelte", value: "svelte", description: "Compiler-first framework" },
+  { label: "Angular", value: "angular", description: "Framework lengkap dari Google" },
+  { label: "Solid", value: "solid", description: "Reaktivitas halus tanpa virtual DOM", disabled: true },
+];
+
+function ControlledCombobox() {
+  const [values, setValues] = useState<string[]>(["react"]);
+  return (
+    <Combobox
+      label="Framework"
+      options={frameworks}
+      value={values}
+      onChange={setValues}
+      helperText={`${values.length} framework dipilih.`}
+      fullWidth
+    />
+  );
+}
+
+function ControlledDatePicker() {
+  const [date, setDate] = useState<Date | null>(new Date(2026, 10, 17));
+  return (
+    <DatePicker
+      label="Tanggal kirim"
+      value={date}
+      onChange={setDate}
+      helperText={
+        date
+          ? `Terpilih: ${date.toLocaleDateString("id-ID", { dateStyle: "long" })}`
+          : "Belum ada tanggal dipilih."
+      }
+      fullWidth
+    />
+  );
+}
+
+function UploadWithLimits() {
+  const [files, setFiles] = useState<File[]>([]);
+  const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
+
+  return (
+    <Stack direction="column" spacing={2}>
+      <FileUpload
+        label="Lampiran"
+        accept="image/*,.pdf"
+        maxSize={1024 * 1024}
+        maxFiles={3}
+        value={files}
+        onChange={setFiles}
+        onReject={setRejected}
+        helperText={`${files.length} dari 3 file terpilih — maksimal 1 MB per file.`}
+        fullWidth
+      />
+      {rejected.length > 0 && (
+        <p className="site-p" style={{ margin: 0 }}>
+          Ditolak: {rejected.map((item) => item.file.name).join(", ")}
+        </p>
+      )}
+    </Stack>
   );
 }
 
@@ -988,6 +1057,482 @@ export const formsDocs: ComponentDoc[] = [
         default: '"full"',
         description: "Lebar FormField.",
       },
+    ],
+  },
+  {
+    slug: "combobox",
+    name: "Combobox",
+    group: "Forms",
+    summary:
+      "Pemilih multi-nilai dengan pencarian, chip yang bisa dihapus, dan navigasi keyboard.",
+    examples: [
+      {
+        id: "basic",
+        title: "Multi-select dengan pencarian",
+        description:
+          "Nilai tersimpan sebagai array string. Klik opsi untuk menambah/menghapus, ketik untuk memfilter.",
+        code: `<Combobox
+  label="Framework favorit"
+  options={frameworks}
+  defaultValue={["react", "vue"]}
+  placeholder="Cari framework..."
+  helperText="Bisa pilih lebih dari satu."
+/>`,
+        stack: true,
+        preview: (
+          <Combobox
+            label="Framework favorit"
+            options={frameworks}
+            defaultValue={["react", "vue"]}
+            placeholder="Cari framework..."
+            helperText="Bisa pilih lebih dari satu."
+            fullWidth
+          />
+        ),
+      },
+      {
+        id: "controlled",
+        title: "Controlled",
+        description:
+          "onChange menerima array nilai terpilih, sehingga mudah disinkronkan dengan state atau jumlah chip.",
+        code: `const [values, setValues] = useState<string[]>(["react"]);
+
+<Combobox
+  label="Framework"
+  options={frameworks}
+  value={values}
+  onChange={setValues}
+  helperText={\`\${values.length} framework dipilih.\`}
+/>`,
+        stack: true,
+        preview: <ControlledCombobox />,
+      },
+      {
+        id: "status",
+        title: "Opsi disabled & status",
+        code: `<Combobox
+  label="Framework wajib"
+  options={frameworks}
+  required
+  error="Pilih minimal satu framework."
+/>
+
+<Combobox label="Terkunci" options={frameworks} defaultValue={["react"]} disabled />`,
+        stack: true,
+        preview: (
+          <>
+            <Combobox
+              label="Framework wajib"
+              options={frameworks}
+              required
+              error="Pilih minimal satu framework."
+              fullWidth
+            />
+            <Combobox
+              label="Terkunci"
+              options={frameworks}
+              defaultValue={["react"]}
+              disabled
+              fullWidth
+            />
+          </>
+        ),
+      },
+    ],
+    props: [
+      {
+        name: "options",
+        type: "ComboboxOption[]",
+        description:
+          "Daftar opsi: value, label, plus description/disabled opsional.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        description: "Nilai terpilih (controlled) atau pilihan awal (uncontrolled).",
+      },
+      {
+        name: "onChange",
+        type: "(values: string[]) => void",
+        description: "Dipanggil dengan seluruh nilai terpilih setiap pilihan berubah.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Dipanggil saat panel opsi dibuka atau ditutup.",
+      },
+      {
+        name: "onQueryChange",
+        type: "(query: string) => void",
+        description: "Dipanggil setiap teks pencarian berubah.",
+      },
+      {
+        name: "emptyText",
+        type: "ReactNode",
+        default: '"Opsi tidak ditemukan"',
+        description: "Pesan saat pencarian tidak menemukan opsi.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Teks saat belum ada nilai dan pencarian kosong.",
+      },
+      {
+        name: "variant",
+        type: '"filled" | "outlined" | "ghost"',
+        default: '"outlined"',
+        description: "Gaya permukaan field.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        default: '"md"',
+        description: "Ukuran field.",
+      },
+      {
+        name: "status",
+        type: '"default" | "error" | "warning" | "success"',
+        default: '"default"',
+        description: "Status validasi.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Label di atas field.",
+      },
+      {
+        name: "error / warning / success / helperText",
+        type: "string",
+        description:
+          "Pesan validasi (sekaligus status) dan teks bantuan di bawah field.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "Menonaktifkan field sekaligus mencegah panel terbuka.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Menghasilkan satu hidden input per nilai agar ikut terkirim bersama form.",
+      },
+      {
+        name: "fullWidth",
+        type: "boolean",
+        default: "false",
+        description: "Membuat field memenuhi lebar kontainer.",
+      },
+    ],
+    notes: [
+      "Backspace saat input kosong menghapus chip terakhir, dan panel tetap terbuka setelah memilih — khas multi-select.",
+      "Untuk pilihan tunggal, gunakan Select.",
+    ],
+  },
+  {
+    slug: "file-upload",
+    name: "FileUpload",
+    group: "Forms",
+    summary:
+      "Area unggah dengan drag & drop atau pemilih file, daftar file yang bisa dihapus, serta validasi jenis, ukuran, dan jumlah.",
+    examples: [
+      {
+        id: "basic",
+        title: "Drag & drop atau pilih file",
+        description:
+          "Klik area unggah untuk membuka pemilih file, atau tarik file ke atasnya. Setiap file tampil dengan ukuran dan tombol hapus.",
+        code: `<FileUpload
+  label="Lampiran"
+  helperText="Bisa lebih dari satu file."
+/>`,
+        stack: true,
+        preview: <FileUpload label="Lampiran" helperText="Bisa lebih dari satu file." />,
+      },
+      {
+        id: "limits",
+        title: "Validasi accept, maxSize & maxFiles",
+        description:
+          "File yang tidak lolos validasi tidak masuk ke daftar dan dilaporkan lewat onReject, sehingga kamu bisa menampilkan alasannya sendiri.",
+        code: `const [files, setFiles] = useState<File[]>([]);
+const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
+
+<FileUpload
+  label="Lampiran"
+  accept="image/*,.pdf"
+  maxSize={1024 * 1024}
+  maxFiles={3}
+  value={files}
+  onChange={setFiles}
+  onReject={setRejected}
+  helperText={\`\${files.length} dari 3 file terpilih — maksimal 1 MB per file.\`}
+/>`,
+        stack: true,
+        preview: <UploadWithLimits />,
+      },
+      {
+        id: "status",
+        title: "Status & disabled",
+        code: `<FileUpload label="Dokumen" required accept=".pdf" error="Unggah minimal satu dokumen." />
+<FileUpload label="Terkunci" disabled hint="Unggahan ditutup." />`,
+        stack: true,
+        preview: (
+          <>
+            <FileUpload
+              label="Dokumen"
+              required
+              accept=".pdf"
+              error="Unggah minimal satu dokumen."
+            />
+            <FileUpload label="Terkunci" disabled hint="Unggahan ditutup." />
+          </>
+        ),
+      },
+    ],
+    props: [
+      {
+        name: "accept",
+        type: "string",
+        description:
+          "Atribut native accept (mis. \".pdf,image/*\"). Juga dipakai memfilter file hasil drag & drop.",
+      },
+      {
+        name: "multiple",
+        type: "boolean",
+        default: "true",
+        description: "Izinkan lebih dari satu file; jika false file baru menggantikan yang lama.",
+      },
+      {
+        name: "maxSize",
+        type: "number",
+        description: "Batas ukuran per file dalam byte.",
+      },
+      {
+        name: "maxFiles",
+        type: "number",
+        description: "Batas jumlah file yang disimpan.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "File[]",
+        description: "Daftar file (controlled) atau file awal (uncontrolled).",
+      },
+      {
+        name: "onChange",
+        type: "(files: File[]) => void",
+        description: "Dipanggil dengan daftar file terbaru setelah menambah atau menghapus.",
+      },
+      {
+        name: "onReject",
+        type: "(rejected: FileUploadRejection[]) => void",
+        description:
+          "Menerima file yang ditolak beserta alasannya: type, size, atau count.",
+      },
+      {
+        name: "dropText / hint",
+        type: "ReactNode",
+        description: "Teks utama dan keterangan kecil di dalam area unggah.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "Nama untuk input file native agar ikut terkirim bersama form.",
+      },
+      {
+        name: "label / required / helperText",
+        type: "string",
+        description: "Label, penanda wajib, dan teks bantuan field.",
+      },
+      {
+        name: "error / warning / success",
+        type: "string",
+        description: "Pesan validasi sekaligus mengaktifkan warna status terkait.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "Menonaktifkan area unggah dan tombol hapus.",
+      },
+      {
+        name: "fullWidth",
+        type: "boolean",
+        default: "true",
+        description: "Membuat field memenuhi lebar kontainer.",
+      },
+    ],
+    notes: [
+      "File hasil drag & drop disalin ke input file native, jadi mengirim form biasa tetap membawa semua file terpilih.",
+    ],
+  },
+  {
+    slug: "date-picker",
+    name: "DatePicker",
+    group: "Forms",
+    summary:
+      "Pemilih tanggal dengan input manual dan kalender berbahasa Indonesia, lengkap dengan batas min/max.",
+    examples: [
+      {
+        id: "basic",
+        title: "Input manual + kalender",
+        description:
+          "Tanggal bisa diketik (dd/mm/yyyy) lalu Enter, atau dipilih dari kalender. Panah keyboard memindahkan fokus hari, Enter memilih.",
+        code: `<DatePicker
+  label="Tanggal lahir"
+  helperText="Ketik dd/mm/yyyy atau pilih dari kalender."
+/>`,
+        stack: true,
+        preview: (
+          <DatePicker
+            label="Tanggal lahir"
+            helperText="Ketik dd/mm/yyyy atau pilih dari kalender."
+            fullWidth
+          />
+        ),
+      },
+      {
+        id: "controlled",
+        title: "Controlled",
+        description:
+          "onChange menerima objek Date (atau null saat dikosongkan), sehingga nilai mudah diformat ulang di luar komponen.",
+        code: `const [date, setDate] = useState<Date | null>(new Date(2026, 10, 17));
+
+<DatePicker
+  label="Tanggal kirim"
+  value={date}
+  onChange={setDate}
+  helperText={date ? \`Terpilih: \${date.toLocaleDateString("id-ID")}\` : "Belum ada tanggal dipilih."}
+/>`,
+        stack: true,
+        preview: <ControlledDatePicker />,
+      },
+      {
+        id: "range",
+        title: "Batasan min & max",
+        description:
+          "Hari di luar rentang tidak bisa dipilih dari kalender maupun diketik.",
+        code: `<DatePicker
+  label="Periode kampanye"
+  defaultValue={new Date(2026, 11, 10)}
+  min={new Date(2026, 10, 1)}
+  max={new Date(2026, 11, 31)}
+  helperText="Hanya November–Desember 2026."
+/>`,
+        stack: true,
+        preview: (
+          <DatePicker
+            label="Periode kampanye"
+            defaultValue={new Date(2026, 11, 10)}
+            min={new Date(2026, 10, 1)}
+            max={new Date(2026, 11, 31)}
+            helperText="Hanya November–Desember 2026."
+            fullWidth
+          />
+        ),
+      },
+      {
+        id: "status",
+        title: "Format, status & disabled",
+        code: `<DatePicker label="Tanpa jam" format="yyyy-mm-dd" helperText="Format ISO." />
+<DatePicker label="Wajib" required error="Tanggal belum diisi." />
+<DatePicker label="Terkunci" disabled defaultValue={new Date(2026, 0, 15)} />`,
+        stack: true,
+        preview: (
+          <>
+            <DatePicker
+              label="Format ISO"
+              format="yyyy-mm-dd"
+              helperText="yyyy-mm-dd"
+              fullWidth
+            />
+            <DatePicker label="Wajib" required error="Tanggal belum diisi." fullWidth />
+            <DatePicker
+              label="Terkunci"
+              disabled
+              defaultValue={new Date(2026, 0, 15)}
+              fullWidth
+            />
+          </>
+        ),
+      },
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "Date | null",
+        description: "Tanggal terpilih (controlled) atau nilai awal (uncontrolled).",
+      },
+      {
+        name: "onChange",
+        type: "(date: Date | null) => void",
+        description: "Dipanggil saat tanggal dipilih, diketik valid, atau dikosongkan.",
+      },
+      {
+        name: "format",
+        type: '"dd/mm/yyyy" | "yyyy-mm-dd"',
+        default: '"dd/mm/yyyy"',
+        description: "Format tampilan dan penguraian input manual.",
+      },
+      {
+        name: "min / max",
+        type: "Date",
+        description: "Batas tanggal yang boleh dipilih.",
+      },
+      {
+        name: "weekStartsOn",
+        type: "0 | 1",
+        default: "1",
+        description: "Hari pertama minggu: 0 Minggu, 1 Senin.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Placeholder input; default mengikuti format.",
+      },
+      {
+        name: "variant",
+        type: '"filled" | "outlined" | "ghost"',
+        default: '"outlined"',
+        description: "Gaya permukaan field.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        default: '"md"',
+        description: "Ukuran field.",
+      },
+      {
+        name: "status / error / warning / success / helperText",
+        type: "string",
+        description: "Status validasi dan pesan di bawah field.",
+      },
+      {
+        name: "clearable",
+        type: "boolean",
+        default: "true",
+        description: "Menampilkan tombol untuk mengosongkan tanggal.",
+      },
+      {
+        name: "disabled / readOnly",
+        type: "boolean",
+        default: "false",
+        description: "Menonaktifkan interaksi atau hanya mencegah perubahan nilai.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Hidden input berisi tanggal yyyy-mm-dd agar ikut terkirim bersama form.",
+      },
+      {
+        name: "fullWidth",
+        type: "boolean",
+        default: "false",
+        description: "Membuat field memenuhi lebar kontainer.",
+      },
+    ],
+    notes: [
+      "Tanggal dihitung pada tengah malam waktu lokal; komponen ini hanya memilih tanggal, bukan waktu.",
     ],
   },
 ];

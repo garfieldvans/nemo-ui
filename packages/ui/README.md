@@ -121,6 +121,9 @@ Dark vars are applied three ways (safely layered):
 | **Divider** | SCSS Module | Horizontal / vertical orientation |
 | **Stack** | SCSS Module | Vertical or horizontal layout with configurable spacing and wrap |
 | **Select** | SCSS Module | `outlined` / `filled` / `ghost`, searchable, clearable, sizes |
+| **Combobox** | SCSS Module | Multi-select with search, removable chips, keyboard navigation |
+| **FileUpload** | SCSS Module | Drag & drop or picker, file list, `accept` / `maxSize` / `maxFiles` validation |
+| **DatePicker** | SCSS Module | Manual `dd/mm/yyyy` or `yyyy-mm-dd` input + calendar, keyboard navigation, `min` / `max` |
 | **Checkbox** | SCSS Module | Checked / unchecked, indeterminate, colors, error state |
 | **Radio** / **RadioGroup** | SCSS Module | Grouped selection, vertical / horizontal orientation |
 | **Switch** | SCSS Module | On/off toggle, sizes, color, label and helper text |
@@ -136,7 +139,7 @@ Dark vars are applied three ways (safely layered):
 | **Popover** | SCSS Module | Trigger + floating panel, placement, offset, auto-flip |
 | **Menu** | SCSS Module | Trigger + items, divider, item states and selection pattern |
 | **Tabs** | SCSS Module | ARIA tablist, line/pill variants, arrow-key navigation that skips disabled, controlled/uncontrolled |
-| **Table** | SCSS Module | Generic `columns`/`data`, custom cell render, align, striped, empty state |
+| **Table** | SCSS Module | Generic `columns`/`data`, sorting, row selection, sticky header, align, striped, empty state |
 | **Pagination** | SCSS Module | Page window with ellipsis, first/prev/next/last, controlled `page` / uncontrolled `defaultPage` |
 
 ---

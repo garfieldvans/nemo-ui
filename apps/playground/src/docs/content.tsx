@@ -38,6 +38,52 @@ const memberColumns: TableColumn<Member>[] = [
   },
 ];
 
+type Ticket = { id: string; judul: string; prioritas: number; status: string };
+
+const tickets: Ticket[] = [
+  { id: "NEM-104", judul: "Perbaiki tooltip di Safari", prioritas: 2, status: "Berjalan" },
+  { id: "NEM-105", judul: "Tambah mode gelap pada tabel", prioritas: 1, status: "Menunggu" },
+  { id: "NEM-106", judul: "Percepat build Storybook", prioritas: 3, status: "Selesai" },
+  { id: "NEM-107", judul: "Dokumentasikan token warna", prioritas: 1, status: "Berjalan" },
+];
+
+const ticketColumns: TableColumn<Ticket>[] = [
+  { key: "id", header: "Tiket" },
+  { key: "judul", header: "Judul", sortable: true },
+  {
+    key: "prioritas",
+    header: "Prioritas",
+    align: "right",
+    sortable: true,
+    sortValue: (row) => row.prioritas,
+  },
+  {
+    key: "status",
+    header: "Status",
+    align: "right",
+    render: (row) => (
+      <Badge
+        color={
+          row.status === "Selesai"
+            ? "success"
+            : row.status === "Berjalan"
+              ? "warning"
+              : "neutral"
+        }
+      >
+        {row.status}
+      </Badge>
+    ),
+  },
+];
+
+const queueRows: Ticket[] = Array.from({ length: 14 }, (_, index) => ({
+  id: `NEM-${120 + index}`,
+  judul: `Antrean tugas #${index + 1}`,
+  prioritas: ((index * 3) % 5) + 1,
+  status: index % 3 === 0 ? "Selesai" : "Menunggu",
+}));
+
 export const contentDocs: ComponentDoc[] = [
   {
     slug: "button",
@@ -688,7 +734,7 @@ export const contentDocs: ComponentDoc[] = [
     name: "Table",
     group: "Data display",
     summary:
-      "Tabel data generik dengan kolom yang bisa dikustom, baris bergaris, dan empty state.",
+      "Tabel data generik dengan kolom kustom, pengurutan, seleksi baris, header lengket, dan empty state.",
     examples: [
       {
         id: "basic",
@@ -725,6 +771,90 @@ const columns: TableColumn<Member>[] = [
             rowKey={(row) => row.nama}
             caption="Daftar anggota tim"
             striped
+          />
+        ),
+      },
+      {
+        id: "sorting",
+        title: "Sorting",
+        description:
+          "Beri `sortable` pada kolom. Klik header memutar urutan asc → desc → urutan data asli; `sortValue` menentukan nilai pembanding (mis. angka, bukan teks).",
+        code: `const columns = [
+  { key: "judul", header: "Judul", sortable: true },
+  {
+    key: "prioritas",
+    header: "Prioritas",
+    align: "right",
+    sortable: true,
+    sortValue: (row) => row.prioritas,
+  },
+  // ...
+];
+
+<Table
+  columns={columns}
+  data={tickets}
+  rowKey={(row) => row.id}
+  defaultSort={{ key: "prioritas", direction: "asc" }}
+  caption="Tiket dukungan"
+/>`,
+        stack: true,
+        preview: (
+          <Table
+            columns={ticketColumns}
+            data={tickets}
+            rowKey={(row) => row.id}
+            defaultSort={{ key: "prioritas", direction: "asc" }}
+            caption="Tiket dukungan"
+          />
+        ),
+      },
+      {
+        id: "selection",
+        title: "Seleksi baris",
+        description:
+          "`selectable` menambahkan checkbox per baris beserta checkbox \"pilih semua\" di header. Gunakan `defaultSelectedKeys` untuk pilihan awal atau `selectedKeys` + `onSelectionChange` untuk mode controlled.",
+        code: `<Table
+  columns={columns}
+  data={tickets}
+  rowKey={(row) => row.id}
+  selectable
+  defaultSelectedKeys={["NEM-104", "NEM-107"]}
+  onSelectionChange={(keys) => console.log(keys)}
+/>`,
+        stack: true,
+        preview: (
+          <Table
+            columns={ticketColumns}
+            data={tickets}
+            rowKey={(row) => row.id}
+            selectable
+            defaultSelectedKeys={["NEM-104", "NEM-107"]}
+            caption="Pilih tiket untuk diproses"
+          />
+        ),
+      },
+      {
+        id: "sticky",
+        title: "Sticky header",
+        description:
+          "Kombinasi `stickyHeader` dan `maxHeight` membuat header tetap terlihat saat isi tabel digulir.",
+        code: `<Table
+  columns={columns}
+  data={queueRows}
+  rowKey={(row) => row.id}
+  stickyHeader
+  maxHeight={240}
+/>`,
+        stack: true,
+        preview: (
+          <Table
+            columns={ticketColumns}
+            data={queueRows}
+            rowKey={(row) => row.id}
+            stickyHeader
+            maxHeight={240}
+            caption="Antrean tugas"
           />
         ),
       },
@@ -787,6 +917,57 @@ const columns: TableColumn<Member>[] = [
         type: "ReactNode",
         default: '"Tidak ada data"',
         description: "Pesan saat data kosong.",
+      },
+      {
+        name: "sortable",
+        type: "boolean (per kolom)",
+        default: "false",
+        description: "Membuat header kolom bisa diklik untuk mengurutkan.",
+      },
+      {
+        name: "sortValue",
+        type: "(row: T) => string | number | null | undefined (per kolom)",
+        description:
+          "Nilai pembanding kustom; default mengambil field sesuai key kolom.",
+      },
+      {
+        name: "defaultSort",
+        type: "{ key: string; direction: \"asc\" | \"desc\" }",
+        description: "Urutan awal saat tabel dirender.",
+      },
+      {
+        name: "onSortChange",
+        type: "(sort: TableSortState | null) => void",
+        description:
+          "Dipanggil setiap urutan berubah; null saat kembali ke urutan data asli.",
+      },
+      {
+        name: "selectable",
+        type: "boolean",
+        default: "false",
+        description:
+          "Menampilkan kolom checkbox beserta checkbox pilih semua di header.",
+      },
+      {
+        name: "selectedKeys / defaultSelectedKeys",
+        type: "string[]",
+        description: "Kunci baris terpilih (controlled) atau pilihan awal.",
+      },
+      {
+        name: "onSelectionChange",
+        type: "(keys: string[]) => void",
+        description: "Dipanggil dengan daftar kunci baris setiap pilihan berubah.",
+      },
+      {
+        name: "stickyHeader",
+        type: "boolean",
+        default: "false",
+        description: "Header tetap menempel di atas saat tabel digulir.",
+      },
+      {
+        name: "maxHeight",
+        type: "number | string",
+        description: "Batas tinggi area tabel sehingga gulir vertikal aktif.",
       },
     ],
   },
