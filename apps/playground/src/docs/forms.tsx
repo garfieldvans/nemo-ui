@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Checkbox,
   Combobox,
@@ -94,6 +94,44 @@ function ControlledCombobox() {
   );
 }
 
+function AsyncCombobox() {
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [options, setOptions] = useState<ComboboxOption[]>([]);
+  const [values, setValues] = useState<string[]>([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const term = query.trim().toLowerCase();
+      setOptions(
+        frameworks.filter((option) =>
+          String(option.label).toLowerCase().includes(term),
+        ),
+      );
+      setLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  return (
+    <Combobox
+      label="Framework (pencarian async)"
+      options={options}
+      filter={false}
+      loading={loading}
+      placeholder="Ketik untuk mencari..."
+      value={values}
+      onChange={setValues}
+      onQueryChange={(next) => {
+        setQuery(next);
+        setLoading(true);
+      }}
+      helperText="Opsi diambil dari sumber async (disimulasikan 600 ms)."
+      fullWidth
+    />
+  );
+}
+
 function ControlledDatePicker() {
   const [date, setDate] = useState<Date | null>(new Date(2026, 10, 17));
   return (
@@ -134,6 +172,48 @@ function UploadWithLimits() {
         </p>
       )}
     </Stack>
+  );
+}
+
+function SimulatedUpload() {
+  const [files, setFiles] = useState<File[]>(() => [
+    new File(["laporan"], "laporan.pdf", { type: "application/pdf" }),
+    new File(["foto"], "foto.png", { type: "image/png" }),
+  ]);
+  const [progress, setProgress] = useState<Record<string, number>>({
+    "laporan.pdf": 0,
+    "foto.png": 0,
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((previous) => {
+        const next = { ...previous };
+        for (const name of Object.keys(next)) {
+          next[name] = Math.min(100, next[name] + 20);
+        }
+        return next;
+      });
+    }, 700);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <FileUpload
+      label="Lampiran (status per file)"
+      helperText="Unggahan disimulasikan; foto.png sengaja gagal."
+      value={files}
+      onChange={setFiles}
+      getFileStatus={(file) => {
+        const value = progress[file.name];
+        if (value === undefined) return undefined;
+        if (value < 100) return { status: "uploading", progress: value };
+        if (file.name === "foto.png") {
+          return { status: "error", message: "Gagal: koneksi terputus" };
+        }
+        return { status: "success" };
+      }}
+    />
   );
 }
 
@@ -1108,6 +1188,36 @@ export const formsDocs: ComponentDoc[] = [
         preview: <ControlledCombobox />,
       },
       {
+        id: "async",
+        title: "Pencarian async",
+        description:
+          "Set `filter={false}` agar daftar tidak difilter ulang di klien, kirim permintaan dari `onQueryChange`, lalu tampilkan `loading` selama data diambil. Opsi terpilih tetap muncul sebagai chip walau hasil pencarian berikutnya tidak memuatnya.",
+        code: `const [query, setQuery] = useState("");
+const [loading, setLoading] = useState(true);
+const [options, setOptions] = useState<ComboboxOption[]>([]);
+
+useEffect(() => {
+  const timer = setTimeout(async () => {
+    setOptions(await searchFrameworks(query));
+    setLoading(false);
+  }, 600);
+  return () => clearTimeout(timer);
+}, [query]);
+
+<Combobox
+  label="Framework"
+  options={options}
+  filter={false}
+  loading={loading}
+  onQueryChange={(next) => {
+    setQuery(next);
+    setLoading(true);
+  }}
+/>`,
+        stack: true,
+        preview: <AsyncCombobox />,
+      },
+      {
         id: "status",
         title: "Opsi disabled & status",
         code: `<Combobox
@@ -1173,6 +1283,26 @@ export const formsDocs: ComponentDoc[] = [
         description: "Pesan saat pencarian tidak menemukan opsi.",
       },
       {
+        name: "filter",
+        type: "boolean",
+        default: "true",
+        description:
+          "Filter opsi terhadap teks pencarian di klien. Matikan bila opsi sudah difilter di server.",
+      },
+      {
+        name: "loading",
+        type: "boolean",
+        default: "false",
+        description:
+          "Menampilkan baris status memuat menggantikan daftar opsi, dan mencegah pemilihan saat Enter.",
+      },
+      {
+        name: "loadingText",
+        type: "ReactNode",
+        default: '"Memuat opsi..."',
+        description: "Teks pada baris status memuat.",
+      },
+      {
         name: "placeholder",
         type: "string",
         description: "Teks saat belum ada nilai dan pencarian kosong.",
@@ -1228,6 +1358,7 @@ export const formsDocs: ComponentDoc[] = [
     notes: [
       "Backspace saat input kosong menghapus chip terakhir, dan panel tetap terbuka setelah memilih — khas multi-select.",
       "Untuk pilihan tunggal, gunakan Select.",
+      "Pencarian async cukup memakai onQueryChange + filter={false} + loading; label chip disimpan dari opsi yang pernah tampil sehingga tidak hilang saat hasil server berganti.",
     ],
   },
   {
@@ -1269,6 +1400,30 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
 />`,
         stack: true,
         preview: <UploadWithLimits />,
+      },
+      {
+        id: "upload-progress",
+        title: "Status unggah per file",
+        description:
+          "Kembalikan `{ status, progress, message }` dari `getFileStatus` untuk menampilkan progress bar, tanda selesai, atau pesan gagal di baris file terkait. Selama `uploading`, tombol hapus dinonaktifkan agar unggahan tidak diputus di tengah jalan.",
+        code: `const [progress, setProgress] = useState({ "laporan.pdf": 40 });
+
+<FileUpload
+  label="Lampiran"
+  value={files}
+  onChange={setFiles}
+  getFileStatus={(file) => {
+    const value = progress[file.name];
+    if (value === undefined) return undefined;
+    if (value < 100) return { status: "uploading", progress: value };
+    if (file.name === "foto.png") {
+      return { status: "error", message: "Gagal: koneksi terputus" };
+    }
+    return { status: "success" };
+  }}
+/>`,
+        stack: true,
+        preview: <SimulatedUpload />,
       },
       {
         id: "status",
@@ -1329,6 +1484,12 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
           "Menerima file yang ditolak beserta alasannya: type, size, atau count.",
       },
       {
+        name: "getFileStatus",
+        type: "(file: File) => { status, progress?, message? } | undefined",
+        description:
+          "Status unggah per file. status: uploading | success | error; progress 0–100 untuk progress bar; message menjadi keterangan atau alasan gagal. Tanpa nilai, baris file tampil seperti biasa.",
+      },
+      {
         name: "dropText / hint",
         type: "ReactNode",
         description: "Teks utama dan keterangan kecil di dalam area unggah.",
@@ -1363,6 +1524,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
     ],
     notes: [
       "File hasil drag & drop disalin ke input file native, jadi mengirim form biasa tetap membawa semua file terpilih.",
+      "getFileStatus dipanggil per file pada setiap render, jadi simpan progres unggahan di state pemanggil dan biarkan komponen menampilkannya.",
     ],
   },
   {
