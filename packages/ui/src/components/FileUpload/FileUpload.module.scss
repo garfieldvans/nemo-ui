@@ -1,0 +1,250 @@
+// Local geometry/sizing vars (not theme tokens)
+$label-font-size: 14px;
+$label-gap: 6px;
+$helper-font-size: 12px;
+
+$dropzone-padding: 20px 16px;
+$dropzone-icon-size: 24px;
+$dropzone-radius: var(--nemo-radius-md, 8px);
+$dropzone-title-font-size: 14px;
+$dropzone-hint-font-size: 12px;
+
+$file-item-gap: 8px;
+$file-icon-size: 18px;
+$file-name-font-size: 14px;
+$file-size-font-size: 12px;
+$file-remove-size: 24px;
+
+$file-upload-transition: all 0.2s ease;
+
+.file-upload-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  gap: $label-gap;
+
+  &--full-width {
+    width: 100%;
+  }
+}
+
+.label {
+  font-size: $label-font-size;
+  font-weight: 500;
+  color: var(--nemo-neutral-900, #202124);
+
+  &--required {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.required-asterisk {
+  color: var(--nemo-error-text, #a50e0e);
+  font-weight: 400;
+}
+
+// Drop zone
+.dropzone {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: $dropzone-padding;
+  border: 1px dashed var(--nemo-neutral-300, #dadce0);
+  border-radius: $dropzone-radius;
+  background: var(--nemo-neutral-0, #ffffff);
+  text-align: center;
+  cursor: pointer;
+  transition: $file-upload-transition;
+
+  &:hover:not(.dropzone--disabled) {
+    border-color: var(--nemo-primary-500, #4285f4);
+    background: var(--nemo-neutral-50, #f8f9fa);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--nemo-primary-500, #4285f4);
+    box-shadow: 0 0 0 3px var(--nemo-primary-100, #d2e3fc);
+  }
+
+  &--dragging {
+    border-color: var(--nemo-primary-500, #4285f4);
+    border-style: solid;
+    background: var(--nemo-primary-50, #e8f0fe);
+    box-shadow: 0 0 0 3px var(--nemo-primary-100, #d2e3fc);
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: var(--nemo-neutral-100, #f1f3f4);
+    border-color: transparent;
+  }
+}
+
+.dropzone--error {
+  border-color: var(--nemo-error, #ea4335);
+
+  &:focus-visible,
+  &.dropzone--dragging {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-error, #ea4335) 20%, transparent);
+  }
+}
+
+.dropzone--warning {
+  border-color: var(--nemo-warning, #fbbc04);
+
+  &:focus-visible,
+  &.dropzone--dragging {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-warning, #fbbc04) 20%, transparent);
+  }
+}
+
+.dropzone--success {
+  border-color: var(--nemo-success, #34a853);
+
+  &:focus-visible,
+  &.dropzone--dragging {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-success, #34a853) 20%, transparent);
+  }
+}
+
+.dropzone-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $dropzone-icon-size;
+  height: $dropzone-icon-size;
+  color: var(--nemo-neutral-600, #80868b);
+}
+
+.dropzone-text {
+  font-size: $dropzone-title-font-size;
+  font-weight: 500;
+  color: var(--nemo-neutral-900, #202124);
+}
+
+.dropzone-hint {
+  font-size: $dropzone-hint-font-size;
+  color: var(--nemo-neutral-700, #5f6368);
+}
+
+// Input file native disembunyikan secara visual, tetapi tetap ada di DOM untuk form.
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Daftar file
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: $file-item-gap;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--nemo-neutral-200, #e8eaed);
+  border-radius: var(--nemo-radius-sm, 4px);
+  background: var(--nemo-neutral-0, #ffffff);
+}
+
+.file-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $file-icon-size;
+  height: $file-icon-size;
+  color: var(--nemo-neutral-600, #80868b);
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.file-name {
+  overflow: hidden;
+  font-size: $file-name-font-size;
+  color: var(--nemo-neutral-900, #202124);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  font-size: $file-size-font-size;
+  color: var(--nemo-neutral-700, #5f6368);
+}
+
+.file-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $file-remove-size;
+  height: $file-remove-size;
+  padding: 0;
+  border: none;
+  border-radius: var(--nemo-radius-sm, 4px);
+  background: transparent;
+  color: var(--nemo-neutral-600, #80868b);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    color: var(--nemo-neutral-900, #202124);
+    background: var(--nemo-neutral-200, #e8eaed);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// Helper text
+.helper-text {
+  font-size: $helper-font-size;
+  color: var(--nemo-neutral-700, #5f6368);
+
+  &--error {
+    color: var(--nemo-error-text, #a50e0e);
+  }
+
+  &--warning {
+    color: var(--nemo-warning-text, #7a4e00);
+  }
+
+  &--success {
+    color: var(--nemo-success-text, #0d652d);
+  }
+}
