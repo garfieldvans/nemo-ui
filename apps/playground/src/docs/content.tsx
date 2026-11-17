@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import {
   Avatar,
@@ -10,7 +10,6 @@ import {
   CardFooter,
   CardHeader,
   Divider,
-  Pagination,
   Stack,
   Table,
   Typography,
@@ -45,10 +44,30 @@ const memberColumns: TableColumn<Member>[] = [
 type Ticket = { id: string; judul: string; prioritas: number; status: string };
 
 const tickets: Ticket[] = [
-  { id: "NEM-104", judul: "Perbaiki tooltip di Safari", prioritas: 2, status: "Berjalan" },
-  { id: "NEM-105", judul: "Tambah mode gelap pada tabel", prioritas: 1, status: "Menunggu" },
-  { id: "NEM-106", judul: "Percepat build Storybook", prioritas: 3, status: "Selesai" },
-  { id: "NEM-107", judul: "Dokumentasikan token warna", prioritas: 1, status: "Berjalan" },
+  {
+    id: "NEM-104",
+    judul: "Perbaiki tooltip di Safari",
+    prioritas: 2,
+    status: "Berjalan",
+  },
+  {
+    id: "NEM-105",
+    judul: "Tambah mode gelap pada tabel",
+    prioritas: 1,
+    status: "Menunggu",
+  },
+  {
+    id: "NEM-106",
+    judul: "Percepat build Storybook",
+    prioritas: 3,
+    status: "Selesai",
+  },
+  {
+    id: "NEM-107",
+    judul: "Dokumentasikan token warna",
+    prioritas: 1,
+    status: "Berjalan",
+  },
 ];
 
 const ticketColumns: TableColumn<Ticket>[] = [
@@ -108,40 +127,35 @@ function PagedTable() {
   const [sort, setSort] = useState<TableSortState | null>(null);
   const [page, setPage] = useState(1);
 
-  const sorted = useMemo(() => {
-    if (!sort) return people;
-    const factor = sort.direction === "asc" ? 1 : -1;
-    return [...people].sort((a, b) => {
-      const left = a[sort.key as keyof Person];
-      const right = b[sort.key as keyof Person];
-      if (typeof left === "number" && typeof right === "number") {
-        return (left - right) * factor;
-      }
-      return (
-        String(left).localeCompare(String(right), "id", { numeric: true }) *
-        factor
-      );
-    });
-  }, [sort]);
+  return (
+    <Table
+      columns={personColumns}
+      data={people}
+      rowKey={(row) => row.nama}
+      sort={sort}
+      onSortChange={(next) => {
+        setSort(next);
+        setPage(1);
+      }}
+      pagination={{ page, pageSize: PAGE_SIZE, onChange: setPage }}
+      caption="Anggota tim"
+    />
+  );
+}
 
-  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const rows = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+function ServerPagedTable() {
+  const [page, setPage] = useState(1);
+  const pageCount = Math.max(1, Math.ceil(people.length / PAGE_SIZE));
+  const rows = people.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <Stack direction="column" spacing={4}>
-      <Table
-        columns={personColumns}
-        data={rows}
-        rowKey={(row) => row.nama}
-        sort={sort}
-        onSortChange={(next) => {
-          setSort(next);
-          setPage(1);
-        }}
-        caption={`Anggota tim — halaman ${page} dari ${pageCount}`}
-      />
-      <Pagination page={page} pageCount={pageCount} onChange={setPage} />
-    </Stack>
+    <Table
+      columns={personColumns}
+      data={rows}
+      rowKey={(row) => row.nama}
+      pagination={{ page, pageCount, total: people.length, onChange: setPage }}
+      caption="Satu halaman dari server"
+    />
   );
 }
 
@@ -786,7 +800,8 @@ export const contentDocs: ComponentDoc[] = [
       {
         name: "htmlFor",
         type: "string",
-        description: "Diteruskan ke atribut htmlFor bila dirender sebagai label.",
+        description:
+          "Diteruskan ke atribut htmlFor bila dirender sebagai label.",
       },
     ],
   },
@@ -874,7 +889,7 @@ const columns: TableColumn<Member>[] = [
         id: "selection",
         title: "Seleksi baris",
         description:
-          "`selectable` menambahkan checkbox per baris beserta checkbox \"pilih semua\" di header. Gunakan `defaultSelectedKeys` untuk pilihan awal atau `selectedKeys` + `onSelectionChange` untuk mode controlled.",
+          '`selectable` menambahkan checkbox per baris beserta checkbox "pilih semua" di header. Gunakan `defaultSelectedKeys` untuk pilihan awal atau `selectedKeys` + `onSelectionChange` untuk mode controlled.',
         code: `<Table
   columns={columns}
   data={tickets}
@@ -921,38 +936,48 @@ const columns: TableColumn<Member>[] = [
       },
       {
         id: "pagination",
-        title: "Sorting terkontrol + pagination",
+        title: "Sorting + pagination bawaan",
         description:
-          "Berikan `sort` untuk memegang urutan sepenuhnya: Table tidak menyimpan state sendiri, jadi data bisa diurutkan dan dipotong di server. Di contoh ini urutan dihitung dari data penuh, lalu hanya satu halaman yang dikirim ke Table; setiap perubahan urutan mengembalikan halaman ke 1.",
+          "Prop `pagination` menambahkan navigasi halaman beserta ringkasan baris di bawah tabel. Tanpa `pageCount`, Table mengurutkan, memotong, lalu menampilkan halaman aktif sendiri — pemanggil tidak perlu merangkai Pagination manual. Setiap perubahan urutan di contoh ini mengembalikan halaman ke 1.",
         code: `const [sort, setSort] = useState<TableSortState | null>(null);
 const [page, setPage] = useState(1);
-const pageSize = 5;
 
-// "Server": urutkan seluruh data, lalu ambil satu halaman.
-const sorted = sort
-  ? [...people].sort(compareBy(sort))
-  : people;
-const rows = sorted.slice((page - 1) * pageSize, page * pageSize);
-
-<Stack direction="column" spacing={4}>
-  <Table
-    columns={columns}
-    data={rows}
-    rowKey={(row) => row.nama}
-    sort={sort}
-    onSortChange={(next) => {
-      setSort(next);
-      setPage(1);
-    }}
-  />
-  <Pagination
-    page={page}
-    pageCount={Math.ceil(sorted.length / pageSize)}
-    onChange={setPage}
-  />
-</Stack>`,
+<Table
+  columns={columns}
+  data={people}
+  rowKey={(row) => row.nama}
+  sort={sort}
+  onSortChange={(next) => {
+    setSort(next);
+    setPage(1);
+  }}
+  pagination={{ page, pageSize: 5, onChange: setPage }}
+/>`,
         stack: true,
         preview: <PagedTable />,
+      },
+      {
+        id: "server-pagination",
+        title: "Pagination di server",
+        description:
+          "Isi `pageCount` (dan opsional `total`) agar Table tidak memotong data lagi: kirim hanya satu halaman dari server, lalu perbarui halaman lewat `onChange`.",
+        code: `const [page, setPage] = useState(1);
+const pageCount = Math.ceil(allRows.length / 5);
+const rows = allRows.slice((page - 1) * 5, page * 5);
+
+<Table
+  columns={columns}
+  data={rows}
+  rowKey={(row) => row.nama}
+  pagination={{
+    page,
+    pageCount,
+    total: allRows.length,
+    onChange: setPage,
+  }}
+/>`,
+        stack: true,
+        preview: <ServerPagedTable />,
       },
       {
         id: "empty",
@@ -985,6 +1010,12 @@ const rows = sorted.slice((page - 1) * pageSize, page * pageSize);
         name: "data",
         type: "T[]",
         description: "Baris data yang ditampilkan.",
+      },
+      {
+        name: "pagination",
+        type: "TablePagination",
+        description:
+          "Aktifkan pagination bawaan: page/defaultPage, pageSize (default 10), pageCount + total untuk mode server, onChange, size, ariaLabel. Tanpa pageCount, data dipotong di klien setelah diurutkan.",
       },
       {
         name: "rowKey",
@@ -1028,13 +1059,13 @@ const rows = sorted.slice((page - 1) * pageSize, page * pageSize);
       },
       {
         name: "sort",
-        type: "{ key: string; direction: \"asc\" | \"desc\" } | null",
+        type: '{ key: string; direction: "asc" | "desc" } | null',
         description:
           "Urutan terkontrol. Jika diisi (termasuk null), Table tidak menyimpan urutan sendiri sehingga cocok untuk sorting di server.",
       },
       {
         name: "defaultSort",
-        type: "{ key: string; direction: \"asc\" | \"desc\" }",
+        type: '{ key: string; direction: "asc" | "desc" }',
         description: "Urutan awal saat uncontrolled.",
       },
       {
@@ -1058,7 +1089,8 @@ const rows = sorted.slice((page - 1) * pageSize, page * pageSize);
       {
         name: "onSelectionChange",
         type: "(keys: string[]) => void",
-        description: "Dipanggil dengan daftar kunci baris setiap pilihan berubah.",
+        description:
+          "Dipanggil dengan daftar kunci baris setiap pilihan berubah.",
       },
       {
         name: "stickyHeader",
@@ -1071,6 +1103,10 @@ const rows = sorted.slice((page - 1) * pageSize, page * pageSize);
         type: "number | string",
         description: "Batas tinggi area tabel sehingga gulir vertikal aktif.",
       },
+    ],
+    notes: [
+      "Tanpa `pageCount`, `pagination` memotong data di klien setelah pengurutan; isi `pageCount` (dan `total`) bila data sudah dipotong di server.",
+      '"Pilih semua baris" hanya berlaku untuk baris di halaman aktif, dan nomor urut `index` pada render/rowKey mengikuti posisi global di dataset.',
     ],
   },
 ];
