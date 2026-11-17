@@ -21,10 +21,12 @@ const meta: Meta<typeof ToastProvider> = {
       ],
     },
     maxToasts: { control: { type: "number", min: 1, max: 10 } },
+    queue: { control: "boolean" },
   },
   args: {
     placement: "top-right",
     maxToasts: 5,
+    queue: false,
   },
 };
 
@@ -57,8 +59,32 @@ function ToastButtons() {
 
 export const Default: Story = {
   render: (args) => (
-    <ToastProvider placement={args.placement} maxToasts={args.maxToasts}>
+    <ToastProvider placement={args.placement} maxToasts={args.maxToasts} queue={args.queue}>
       <ToastButtons />
+    </ToastProvider>
+  ),
+};
+
+function QueueDemo() {
+  const toast = useToast();
+  return (
+    <Button
+      onClick={() => {
+        toast.success("Pertama", { message: "Langsung tampil.", duration: 2000 });
+        toast.info("Kedua", { message: "Menunggu antrean.", duration: 2000 });
+        toast.warning("Ketiga", { message: "Menunggu antrean.", duration: 2000 });
+      }}
+    >
+      Tampilkan 3 toast
+    </Button>
+  );
+}
+
+export const Queue: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <ToastProvider queue maxToasts={3}>
+      <QueueDemo />
     </ToastProvider>
   ),
 };

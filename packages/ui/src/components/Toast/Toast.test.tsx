@@ -3,6 +3,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 
 import { ToastProvider } from "./ToastProvider";
 import { useToast } from "./useToast";
+import type { ToastProviderProps } from "./Toast.types";
 
 function Trigger({
   onClick,
@@ -17,9 +18,12 @@ function Trigger({
   );
 }
 
-function renderTrigger(onClick: (toast: ReturnType<typeof useToast>) => void) {
+function renderTrigger(
+  onClick: (toast: ReturnType<typeof useToast>) => void,
+  props: Partial<ToastProviderProps> = {}
+) {
   return render(
-    <ToastProvider>
+    <ToastProvider {...props}>
       <Trigger onClick={onClick} />
     </ToastProvider>
   );
@@ -186,6 +190,78 @@ describe("ToastProvider", () => {
     expect(texts[0]).toContain("Pertama");
     expect(texts[1]).toContain("Kedua");
     expect(texts[2]).toContain("Ketiga");
+  });
+
+  it("shows one toast at a time in queue mode", () => {
+    renderTrigger(
+      (toast) => {
+        toast.info("Pertama");
+        toast.info("Kedua");
+      },
+      { queue: true }
+    );
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    expect(screen.getByText("Pertama")).toBeDefined();
+    expect(screen.queryByText("Kedua")).toBeNull();
+    expect(screen.getAllByRole("status")).toHaveLength(1);
+  });
+
+  it("promotes the next queued toast after the active one closes", () => {
+    renderTrigger(
+      (toast) => {
+        toast.info("Pertama");
+        toast.info("Kedua");
+      },
+      { queue: true }
+    );
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Tutup notifikasi" }));
+    expect(screen.queryByText("Pertama")).toBeNull();
+    expect(screen.getByText("Kedua")).toBeDefined();
+  });
+
+  it("starts the timer of a queued toast only once it is shown", () => {
+    renderTrigger(
+      (toast) => {
+        toast.info("Pertama", { duration: 1000 });
+        toast.info("Kedua", { duration: 1000 });
+      },
+      { queue: true }
+    );
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(screen.queryByText("Pertama")).toBeNull();
+    expect(screen.getByText("Kedua")).toBeDefined();
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(screen.queryByText("Kedua")).toBeNull();
+  });
+
+  it("drops the oldest waiting toast beyond maxToasts", () => {
+    renderTrigger(
+      (toast) => {
+        toast.info("Satu");
+        toast.info("Dua");
+        toast.info("Tiga");
+      },
+      { queue: true, maxToasts: 2 }
+    );
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    // "Satu" terbuang; antrean tersisa "Dua" (tampil) dan "Tiga" (menunggu).
+    expect(screen.getByText("Dua")).toBeDefined();
+    expect(screen.queryByText("Satu")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Tutup notifikasi" }));
+    expect(screen.getByText("Tiga")).toBeDefined();
+    expect(screen.queryByText("Satu")).toBeNull();
   });
 
   it("keeps independent timers for toasts with different durations", () => {

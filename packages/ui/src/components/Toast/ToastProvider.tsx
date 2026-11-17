@@ -34,6 +34,7 @@ export function ToastProvider({
   children,
   placement = "top-right",
   maxToasts = 5,
+  queue = false,
 }: ToastProviderProps) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
@@ -55,7 +56,8 @@ export function ToastProvider({
       };
       setToasts((prev) => {
         const next = [...prev, item];
-        // Batasi jumlah toast yang tampil; yang paling lama di-drop.
+        // Batasi jumlah toast yang disimpan (tampil + menunggu); yang paling
+        // lama di-drop supaya antrean tidak tumbuh tanpa batas.
         return next.length > maxToasts ? next.slice(next.length - maxToasts) : next;
       });
       return id;
@@ -80,6 +82,10 @@ export function ToastProvider({
     };
   }, [show, dismiss, dismissAll, toasts]);
 
+  // Mode antrean: hanya toast terdepan yang tampil, sisanya menunggu dan
+  // otomatis naik begitu toast aktif hilang dari daftar.
+  const visibleToasts = queue ? toasts.slice(0, 1) : toasts;
+
   return (
     <ToastContext.Provider value={value}>
       {children}
@@ -91,7 +97,7 @@ export function ToastProvider({
           aria-live="polite"
           aria-relevant="additions"
         >
-          {toasts.map((t) => (
+          {visibleToasts.map((t) => (
             <ToastView key={t.id} item={t} onDismiss={dismiss} />
           ))}
         </div>

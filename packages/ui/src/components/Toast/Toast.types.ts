@@ -40,5 +40,12 @@ export interface ToastContextValue {
 export interface ToastProviderProps {
   children: ReactNode;
   placement?: ToastPlacement;
+  /** Jumlah toast yang disimpan; yang paling lama di-drop saat melebihi batas. */
   maxToasts?: number;
+  /**
+   * Tampilkan satu toast sekaligus; sisanya menunggu dalam antrean dan muncul
+   * setelah toast aktif ditutup (manual atau auto-dismiss). Default `false`:
+   * semua toast ditumpuk sekaligus.
+   */
+  queue?: boolean;
 }
