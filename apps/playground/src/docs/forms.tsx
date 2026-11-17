@@ -13,7 +13,7 @@ import {
   Switch,
   Textarea,
 } from "@nemo/ui";
-import type { ComboboxOption, FileUploadRejection } from "@nemo/ui";
+import type { ComboboxOption, DatePickerRange, FileUploadRejection } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
 
 const plans = [
@@ -143,6 +143,28 @@ function ControlledDatePicker() {
         date
           ? `Terpilih: ${date.toLocaleDateString("id-ID", { dateStyle: "long" })}`
           : "Belum ada tanggal dipilih."
+      }
+      fullWidth
+    />
+  );
+}
+
+function RangeDatePicker() {
+  const [range, setRange] = useState<DatePickerRange | null>({
+    start: new Date(2026, 10, 1),
+    end: new Date(2026, 10, 14),
+  });
+
+  return (
+    <DatePicker
+      mode="range"
+      label="Periode laporan"
+      value={range}
+      onChange={setRange}
+      helperText={
+        range
+          ? `${range.start.toLocaleDateString("id-ID", { dateStyle: "medium" })} – ${range.end.toLocaleDateString("id-ID", { dateStyle: "medium" })}`
+          : "Pilih tanggal awal dan akhir."
       }
       fullWidth
     />
@@ -1532,7 +1554,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
     name: "DatePicker",
     group: "Forms",
     summary:
-      "Pemilih tanggal dengan input manual dan kalender berbahasa Indonesia, lengkap dengan batas min/max.",
+      "Pemilih tanggal dengan input manual dan kalender berbahasa Indonesia, lengkap dengan batas min/max serta mode rentang.",
     examples: [
       {
         id: "basic",
@@ -1567,6 +1589,25 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
 />`,
         stack: true,
         preview: <ControlledDatePicker />,
+      },
+      {
+        id: "date-range",
+        title: "Mode rentang tanggal",
+        description:
+          "Set `mode=\"range\"` untuk memilih periode. Klik tanggal awal lalu tanggal akhir; rentang selalu dirapikan otomatis walau dipilih terbalik. Input manual menerima \"awal – akhir\" dan rentang tersimpan dikirim lewat dua hidden input `name` yang sama.",
+        code: `const [range, setRange] = useState<DatePickerRange | null>({
+  start: new Date(2026, 10, 1),
+  end: new Date(2026, 10, 14),
+});
+
+<DatePicker
+  mode="range"
+  label="Periode laporan"
+  value={range}
+  onChange={setRange}
+/>`,
+        stack: true,
+        preview: <RangeDatePicker />,
       },
       {
         id: "range",
@@ -1620,14 +1661,22 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
     ],
     props: [
       {
+        name: "mode",
+        type: '"single" | "range"',
+        default: '"single"',
+        description: "Mode pemilihan satu tanggal atau rentang tanggal.",
+      },
+      {
         name: "value / defaultValue",
-        type: "Date | null",
-        description: "Tanggal terpilih (controlled) atau nilai awal (uncontrolled).",
+        type: "Date | null · DatePickerRange | null",
+        description:
+          "Tanggal terpilih (controlled) atau nilai awal (uncontrolled). Pada mode range, nilainya `{ start, end }`.",
       },
       {
         name: "onChange",
-        type: "(date: Date | null) => void",
-        description: "Dipanggil saat tanggal dipilih, diketik valid, atau dikosongkan.",
+        type: "(date: Date | null) => void · (range: DatePickerRange | null) => void",
+        description:
+          "Dipanggil saat tanggal/rentang dipilih, diketik valid, atau dikosongkan. Tipe callback mengikuti mode.",
       },
       {
         name: "format",
@@ -1695,6 +1744,8 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
     ],
     notes: [
       "Tanggal dihitung pada tengah malam waktu lokal; komponen ini hanya memilih tanggal, bukan waktu.",
+      "Mode range selalu mengirim start ≤ end; klik pertama hanya menandai tanggal awal dan kalender tetap terbuka untuk tanggal akhir.",
+      "Input manual pada mode range memakai pemisah \" – \" (juga menerima \"-\" atau \"s/d\" yang diapit spasi), mis. 01/11/2026 – 14/11/2026.",
     ],
   },
 ];
