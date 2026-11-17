@@ -16,20 +16,19 @@ const rows: Row[] = [
   { id: 2, nama: "Budi", peran: "Editor" },
 ];
 
+const manyRows: Row[] = Array.from({ length: 5 }, (_, index) => ({
+  id: index + 1,
+  nama: `Anggota ${index + 1}`,
+  peran: index % 2 === 0 ? "Admin" : "Editor",
+}));
+
 const columns: TableColumn<Row>[] = [
   { key: "nama", header: "Nama" },
   { key: "peran", header: "Peran" },
 ];
 
 const renderTable = (props: Partial<Parameters<typeof Table<Row>>[0]> = {}) =>
-  render(
-    <Table
-      columns={columns}
-      data={rows}
-      rowKey={(row) => String(row.id)}
-      {...props}
-    />,
-  );
+  render(<Table columns={columns} data={rows} rowKey={(row) => String(row.id)} {...props} />);
 
 describe("Table", () => {
   it("renders headers and cells from keys", () => {
@@ -111,34 +110,24 @@ describe("Table", () => {
       ],
       onSortChange,
     });
-    const firstName = () =>
-      container.querySelector("tbody tr td")?.textContent;
+    const firstName = () => container.querySelector("tbody tr td")?.textContent;
 
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
-      "aria-sort",
-      "none",
-    );
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "none");
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
-      "aria-sort",
-      "ascending",
-    );
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "ascending");
     expect(firstName()).toBe("Andi");
-    expect(onSortChange).toHaveBeenLastCalledWith({ key: "nama", direction: "asc" });
+    expect(onSortChange).toHaveBeenLastCalledWith({
+      key: "nama",
+      direction: "asc",
+    });
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
-      "aria-sort",
-      "descending",
-    );
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "descending");
     expect(firstName()).toBe("Budi");
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
-      "aria-sort",
-      "none",
-    );
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "none");
     expect(firstName()).toBe("Andi");
     expect(onSortChange).toHaveBeenLastCalledWith(null);
   });
@@ -155,31 +144,17 @@ describe("Table", () => {
       sort: { key: "nama", direction: "desc" },
       onSortChange,
     });
-    const firstName = () =>
-      container.querySelector("tbody tr td")?.textContent;
+    const firstName = () => container.querySelector("tbody tr td")?.textContent;
 
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
-      "aria-sort",
-      "descending",
-    );
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "descending");
     expect(firstName()).toBe("Budi");
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
     expect(onSortChange).toHaveBeenLastCalledWith(null);
     expect(firstName()).toBe("Budi");
 
-    rerender(
-      <Table
-        columns={sortableColumns}
-        data={rows}
-        rowKey={(row) => String(row.id)}
-        sort={null}
-      />,
-    );
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
-      "aria-sort",
-      "none",
-    );
+    rerender(<Table columns={sortableColumns} data={rows} rowKey={(row) => String(row.id)} sort={null} />);
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "none");
     expect(firstName()).toBe("Andi");
   });
 
@@ -193,7 +168,9 @@ describe("Table", () => {
     expect(rowOne).toBeChecked();
     expect(onSelectionChange).toHaveBeenLastCalledWith(["1"]);
 
-    const selectAll = screen.getByRole("checkbox", { name: "Pilih semua baris" });
+    const selectAll = screen.getByRole("checkbox", {
+      name: "Pilih semua baris",
+    });
     expect(selectAll).not.toBeChecked();
     await user.click(selectAll);
     expect(onSelectionChange).toHaveBeenLastCalledWith(["1", "2"]);
@@ -202,6 +179,72 @@ describe("Table", () => {
     await user.click(selectAll);
     expect(onSelectionChange).toHaveBeenLastCalledWith([]);
     expect(rowOne).not.toBeChecked();
+  });
+
+  it("slices data on the client and keeps the summary in sync", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    renderTable({ data: manyRows, pagination: { pageSize: 2, onChange } });
+
+    expect(screen.getByText("Anggota 1")).toBeDefined();
+    expect(screen.queryByText("Anggota 3")).toBeNull();
+    expect(screen.getByText("5 baris · halaman 1 dari 3")).toBeDefined();
+
+    await user.click(screen.getByRole("button", { name: "Halaman 2" }));
+
+    expect(onChange).toHaveBeenLastCalledWith(2);
+    expect(screen.getByText("Anggota 3")).toBeDefined();
+    expect(screen.queryByText("Anggota 1")).toBeNull();
+    expect(screen.getByText("5 baris · halaman 2 dari 3")).toBeDefined();
+  });
+
+  it("applies sorting before slicing the page", () => {
+    renderTable({
+      data: manyRows,
+      defaultSort: { key: "nama", direction: "desc" },
+      pagination: { pageSize: 2 },
+    });
+
+    expect(screen.getByText("Anggota 5")).toBeDefined();
+    expect(screen.getByText("Anggota 4")).toBeDefined();
+    expect(screen.queryByText("Anggota 1")).toBeNull();
+  });
+
+  it("trusts the caller's page and pageCount in server mode", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    renderTable({
+      data: manyRows.slice(2, 4),
+      pagination: { page: 2, pageCount: 3, total: 5, onChange },
+    });
+
+    expect(screen.getByText("Anggota 3")).toBeDefined();
+    expect(screen.getByText("Anggota 4")).toBeDefined();
+    expect(screen.getByText("5 baris · halaman 2 dari 3")).toBeDefined();
+
+    await user.click(screen.getByRole("button", { name: "Halaman 3" }));
+    expect(onChange).toHaveBeenLastCalledWith(3);
+    // Halaman tetap mengikuti prop `page` sampai pemanggil mengubahnya.
+    expect(screen.getByText("5 baris · halaman 2 dari 3")).toBeDefined();
+  });
+
+  it("selects all only within the visible page", async () => {
+    const user = userEvent.setup();
+    const onSelectionChange = vi.fn();
+    renderTable({
+      data: manyRows,
+      selectable: true,
+      onSelectionChange,
+      pagination: { pageSize: 2 },
+    });
+
+    await user.click(screen.getByRole("checkbox", { name: "Pilih semua baris" }));
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["1", "2"]);
+  });
+
+  it("hides the pagination when everything fits on one page", () => {
+    renderTable({ data: manyRows.slice(0, 2), pagination: { pageSize: 2 } });
+    expect(screen.queryByRole("navigation", { name: "Navigasi halaman tabel" })).toBeNull();
   });
 
   it("keeps the header sticky within a scrollable wrapper", () => {

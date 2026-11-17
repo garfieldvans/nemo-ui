@@ -75,9 +75,7 @@ function ControlledTable() {
       rowKey={(row: Member) => String(row.id)}
       sort={sort}
       onSortChange={setSort}
-      caption={
-        sort ? `Urutan: ${sort.key} (${sort.direction})` : "Urutan data asli"
-      }
+      caption={sort ? `Urutan: ${sort.key} (${sort.direction})` : "Urutan data asli"}
     />
   );
 }
@@ -114,6 +112,34 @@ export const StickyHeader: Story = {
     stickyHeader: true,
     maxHeight: 160,
     caption: "Header tetap terlihat saat digulir",
+  },
+};
+
+const pageableData: Member[] = Array.from({ length: 12 }, (_, index) => ({
+  id: index + 1,
+  nama: `Anggota ${String(index + 1).padStart(2, "0")}`,
+  peran: index % 2 === 0 ? "Admin" : "Editor",
+  status: index % 3 === 0 ? "Nonaktif" : "Aktif",
+}));
+
+export const Paginated: Story = {
+  args: {
+    columns: sortableColumns,
+    data: pageableData,
+    rowKey: (row: Member) => String(row.id),
+    pagination: { pageSize: 5 },
+    caption: "Pagination dipotong otomatis di klien",
+  },
+};
+
+export const ServerPagination: Story = {
+  args: {
+    columns,
+    // Pemanggil sudah memotong data untuk halaman aktif.
+    data: pageableData.slice(5, 10),
+    rowKey: (row: Member) => String(row.id),
+    pagination: { page: 2, pageCount: 3, total: pageableData.length },
+    caption: "Data halaman 2 dari server",
   },
 };
 

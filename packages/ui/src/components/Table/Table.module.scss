@@ -1,3 +1,9 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .wrapper {
   overflow-x: auto;
 }
@@ -99,6 +105,19 @@
   padding: 24px 16px;
   text-align: center;
   color: var(--nemo-neutral-700, #5F6368);
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 .caption {

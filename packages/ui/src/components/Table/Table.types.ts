@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 
+import type { PaginationSize } from "../Pagination/Pagination.types";
+
 export type TableSize = "sm" | "md";
 export type TableAlign = "left" | "center" | "right";
 export type TableSortDirection = "asc" | "desc";
@@ -22,6 +24,28 @@ export interface TableColumn<T> {
   sortable?: boolean;
   /** Nilai pembanding saat diurutkan; default: row[key]. */
   sortValue?: (row: T) => string | number | null | undefined;
+}
+
+export interface TablePagination {
+  /** Halaman aktif (1-based) — controlled. */
+  page?: number;
+  /** Halaman awal saat uncontrolled. Default 1. */
+  defaultPage?: number;
+  /** Jumlah baris per halaman untuk pemotongan di klien. Default 10. */
+  pageSize?: number;
+  /**
+   * Jumlah halaman. Bila diisi, `data` dianggap sudah dipotong pemanggil
+   * (mode server) dan Table tidak memotongnya lagi.
+   */
+  pageCount?: number;
+  /** Jumlah baris total untuk teks ringkasan; default panjang `data`. */
+  total?: number;
+  /** Dipanggil saat halaman berubah. */
+  onChange?: (page: number) => void;
+  /** Ukuran tombol navigasi. */
+  size?: PaginationSize;
+  /** Nama aksesibel navigasi. Default "Navigasi halaman tabel". */
+  ariaLabel?: string;
 }
 
 export interface TableProps<T> {
@@ -52,6 +76,11 @@ export interface TableProps<T> {
   /** Pilihan awal saat uncontrolled. */
   defaultSelectedKeys?: string[];
   onSelectionChange?: (keys: string[]) => void;
+  /**
+   * Aktifkan pagination bawaan: tanpa `pageCount`, Table memotong `data` sendiri;
+   * dengan `pageCount`, data diperlakukan sudah dipotong di server.
+   */
+  pagination?: TablePagination;
   /** Header tetap terlihat saat tabel digulir. */
   stickyHeader?: boolean;
   /** Batas tinggi area tabel agar gulir vertikal aktif. */
