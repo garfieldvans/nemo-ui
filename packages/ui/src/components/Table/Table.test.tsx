@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 
 import { Table } from "./Table";
 import type { TableColumn } from "./Table.types";
@@ -98,5 +99,77 @@ describe("Table", () => {
     const { container } = renderTable();
     const bodyRows = container.querySelectorAll("tbody tr");
     expect(bodyRows).toHaveLength(2);
+  });
+
+  it("sorts on header click and cycles asc, desc, then unsorted", async () => {
+    const user = userEvent.setup();
+    const onSortChange = vi.fn();
+    const { container } = renderTable({
+      columns: [
+        { key: "nama", header: "Nama", sortable: true },
+        { key: "peran", header: "Peran" },
+      ],
+      onSortChange,
+    });
+    const firstName = () =>
+      container.querySelector("tbody tr td")?.textContent;
+
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "none",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Nama" }));
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "ascending",
+    );
+    expect(firstName()).toBe("Andi");
+    expect(onSortChange).toHaveBeenLastCalledWith({ key: "nama", direction: "asc" });
+
+    await user.click(screen.getByRole("button", { name: "Nama" }));
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "descending",
+    );
+    expect(firstName()).toBe("Budi");
+
+    await user.click(screen.getByRole("button", { name: "Nama" }));
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "none",
+    );
+    expect(firstName()).toBe("Andi");
+    expect(onSortChange).toHaveBeenLastCalledWith(null);
+  });
+
+  it("selects rows and toggles all rows via checkboxes", async () => {
+    const user = userEvent.setup();
+    const onSelectionChange = vi.fn();
+    renderTable({ selectable: true, onSelectionChange });
+
+    const rowOne = screen.getByRole("checkbox", { name: "Pilih baris 1" });
+    await user.click(rowOne);
+    expect(rowOne).toBeChecked();
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["1"]);
+
+    const selectAll = screen.getByRole("checkbox", { name: "Pilih semua baris" });
+    expect(selectAll).not.toBeChecked();
+    await user.click(selectAll);
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["1", "2"]);
+    expect(rowOne).toBeChecked();
+
+    await user.click(selectAll);
+    expect(onSelectionChange).toHaveBeenLastCalledWith([]);
+    expect(rowOne).not.toBeChecked();
+  });
+
+  it("keeps the header sticky within a scrollable wrapper", () => {
+    const { container } = renderTable({ stickyHeader: true, maxHeight: 200 });
+    const table = container.querySelector("table");
+    expect(table?.className).toContain("table--sticky");
+    const wrapper = table?.parentElement as HTMLElement;
+    expect(wrapper.className).toContain("wrapper--scrollable");
+    expect(wrapper.style.maxHeight).toBe("200px");
   });
 });
