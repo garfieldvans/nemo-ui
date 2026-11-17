@@ -39,6 +39,60 @@ describe("FileUpload", () => {
     expect(screen.queryByText("a.txt")).toBeNull();
   });
 
+  it("shows per-file upload progress and blocks removal while uploading", async () => {
+    const file = makeFile("laporan.pdf");
+    renderUpload({
+      defaultValue: [file],
+      getFileStatus: () => ({ status: "uploading", progress: 40 }),
+    });
+
+    const bar = screen.getByRole("progressbar", { name: "Progres unggah laporan.pdf" });
+    expect(bar).toHaveAttribute("aria-valuenow", "40");
+    expect(bar).toHaveAttribute("aria-valuetext", "40%");
+    expect(screen.getByText("Mengunggah 40%")).toBeDefined();
+    expect(screen.getByRole("button", { name: "Hapus laporan.pdf" })).toBeDisabled();
+  });
+
+  it("clamps progress into the 0-100 range", () => {
+    renderUpload({
+      defaultValue: [makeFile("besar.bin")],
+      getFileStatus: () => ({ status: "uploading", progress: 140 }),
+    });
+
+    expect(
+      screen.getByRole("progressbar", { name: "Progres unggah besar.bin" }),
+    ).toHaveAttribute("aria-valuenow", "100");
+    expect(screen.getByText("Mengunggah 100%")).toBeDefined();
+  });
+
+  it("reports a finished upload per file", () => {
+    renderUpload({
+      defaultValue: [makeFile("selesai.txt")],
+      getFileStatus: () => ({ status: "success" }),
+    });
+
+    expect(screen.getByText("Selesai")).toBeDefined();
+    expect(screen.queryByRole("progressbar")).toBeNull();
+    expect(screen.getByRole("button", { name: "Hapus selesai.txt" })).not.toBeDisabled();
+  });
+
+  it("shows the failure message per file", () => {
+    renderUpload({
+      defaultValue: [makeFile("gagal.txt")],
+      getFileStatus: () => ({ status: "error", message: "Kuota penyimpanan habis" }),
+    });
+
+    expect(screen.getByRole("alert")).toHaveTextContent("Kuota penyimpanan habis");
+    expect(screen.getByRole("button", { name: "Hapus gagal.txt" })).not.toBeDisabled();
+  });
+
+  it("renders no upload status without getFileStatus", () => {
+    renderUpload({ defaultValue: [makeFile("biasa.txt")] });
+
+    expect(screen.queryByRole("progressbar")).toBeNull();
+    expect(screen.queryByText("Selesai")).toBeNull();
+  });
+
   it("rejects files larger than maxSize", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();

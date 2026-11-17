@@ -168,6 +168,19 @@ $file-upload-transition: all 0.2s ease;
   border: 1px solid var(--nemo-neutral-200, #e8eaed);
   border-radius: var(--nemo-radius-sm, 4px);
   background: var(--nemo-neutral-0, #ffffff);
+  transition: $file-upload-transition;
+
+  &--uploading {
+    border-color: var(--nemo-primary-300, #a8c7fa);
+  }
+
+  &--success {
+    border-color: var(--nemo-success, #34a853);
+  }
+
+  &--error {
+    border-color: var(--nemo-error, #ea4335);
+  }
 }
 
 .file-icon {
@@ -199,6 +212,87 @@ $file-upload-transition: all 0.2s ease;
 .file-size {
   font-size: $file-size-font-size;
   color: var(--nemo-neutral-700, #5f6368);
+}
+
+.file-progress {
+  display: block;
+  overflow: hidden;
+  height: 4px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: var(--nemo-neutral-200, #e8eaed);
+}
+
+.file-progress-bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--nemo-primary-500, #4285f4);
+  transition: width 0.2s ease;
+}
+
+.file-status {
+  font-size: $file-size-font-size;
+  color: var(--nemo-neutral-700, #5f6368);
+
+  &--uploading {
+    color: var(--nemo-primary-text, #1a56c4);
+  }
+
+  &--success {
+    color: var(--nemo-success-text, #1e7e34);
+  }
+
+  &--error {
+    color: var(--nemo-error-text, #a50e0e);
+  }
+}
+
+.file-status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $file-icon-size;
+  height: $file-icon-size;
+
+  &--uploading {
+    color: var(--nemo-primary-500, #4285f4);
+  }
+
+  &--success {
+    color: var(--nemo-success-text, #1e7e34);
+  }
+
+  &--error {
+    color: var(--nemo-error-text, #a50e0e);
+  }
+}
+
+.file-spinner {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: file-upload-spin 700ms linear infinite;
+}
+
+@keyframes file-upload-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .file-spinner {
+    animation-duration: 2s;
+  }
+
+  .file-progress-bar {
+    transition: none;
+  }
 }
 
 .file-remove {

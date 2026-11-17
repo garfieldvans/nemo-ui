@@ -47,6 +47,22 @@ export const Disabled: Story = {
   },
 };
 
+export const UploadStatus: Story = {
+  args: {
+    label: "Lampiran",
+    defaultValue: [
+      new File(["laporan"], "laporan.pdf", { type: "application/pdf" }),
+      new File(["foto"], "foto.png", { type: "image/png" }),
+      new File(["arsip"], "arsip.zip", { type: "application/zip" }),
+    ],
+    getFileStatus: (file) => {
+      if (file.name === "laporan.pdf") return { status: "uploading", progress: 60 };
+      if (file.name === "foto.png") return { status: "success" };
+      return { status: "error", message: "Gagal: koneksi terputus" };
+    },
+  },
+};
+
 const ControlledExample = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [rejected, setRejected] = useState<FileUploadRejection[]>([]);

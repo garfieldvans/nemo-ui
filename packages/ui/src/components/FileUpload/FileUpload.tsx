@@ -66,6 +66,44 @@ function RemoveIcon() {
   );
 }
 
+function CheckIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+function AlertIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <line x1="12" y1="8" x2="12" y2="12.5" />
+      <line x1="12" y1="16" x2="12" y2="16" />
+    </svg>
+  );
+}
+
 function formatSize(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -114,6 +152,7 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
       name,
       onChange,
       onReject,
+      getFileStatus,
       id,
       className,
       style,
@@ -311,26 +350,88 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
 
         {files.length > 0 && (
           <ul className={styles["file-list"]}>
-            {files.map((file, index) => (
-              <li key={`${file.name}-${file.size}-${file.lastModified}`} className={styles["file-item"]}>
-                <span className={styles["file-icon"]}>
-                  <FileIcon />
-                </span>
-                <span className={styles["file-info"]}>
-                  <span className={styles["file-name"]}>{file.name}</span>
-                  <span className={styles["file-size"]}>{formatSize(file.size)}</span>
-                </span>
-                <button
-                  type="button"
-                  className={styles["file-remove"]}
-                  aria-label={`Hapus ${file.name}`}
-                  disabled={disabled}
-                  onClick={() => removeFile(index)}
+            {files.map((file, index) => {
+              const itemState = getFileStatus?.(file);
+              const status = itemState?.status;
+              const uploading = status === "uploading";
+              const progress = Math.min(100, Math.max(0, Math.round(itemState?.progress ?? 0)));
+              const statusLabel =
+                status === "uploading"
+                  ? `Mengunggah ${progress}%`
+                  : (itemState?.message ?? (status === "success" ? "Selesai" : "Gagal diunggah"));
+
+              return (
+                <li
+                  key={`${file.name}-${file.size}-${file.lastModified}`}
+                  className={clsx(
+                    styles["file-item"],
+                    status && styles[`file-item--${status}`],
+                  )}
+                  aria-busy={uploading || undefined}
                 >
-                  <RemoveIcon />
-                </button>
-              </li>
-            ))}
+                  <span className={styles["file-icon"]}>
+                    <FileIcon />
+                  </span>
+                  <span className={styles["file-info"]}>
+                    <span className={styles["file-name"]}>{file.name}</span>
+                    <span className={styles["file-size"]}>{formatSize(file.size)}</span>
+                    {uploading && (
+                      <span
+                        className={styles["file-progress"]}
+                        role="progressbar"
+                        aria-label={`Progres unggah ${file.name}`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={progress}
+                        aria-valuetext={`${progress}%`}
+                      >
+                        <span
+                          className={styles["file-progress-bar"]}
+                          style={{ width: `${progress}%` }}
+                        />
+                      </span>
+                    )}
+                    {status && (
+                      <span
+                        className={clsx(
+                          styles["file-status"],
+                          styles[`file-status--${status}`],
+                        )}
+                        role={status === "error" ? "alert" : undefined}
+                      >
+                        {statusLabel}
+                      </span>
+                    )}
+                  </span>
+                  {status && (
+                    <span
+                      className={clsx(
+                        styles["file-status-icon"],
+                        styles[`file-status-icon--${status}`],
+                      )}
+                      aria-hidden="true"
+                    >
+                      {uploading ? (
+                        <span className={styles["file-spinner"]} />
+                      ) : status === "success" ? (
+                        <CheckIcon />
+                      ) : (
+                        <AlertIcon />
+                      )}
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    className={styles["file-remove"]}
+                    aria-label={`Hapus ${file.name}`}
+                    disabled={disabled || uploading}
+                    onClick={() => removeFile(index)}
+                  >
+                    <RemoveIcon />
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         )}
 

@@ -7,6 +7,16 @@ export interface FileUploadRejection {
   reason: FileUploadRejectionReason;
 }
 
+export type FileUploadItemStatus = "uploading" | "success" | "error";
+
+export interface FileUploadItemState {
+  status: FileUploadItemStatus;
+  /** Progres unggah 0–100. Dipakai saat `status` bernilai `"uploading"`. */
+  progress?: number;
+  /** Pesan tambahan; untuk `"error"` menjadi alasan gagal. */
+  message?: ReactNode;
+}
+
 export interface FileUploadRef {
   focus: () => void;
   blur: () => void;
@@ -43,6 +53,11 @@ export interface FileUploadProps {
   name?: string;
   onChange?: (files: File[]) => void;
   onReject?: (rejected: FileUploadRejection[]) => void;
+  /**
+   * Status unggah per file. Kembalikan `undefined` untuk file yang belum diunggah.
+   * Saat `"uploading"`, tombol hapus dinonaktifkan sampai unggahan selesai.
+   */
+  getFileStatus?: (file: File) => FileUploadItemState | undefined;
   id?: string;
   className?: string;
   style?: CSSProperties;
