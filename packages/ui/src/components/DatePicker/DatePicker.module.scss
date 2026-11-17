@@ -400,6 +400,11 @@ $datepicker-transition: all 0.2s ease;
     background: var(--nemo-primary-50, #e8f0fe);
   }
 
+  &--in-range {
+    background: var(--nemo-primary-50, #e8f0fe);
+    border-radius: 6px;
+  }
+
   &--selected {
     background: var(--nemo-primary-500, #4285f4);
     border-color: var(--nemo-primary-500, #4285f4);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { DatePicker } from "./DatePicker";
+import type { DatePickerRange } from "./DatePicker.types";
 
 const meta: Meta<typeof DatePicker> = {
   title: "Components/DatePicker",
@@ -59,6 +60,39 @@ export const FilledSmall: Story = {
     format: "yyyy-mm-dd",
     defaultValue: new Date(2026, 0, 15),
   },
+};
+
+export const Range: Story = {
+  args: {
+    mode: "range",
+    label: "Periode laporan",
+    defaultValue: { start: new Date(2026, 6, 1), end: new Date(2026, 6, 16) },
+    helperText: "Klik tanggal awal, lalu tanggal akhir.",
+  },
+};
+
+const ControlledRangeExample = () => {
+  const [range, setRange] = useState<DatePickerRange | null>(null);
+
+  return (
+    <div style={{ display: "grid", gap: 8 }}>
+      <DatePicker
+        mode="range"
+        label="Periode (controlled)"
+        value={range}
+        onChange={setRange}
+        fullWidth
+      />
+      <span style={{ fontSize: 12, color: "var(--nemo-neutral-700, #5f6368)" }}>
+        Nilai: {range ? `${range.start.toISOString().slice(0, 10)} → ${range.end.toISOString().slice(0, 10)}` : "kosong"}
+      </span>
+    </div>
+  );
+};
+
+export const ControlledRange: Story = {
+  render: () => <ControlledRangeExample />,
+  parameters: { controls: { disable: true } },
 };
 
 const ControlledExample = () => {

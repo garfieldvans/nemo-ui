@@ -1,4 +1,4 @@
-import type { DatePickerFormat } from "./DatePicker.types";
+import type { DatePickerFormat, DatePickerRange } from "./DatePicker.types";
 
 export const WEEKDAY_SHORT = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
 
@@ -45,6 +45,24 @@ export function formatDate(date: Date, format: DatePickerFormat): string {
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
   }
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
+}
+
+export const RANGE_SEPARATOR = " – ";
+
+export function formatDateRange(start: Date, end: Date, format: DatePickerFormat): string {
+  return `${formatDate(start, format)}${RANGE_SEPARATOR}${formatDate(end, format)}`;
+}
+
+/** Mengurai teks rentang seperti "01/07/2026 – 16/07/2026" (pemisah `–`, `-`, atau `s/d`). */
+export function parseDateRangeText(text: string, format: DatePickerFormat): DatePickerRange | null {
+  const parts = text.split(/\s+(?:–|-|s\/d)\s+/i);
+  if (parts.length !== 2) return null;
+
+  const start = parseDateText(parts[0], format);
+  const end = parseDateText(parts[1], format);
+  if (!start || !end) return null;
+
+  return start.getTime() <= end.getTime() ? { start, end } : { start: end, end: start };
 }
 
 export function toISODate(date: Date): string {

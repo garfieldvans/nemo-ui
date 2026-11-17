@@ -12,7 +12,13 @@ export interface DatePickerRef {
   close: () => void;
 }
 
-export interface DatePickerProps {
+/** Rentang tanggal, selalu berurutan (`start` ≤ `end`). */
+export interface DatePickerRange {
+  start: Date;
+  end: Date;
+}
+
+export interface DatePickerBaseProps {
   label?: string;
   required?: boolean;
   error?: string;
@@ -31,10 +37,6 @@ export interface DatePickerProps {
   disabled?: boolean;
   readOnly?: boolean;
   fullWidth?: boolean;
-  /** Tanggal terpilih (controlled). `null` berarti kosong. */
-  value?: Date | null;
-  /** Tanggal awal (uncontrolled). */
-  defaultValue?: Date | null;
   /** Tanggal paling awal yang boleh dipilih. */
   min?: Date;
   /** Tanggal paling akhir yang boleh dipilih. */
@@ -43,10 +45,29 @@ export interface DatePickerProps {
   weekStartsOn?: 0 | 1;
   /** Nama untuk hidden input (nilai `yyyy-mm-dd`) agar ikut terkirim bersama form. */
   name?: string;
-  onChange?: (date: Date | null) => void;
   onOpenChange?: (open: boolean) => void;
   id?: string;
   className?: string;
   style?: CSSProperties;
   ref?: ForwardedRef<DatePickerRef>;
 }
+
+export interface DatePickerSingleProps extends DatePickerBaseProps {
+  mode?: "single";
+  /** Tanggal terpilih (controlled). `null` berarti kosong. */
+  value?: Date | null;
+  /** Tanggal awal (uncontrolled). */
+  defaultValue?: Date | null;
+  onChange?: (date: Date | null) => void;
+}
+
+export interface DatePickerRangeProps extends DatePickerBaseProps {
+  mode: "range";
+  /** Rentang terpilih (controlled). `null` berarti kosong. */
+  value?: DatePickerRange | null;
+  /** Rentang awal (uncontrolled). */
+  defaultValue?: DatePickerRange | null;
+  onChange?: (range: DatePickerRange | null) => void;
+}
+
+export type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps;

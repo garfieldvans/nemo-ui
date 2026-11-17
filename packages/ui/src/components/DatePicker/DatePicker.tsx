@@ -1,17 +1,19 @@
 import { useId, useMemo, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./DatePicker.module.scss";
 
-import type { DatePickerProps, DatePickerRef } from "./DatePicker.types";
+import type { DatePickerProps, DatePickerRange, DatePickerRef } from "./DatePicker.types";
 import { clsx } from "../../utils/clsx";
 import {
   addDays,
   addMonths,
   buildMonthMatrix,
   formatDate,
+  formatDateRange,
   formatLongDate,
   formatMonthLabel,
   isSameDay,
   isSameMonth,
+  parseDateRangeText,
   parseDateText,
   startOfDay,
   startOfMonth,
@@ -87,6 +89,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       success,
       helperText,
       placeholder,
+      mode = "single",
       format = "dd/mm/yyyy",
       variant = "outlined",
       size = "md",
@@ -116,19 +119,43 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const inputId = id ?? `datepicker-${randomId}`;
     const calendarId = `${inputId}-calendar`;
 
+    const isRangeMode = mode === "range";
     const isControlled = value !== undefined;
-    const [internalValue, setInternalValue] = useState<Date | null>(defaultValue ?? null);
-    const selected = isControlled ? value : internalValue;
+
+    const rangeValue = isRangeMode ? (value as DatePickerRange | null | undefined) : null;
+    const rangeDefault = isRangeMode
+      ? (defaultValue as DatePickerRange | null | undefined)
+      : null;
+    const [internalRange, setInternalRange] = useState<DatePickerRange | null>(rangeDefault ?? null);
+    const [internalValue, setInternalValue] = useState<Date | null>(
+      isRangeMode ? null : ((defaultValue as Date | null | undefined) ?? null)
+    );
+    const range = isRangeMode ? (isControlled ? rangeValue : internalRange) : null;
+    const selected = isRangeMode
+      ? null
+      : ((isControlled ? value : internalValue) as Date | null);
+
+    // Rentang setengah jadi: tanggal awal sudah dipilih, menunggu tanggal akhir.
+    const [pendingStart, setPendingStart] = useState<Date | null>(null);
+    const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
 
     const [open, setOpen] = useState(false);
     const [viewMonth, setViewMonth] = useState<Date>(() =>
-      startOfMonth(selected ?? new Date())
+      startOfMonth(selected ?? range?.start ?? new Date())
     );
-    const [activeDate, setActiveDate] = useState<Date>(() => startOfDay(selected ?? new Date()));
+    const [activeDate, setActiveDate] = useState<Date>(() =>
+      startOfDay(selected ?? range?.start ?? new Date())
+    );
 
     // `draft` menyimpan teks yang sedang diketik; `null` berarti tampilkan nilai terpilih.
     const [draft, setDraft] = useState<string | null>(null);
-    const formatted = selected ? formatDate(selected, format) : "";
+    const formatted = isRangeMode
+      ? range
+        ? formatDateRange(range.start, range.end, format)
+        : ""
+      : selected
+        ? formatDate(selected, format)
+        : "";
     const text = draft ?? formatted;
 
     const hasError = Boolean(error);
@@ -138,8 +165,10 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
 
     const isInteractive = !disabled && !readOnly;
-    const showClear = clearable && Boolean(selected) && !disabled && !readOnly;
-    const inputPlaceholder = placeholder ?? format;
+    const hasValue = isRangeMode ? Boolean(range) : Boolean(selected);
+    const showClear = clearable && hasValue && !disabled && !readOnly;
+    const inputPlaceholder =
+      placeholder ?? (isRangeMode ? `${format} – ${format}` : format);
 
     const isOutOfRange = (date: Date) => {
       if (min && date.getTime() < startOfDay(min).getTime()) return true;
@@ -154,14 +183,21 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const labels = useMemo(() => weekdayLabels(weekStartsOn), [weekStartsOn]);
     const today = startOfDay(new Date());
 
-    const commit = (date: Date | null) => {
-      if (!isControlled) setInternalValue(date);
-      onChange?.(date);
+    const commit = (next: Date | DatePickerRange | null) => {
+      if (isRangeMode) {
+        if (!isControlled) setInternalRange(next as DatePickerRange | null);
+      } else if (!isControlled) {
+        setInternalValue(next as Date | null);
+      }
+      (
+        onChange as ((value: Date | DatePickerRange | null) => void) | undefined
+      )?.(next);
     };
 
     const openCalendar = () => {
       if (!isInteractive) return;
-      const base = selected ? startOfDay(selected) : today;
+      const anchor = isRangeMode ? (range?.start ?? pendingStart) : selected;
+      const base = anchor ? startOfDay(anchor) : today;
       setViewMonth(startOfMonth(base));
       setActiveDate(base);
       if (!open) {
@@ -171,6 +207,8 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     };
 
     const closeCalendar = () => {
+      setPendingStart(null);
+      setHoveredDate(null);
       if (!open) return;
       setOpen(false);
       onOpenChange?.(false);
@@ -179,16 +217,52 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const selectDate = (date: Date) => {
       if (isOutOfRange(date)) return;
       const day = startOfDay(date);
-      commit(day);
       setActiveDate(day);
       setViewMonth(startOfMonth(day));
       setDraft(null);
+
+      if (!isRangeMode) {
+        commit(day);
+        closeCalendar();
+        inputRef.current?.focus();
+        return;
+      }
+
+      if (!pendingStart) {
+        // Klik pertama = tanggal awal; kalender tetap terbuka untuk tanggal akhir.
+        setPendingStart(day);
+        return;
+      }
+
+      const start = pendingStart.getTime() <= day.getTime() ? pendingStart : day;
+      const end = pendingStart.getTime() <= day.getTime() ? day : pendingStart;
+      commit({ start, end });
       closeCalendar();
       inputRef.current?.focus();
     };
 
     /** Mengubah teks menjadi nilai; teks yang tidak valid dikembalikan ke nilai terpilih. */
     const commitText = () => {
+      if (isRangeMode) {
+        if (text.trim() === "") {
+          commit(null);
+          setDraft(null);
+          return;
+        }
+        const parsedRange = parseDateRangeText(text, format);
+        if (
+          parsedRange &&
+          !isOutOfRange(parsedRange.start) &&
+          !isOutOfRange(parsedRange.end)
+        ) {
+          commit(parsedRange);
+          setViewMonth(startOfMonth(parsedRange.start));
+          setActiveDate(parsedRange.start);
+        }
+        setDraft(null);
+        return;
+      }
+
       const parsed = parseDateText(text, format);
       if (parsed && !isOutOfRange(parsed)) {
         commit(parsed);
@@ -214,6 +288,16 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const nextText = e.target.value;
       setDraft(nextText);
+
+      if (isRangeMode) {
+        const parsedRange = parseDateRangeText(nextText, format);
+        if (parsedRange) {
+          setViewMonth(startOfMonth(parsedRange.start));
+          setActiveDate(parsedRange.start);
+        }
+        return;
+      }
+
       const parsed = parseDateText(nextText, format);
       if (parsed && !isOutOfRange(parsed)) {
         setViewMonth(startOfMonth(parsed));
@@ -268,13 +352,19 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
         case "Enter":
           if (open) {
             e.preventDefault();
-            if (!isOutOfRange(activeDate)) selectDate(activeDate);
+            // Teks yang sedang diketik lebih diutamakan daripada tanggal aktif.
+            if (draft !== null && draft !== formatted) {
+              commitText();
+              closeCalendar();
+            } else if (!isOutOfRange(activeDate)) {
+              selectDate(activeDate);
+            }
           } else {
             commitText();
           }
           break;
         case "Escape":
-          if (open) {
+          if (open || pendingStart) {
             e.preventDefault();
             setDraft(null);
             closeCalendar();
@@ -343,6 +433,24 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       hasSuccess && styles["helper-text--success"]
     );
 
+    // Sorotan rentang: setengah jadi (dengan pratinjau hover) atau rentang tersimpan.
+    const rangePreview = useMemo<{ start: Date; end: Date } | null>(() => {
+      if (!isRangeMode) return null;
+      if (pendingStart) {
+        const other = hoveredDate ?? pendingStart;
+        return pendingStart.getTime() <= other.getTime()
+          ? { start: pendingStart, end: other }
+          : { start: other, end: pendingStart };
+      }
+      if (range) return { start: range.start, end: range.end };
+      return null;
+    }, [isRangeMode, pendingStart, hoveredDate, range]);
+
+    const isInPreviewRange = (day: Date) =>
+      rangePreview !== null &&
+      day.getTime() >= rangePreview.start.getTime() &&
+      day.getTime() <= rangePreview.end.getTime();
+
     const activeId = `${calendarId}-day-${toISODate(activeDate)}`;
 
     return (
@@ -396,7 +504,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
             <button
               type="button"
               className={clsx(styles["icon-button"], styles["clear-button"])}
-              aria-label="Hapus tanggal"
+              aria-label={isRangeMode ? "Hapus rentang tanggal" : "Hapus tanggal"}
               tabIndex={-1}
               onMouseDown={(e) => e.preventDefault()}
               onClick={handleClear}
@@ -422,7 +530,8 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
               id={calendarId}
               className={styles.calendar}
               role="dialog"
-              aria-label="Pilih tanggal"
+              aria-label={isRangeMode ? "Pilih rentang tanggal" : "Pilih tanggal"}
+              onMouseLeave={() => setHoveredDate(null)}
             >
               <div className={styles["calendar-header"]}>
                 <button
@@ -466,8 +575,13 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                       {days.slice(row * 7, row * 7 + 7).map((day) => {
                         const iso = toISODate(day);
                         const outOfRange = isOutOfRange(day);
-                        const isSelected = isSameDay(day, selected);
                         const isOutside = !isSameMonth(day, viewMonth);
+                        const isRangeEdge =
+                          isSameDay(day, rangePreview?.start ?? null) ||
+                          isSameDay(day, rangePreview?.end ?? null);
+                        const isSelected = isRangeMode ? isRangeEdge : isSameDay(day, selected);
+                        const inRange =
+                          isRangeMode && !isRangeEdge && isInPreviewRange(day);
 
                         return (
                           <td
@@ -484,6 +598,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                                 styles["calendar-day"],
                                 isOutside && styles["calendar-day--outside"],
                                 isSameDay(day, today) && styles["calendar-day--today"],
+                                inRange && styles["calendar-day--in-range"],
                                 isSelected && styles["calendar-day--selected"],
                                 isSameDay(day, activeDate) && open && styles["calendar-day--active"]
                               )}
@@ -491,6 +606,9 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                               aria-current={isSameDay(day, today) ? "date" : undefined}
                               disabled={outOfRange}
                               onMouseDown={(e) => e.preventDefault()}
+                              onMouseEnter={() => {
+                                if (isRangeMode && pendingStart) setHoveredDate(day);
+                              }}
                               onClick={() => selectDate(day)}
                             >
                               {day.getDate()}
@@ -512,7 +630,15 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
           </span>
         )}
 
-        {name && <input type="hidden" name={name} value={selected ? toISODate(selected) : ""} />}
+        {name &&
+          (isRangeMode
+            ? range && (
+                <>
+                  <input type="hidden" name={name} value={toISODate(range.start)} />
+                  <input type="hidden" name={name} value={toISODate(range.end)} />
+                </>
+              )
+            : <input type="hidden" name={name} value={selected ? toISODate(selected) : ""} />)}
       </div>
     );
   }
