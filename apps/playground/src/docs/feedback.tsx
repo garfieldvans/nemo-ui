@@ -5,6 +5,7 @@ import {
   Skeleton,
   Spinner,
   Stack,
+  ToastProvider,
   useToast,
 } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
@@ -59,6 +60,23 @@ function ToastDemo() {
         Tutup semua
       </Button>
     </Stack>
+  );
+}
+
+function ToastQueueDemo() {
+  const toast = useToast();
+
+  return (
+    <Button
+      size="sm"
+      onClick={() => {
+        toast.success("Pertama", { message: "Langsung tampil.", duration: 2000 });
+        toast.info("Kedua", { message: "Menunggu antrean.", duration: 2000 });
+        toast.warning("Ketiga", { message: "Menunggu antrean.", duration: 2000 });
+      }}
+    >
+      Tampilkan 3 toast
+    </Button>
   );
 }
 
@@ -222,6 +240,26 @@ function Simpan() {
         stack: true,
         preview: <ToastDemo />,
       },
+      {
+        id: "queue",
+        title: "Antrean satu-per-satu",
+        description:
+          "Dengan `queue`, hanya satu toast yang tampil pada satu waktu. Timer toast berikutnya baru berjalan saat ia benar-benar muncul, sehingga pesan tidak sempat kedaluwarsa saat masih menunggu. `maxToasts` membatasi total isi antrean dan membuang yang paling lama.",
+        code: `<ToastProvider queue maxToasts={3}>
+  <App />
+</ToastProvider>
+
+// Ketiganya dipanggil berurutan, tetapi tampil bergantian.
+toast.success("Pertama");
+toast.info("Kedua");
+toast.warning("Ketiga");`,
+        stack: true,
+        preview: (
+          <ToastProvider queue maxToasts={3}>
+            <ToastQueueDemo />
+          </ToastProvider>
+        ),
+      },
     ],
     props: [
       {
@@ -234,7 +272,15 @@ function Simpan() {
         name: "maxToasts",
         type: "number",
         default: "5",
-        description: "Jumlah toast yang ditampilkan sekaligus.",
+        description:
+          "Jumlah toast yang disimpan; pada mode tumpuk berarti yang tampil sekaligus, pada mode antrean termasuk yang masih menunggu.",
+      },
+      {
+        name: "queue",
+        type: "boolean",
+        default: "false",
+        description:
+          "Tampilkan satu toast sekaligus; sisanya menunggu dan naik setelah toast aktif ditutup (manual atau auto-dismiss).",
       },
     ],
     sections: [
@@ -301,6 +347,10 @@ function Simpan() {
           },
         ],
       },
+    ],
+    notes: [
+      "Mode antrean (`queue`) cocok untuk notifikasi hasil aksi yang tidak boleh menumpuk; mode default menumpuk agar beberapa pesan bisa dibaca sekaligus.",
+      "Pada mode antrean, auto-dismiss baru berjalan ketika toast naik ke posisi tampil, jadi pesan yang menunggu tidak hilang lebih dulu.",
     ],
   },
   {
