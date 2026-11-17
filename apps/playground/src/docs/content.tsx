@@ -1,3 +1,5 @@
+import { useMemo, useState } from "react";
+
 import {
   Avatar,
   AvatarGroup,
@@ -8,10 +10,12 @@ import {
   CardFooter,
   CardHeader,
   Divider,
+  Pagination,
   Stack,
   Table,
   Typography,
   type TableColumn,
+  type TableSortState,
 } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
 
@@ -77,12 +81,69 @@ const ticketColumns: TableColumn<Ticket>[] = [
   },
 ];
 
+type Person = { nama: string; peran: string; prioritas: number };
+
+const people: Person[] = Array.from({ length: 23 }, (_, index) => ({
+  nama: `Anggota ${String(index + 1).padStart(2, "0")}`,
+  peran: ["Admin", "Editor", "Viewer"][index % 3] ?? "Viewer",
+  prioritas: ((index * 7) % 9) + 1,
+}));
+
+const personColumns: TableColumn<Person>[] = [
+  { key: "nama", header: "Nama", sortable: true },
+  { key: "peran", header: "Peran", sortable: true },
+  { key: "prioritas", header: "Prioritas", align: "right", sortable: true },
+];
+
+const PAGE_SIZE = 5;
+
 const queueRows: Ticket[] = Array.from({ length: 14 }, (_, index) => ({
   id: `NEM-${120 + index}`,
   judul: `Antrean tugas #${index + 1}`,
   prioritas: ((index * 3) % 5) + 1,
   status: index % 3 === 0 ? "Selesai" : "Menunggu",
 }));
+
+function PagedTable() {
+  const [sort, setSort] = useState<TableSortState | null>(null);
+  const [page, setPage] = useState(1);
+
+  const sorted = useMemo(() => {
+    if (!sort) return people;
+    const factor = sort.direction === "asc" ? 1 : -1;
+    return [...people].sort((a, b) => {
+      const left = a[sort.key as keyof Person];
+      const right = b[sort.key as keyof Person];
+      if (typeof left === "number" && typeof right === "number") {
+        return (left - right) * factor;
+      }
+      return (
+        String(left).localeCompare(String(right), "id", { numeric: true }) *
+        factor
+      );
+    });
+  }, [sort]);
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const rows = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  return (
+    <Stack direction="column" spacing={4}>
+      <Table
+        columns={personColumns}
+        data={rows}
+        rowKey={(row) => row.nama}
+        sort={sort}
+        onSortChange={(next) => {
+          setSort(next);
+          setPage(1);
+        }}
+        caption={`Anggota tim — halaman ${page} dari ${pageCount}`}
+      />
+      <Pagination page={page} pageCount={pageCount} onChange={setPage} />
+    </Stack>
+  );
+}
 
 export const contentDocs: ComponentDoc[] = [
   {
@@ -859,6 +920,41 @@ const columns: TableColumn<Member>[] = [
         ),
       },
       {
+        id: "pagination",
+        title: "Sorting terkontrol + pagination",
+        description:
+          "Berikan `sort` untuk memegang urutan sepenuhnya: Table tidak menyimpan state sendiri, jadi data bisa diurutkan dan dipotong di server. Di contoh ini urutan dihitung dari data penuh, lalu hanya satu halaman yang dikirim ke Table; setiap perubahan urutan mengembalikan halaman ke 1.",
+        code: `const [sort, setSort] = useState<TableSortState | null>(null);
+const [page, setPage] = useState(1);
+const pageSize = 5;
+
+// "Server": urutkan seluruh data, lalu ambil satu halaman.
+const sorted = sort
+  ? [...people].sort(compareBy(sort))
+  : people;
+const rows = sorted.slice((page - 1) * pageSize, page * pageSize);
+
+<Stack direction="column" spacing={4}>
+  <Table
+    columns={columns}
+    data={rows}
+    rowKey={(row) => row.nama}
+    sort={sort}
+    onSortChange={(next) => {
+      setSort(next);
+      setPage(1);
+    }}
+  />
+  <Pagination
+    page={page}
+    pageCount={Math.ceil(sorted.length / pageSize)}
+    onChange={setPage}
+  />
+</Stack>`,
+        stack: true,
+        preview: <PagedTable />,
+      },
+      {
         id: "empty",
         title: "Empty state",
         code: `<Table
@@ -931,9 +1027,15 @@ const columns: TableColumn<Member>[] = [
           "Nilai pembanding kustom; default mengambil field sesuai key kolom.",
       },
       {
+        name: "sort",
+        type: "{ key: string; direction: \"asc\" | \"desc\" } | null",
+        description:
+          "Urutan terkontrol. Jika diisi (termasuk null), Table tidak menyimpan urutan sendiri sehingga cocok untuk sorting di server.",
+      },
+      {
         name: "defaultSort",
         type: "{ key: string; direction: \"asc\" | \"desc\" }",
-        description: "Urutan awal saat tabel dirender.",
+        description: "Urutan awal saat uncontrolled.",
       },
       {
         name: "onSortChange",
