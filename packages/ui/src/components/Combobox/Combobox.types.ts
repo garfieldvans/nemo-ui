@@ -28,6 +28,15 @@ export interface ComboboxProps {
   placeholder?: string;
   /** Pesan saat hasil pencarian kosong. Default "Opsi tidak ditemukan". */
   emptyText?: ReactNode;
+  /**
+   * Filter opsi terhadap teks pencarian di sisi klien. Default true.
+   * Set false bila opsi sudah difilter di server (pencarian async).
+   */
+  filter?: boolean;
+  /** Tampilkan status memuat di panel, menggantikan daftar opsi. */
+  loading?: boolean;
+  /** Teks status memuat. Default "Memuat opsi...". */
+  loadingText?: ReactNode;
   variant?: ComboboxVariant;
   size?: ComboboxSize;
   status?: ComboboxStatus;
@@ -41,6 +50,7 @@ export interface ComboboxProps {
   name?: string;
   onChange?: (values: string[]) => void;
   onOpenChange?: (open: boolean) => void;
+  /** Dipanggil setiap teks pencarian berubah — titik masuk untuk pencarian async. */
   onQueryChange?: (query: string) => void;
   id?: string;
   className?: string;

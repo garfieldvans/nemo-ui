@@ -419,6 +419,37 @@ $combobox-transition: all 0.2s ease;
   color: var(--nemo-neutral-700, #5f6368);
 }
 
+.combobox-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  font-size: $combobox-font-size-md;
+  color: var(--nemo-neutral-700, #5f6368);
+}
+
+.combobox-spinner {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: combobox-spin 700ms linear infinite;
+}
+
+@keyframes combobox-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .combobox-spinner {
+    animation-duration: 2s;
+  }
+}
+
 // Helper text
 .helper-text {
   font-size: $helper-font-size;

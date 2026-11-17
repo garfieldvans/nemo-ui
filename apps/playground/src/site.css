@@ -733,7 +733,7 @@ body {
   margin: 18px 0 34px;
   border: 1px solid var(--site-border);
   border-radius: 12px;
-  overflow: hidden;
+  /* overflow: hidden; */
   background: var(--site-surface);
 }
 

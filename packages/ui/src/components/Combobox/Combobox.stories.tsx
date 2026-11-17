@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Combobox } from "./Combobox";
@@ -85,5 +85,49 @@ const ControlledExample = () => {
 
 export const Controlled: Story = {
   render: () => <ControlledExample />,
+  parameters: { controls: { disable: true } },
+};
+
+const AsyncExample = () => {
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [options, setOptions] = useState<ComboboxOption[]>([]);
+  const [values, setValues] = useState<string[]>([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const term = query.trim().toLowerCase();
+      setOptions(
+        frameworks.filter((option) =>
+          String(option.label).toLowerCase().includes(term),
+        ),
+      );
+      setLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  return (
+    <Combobox
+      options={options}
+      filter={false}
+      loading={loading}
+      loadingText="Mencari di server..."
+      label="Framework (async)"
+      placeholder="Ketik untuk mencari..."
+      value={values}
+      onChange={setValues}
+      onQueryChange={(next) => {
+        setQuery(next);
+        setLoading(true);
+      }}
+      helperText="Opsi diambil dari sumber async (disimulasikan 600 ms)."
+      fullWidth
+    />
+  );
+};
+
+export const AsyncSearch: Story = {
+  render: () => <AsyncExample />,
   parameters: { controls: { disable: true } },
 };

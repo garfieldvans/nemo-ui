@@ -95,6 +95,52 @@ describe("Combobox", () => {
     expect(screen.getByRole("option", { name: "Tidak ada hasil" })).toBeDefined();
   });
 
+  it("shows the loading row instead of options while fetching", async () => {
+    const user = userEvent.setup();
+    renderCombobox({ loading: true, loadingText: "Mengambil data..." });
+
+    await user.click(getInput());
+    expect(screen.getByRole("listbox")).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByRole("option", { name: "Mengambil data..." })).toBeDefined();
+    expect(screen.queryByRole("option", { name: /React/ })).toBeNull();
+  });
+
+  it("does not select anything while loading", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    renderCombobox({ loading: true, onChange });
+
+    await user.click(getInput());
+    await user.keyboard("{ArrowDown}{Enter}");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("leaves filtering to the caller when filter is false", async () => {
+    const user = userEvent.setup();
+    const onQueryChange = vi.fn();
+    renderCombobox({ filter: false, onQueryChange });
+
+    await user.click(getInput());
+    await user.type(getInput(), "zzz");
+    expect(onQueryChange).toHaveBeenLastCalledWith("zzz");
+    expect(screen.getAllByRole("option")).toHaveLength(4);
+  });
+
+  it("keeps a selected chip when the option list changes", async () => {
+    const user = userEvent.setup();
+    const { rerender } = renderCombobox();
+
+    await user.click(getInput());
+    await user.click(screen.getByRole("option", { name: /React/ }));
+    expect(screen.getByRole("button", { name: "Hapus React" })).toBeDefined();
+
+    rerender(<Combobox options={[]} label="Framework" />);
+    expect(screen.getByRole("button", { name: "Hapus React" })).toBeDefined();
+
+    await user.click(screen.getByRole("button", { name: "Hapus React" }));
+    expect(screen.queryByRole("button", { name: "Hapus React" })).toBeNull();
+  });
+
   it("submits every selected value through hidden inputs sharing the name", () => {
     const { container } = renderCombobox({ name: "framework", defaultValue: ["react", "vue"] });
     const hidden = [...container.querySelectorAll('input[type="hidden"][name="framework"]')];

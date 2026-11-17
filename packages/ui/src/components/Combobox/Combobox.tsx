@@ -72,6 +72,9 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
       helperText,
       placeholder = "Cari dan pilih opsi",
       emptyText = "Opsi tidak ditemukan",
+      filter = true,
+      loading = false,
+      loadingText = "Memuat opsi...",
       variant = "outlined",
       size = "md",
       status = "default",
@@ -99,6 +102,7 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
     const [query, setQuery] = useState("");
     const [activeIndex, setActiveIndex] = useState(0);
     const [internalValues, setInternalValues] = useState<string[]>(defaultValue ?? []);
+    const [knownOptions, setKnownOptions] = useState<Record<string, ComboboxOption>>({});
 
     const isControlled = value !== undefined;
     const currentValues = isControlled ? value : internalValues;
@@ -116,15 +120,24 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
     const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
 
     const normalizedQuery = query.trim().toLowerCase();
-    const filteredOptions = normalizedQuery
-      ? options.filter((option) =>
-          String(option.label).toLowerCase().includes(normalizedQuery),
-        )
-      : options;
+    const filteredOptions =
+      filter && normalizedQuery
+        ? options.filter((option) =>
+            String(option.label).toLowerCase().includes(normalizedQuery),
+          )
+        : options;
 
-    const selectedOptions = currentValues
-      .map((selectedValue) => options.find((option) => option.value === selectedValue))
-      .filter((option): option is ComboboxOption => Boolean(option));
+    // Opsi yang pernah dipilih disimpan agar chip tetap terbaca ketika hasil
+    // pencarian async berganti dan opsi tersebut tidak lagi ada di daftar.
+    const selectedOptions = currentValues.map((selectedValue) => {
+      return (
+        options.find((option) => option.value === selectedValue) ??
+        knownOptions[selectedValue] ?? {
+          value: selectedValue,
+          label: selectedValue,
+        }
+      );
+    });
 
     const effectiveActive =
       filteredOptions.length === 0 ? -1 : Math.min(activeIndex, filteredOptions.length - 1);
@@ -171,11 +184,16 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
       onChange?.(nextValues);
     };
 
-    const toggleOption = (optionValue: string) => {
+    const toggleOption = (option: ComboboxOption) => {
+      const optionValue = option.value;
+      const selecting = !selectedSet.has(optionValue);
+      if (selecting) {
+        setKnownOptions((previous) => ({ ...previous, [optionValue]: option }));
+      }
       commitValues(
-        selectedSet.has(optionValue)
-          ? currentValues.filter((item) => item !== optionValue)
-          : [...currentValues, optionValue],
+        selecting
+          ? [...currentValues, optionValue]
+          : currentValues.filter((item) => item !== optionValue),
       );
       setQuery("");
       setActiveIndex(0);
@@ -213,11 +231,11 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
           }
           break;
         case "Enter": {
-          if (open && effectiveActive >= 0) {
+          if (open && !loading && effectiveActive >= 0) {
             const option = filteredOptions[effectiveActive];
             if (option && !option.disabled) {
               e.preventDefault();
-              toggleOption(option.value);
+              toggleOption(option);
             }
           }
           break;
@@ -359,8 +377,24 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
             <ChevronIcon />
           </button>
           {open && (
-            <ul id={listboxId} className={styles["combobox-menu"]} role="listbox" aria-multiselectable="true">
-              {filteredOptions.length === 0 ? (
+            <ul
+              id={listboxId}
+              className={styles["combobox-menu"]}
+              role="listbox"
+              aria-multiselectable="true"
+              aria-busy={loading || undefined}
+            >
+              {loading ? (
+                <li
+                  className={styles["combobox-loading"]}
+                  role="option"
+                  aria-selected={false}
+                  aria-disabled="true"
+                >
+                  <span className={styles["combobox-spinner"]} aria-hidden="true" />
+                  {loadingText}
+                </li>
+              ) : filteredOptions.length === 0 ? (
                 <li className={styles["combobox-empty"]} role="option" aria-disabled="true">
                   {emptyText}
                 </li>
@@ -374,7 +408,7 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
                       role="option"
                       className={clsx(
                         styles["combobox-option"],
-                        index === effectiveActive && styles["combobox-option--active"],
+                        !loading && index === effectiveActive && styles["combobox-option--active"],
                         selected && styles["combobox-option--selected"],
                         option.disabled && styles["combobox-option--disabled"],
                       )}
@@ -383,7 +417,7 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (!option.disabled) toggleOption(option.value);
+                        if (!option.disabled) toggleOption(option);
                       }}
                     >
                       <span className={styles["combobox-option-text"]}>
