@@ -35,6 +35,7 @@ export function Table<T>({
   striped = false,
   size = "md",
   emptyText = "Tidak ada data",
+  sort: sortProp,
   defaultSort,
   onSortChange,
   selectable = false,
@@ -46,9 +47,11 @@ export function Table<T>({
   className,
   style,
 }: TableProps<T>) {
-  const [sort, setSort] = useState<TableSortState | null>(defaultSort ?? null);
+  const [internalSort, setInternalSort] = useState<TableSortState | null>(defaultSort ?? null);
   const [internalSelected, setInternalSelected] = useState<string[]>(defaultSelectedKeys ?? []);
 
+  const controlledSort = sortProp !== undefined;
+  const sort = controlledSort ? sortProp : internalSort;
   const controlledSelection = selectedKeys !== undefined;
   const currentSelection = controlledSelection ? selectedKeys : internalSelected;
   const selectedSet = new Set(currentSelection);
@@ -96,7 +99,7 @@ export function Table<T>({
     } else {
       next = null;
     }
-    setSort(next);
+    if (!controlledSort) setInternalSort(next);
     onSortChange?.(next);
   };
 

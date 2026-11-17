@@ -1,7 +1,8 @@
+import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Table } from "./Table";
-import type { TableColumn } from "./Table.types";
+import type { TableColumn, TableSortState } from "./Table.types";
 
 const meta: Meta<typeof Table> = {
   title: "Components/Table",
@@ -55,17 +56,43 @@ export const Striped: Story = {
   },
 };
 
+const sortableColumns: TableColumn<Member>[] = [
+  { key: "nama", header: "Nama", sortable: true },
+  { key: "peran", header: "Peran", sortable: true },
+  ...columns.slice(2),
+];
+
+function ControlledTable() {
+  const [sort, setSort] = useState<TableSortState | null>({
+    key: "nama",
+    direction: "asc",
+  });
+
+  return (
+    <Table
+      columns={sortableColumns}
+      data={data}
+      rowKey={(row: Member) => String(row.id)}
+      sort={sort}
+      onSortChange={setSort}
+      caption={
+        sort ? `Urutan: ${sort.key} (${sort.direction})` : "Urutan data asli"
+      }
+    />
+  );
+}
+
 export const Sortable: Story = {
   args: {
-    columns: [
-      { key: "nama", header: "Nama", sortable: true },
-      { key: "peran", header: "Peran", sortable: true },
-      ...columns.slice(2),
-    ],
+    columns: sortableColumns,
     data,
     rowKey: (row: Member) => String(row.id),
     caption: "Klik header untuk mengurutkan",
   },
+};
+
+export const ControlledSort: Story = {
+  render: () => <ControlledTable />,
 };
 
 export const Selectable: Story = {

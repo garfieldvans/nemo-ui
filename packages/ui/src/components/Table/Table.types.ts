@@ -35,7 +35,13 @@ export interface TableProps<T> {
   size?: TableSize;
   /** Pesan saat data kosong. Default "Tidak ada data". */
   emptyText?: ReactNode;
-  /** Urutan awal; kosong berarti mengikuti urutan data. */
+  /**
+   * Urutan terkontrol. Jika diberikan (termasuk null), Table tidak menyimpan
+   * urutan sendiri dan sepenuhnya mengikuti nilai ini — berguna saat data
+   * diurutkan di server.
+   */
+  sort?: TableSortState | null;
+  /** Urutan awal saat uncontrolled; kosong berarti mengikuti urutan data. */
   defaultSort?: TableSortState;
   /** Dipanggil setiap urutan berubah (null saat kembali ke urutan data). */
   onSortChange?: (sort: TableSortState | null) => void;

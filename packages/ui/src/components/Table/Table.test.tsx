@@ -143,6 +143,46 @@ describe("Table", () => {
     expect(onSortChange).toHaveBeenLastCalledWith(null);
   });
 
+  it("follows the sort prop instead of keeping internal state", async () => {
+    const user = userEvent.setup();
+    const onSortChange = vi.fn();
+    const sortableColumns: TableColumn<Row>[] = [
+      { key: "nama", header: "Nama", sortable: true },
+      { key: "peran", header: "Peran" },
+    ];
+    const { container, rerender } = renderTable({
+      columns: sortableColumns,
+      sort: { key: "nama", direction: "desc" },
+      onSortChange,
+    });
+    const firstName = () =>
+      container.querySelector("tbody tr td")?.textContent;
+
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "descending",
+    );
+    expect(firstName()).toBe("Budi");
+
+    await user.click(screen.getByRole("button", { name: "Nama" }));
+    expect(onSortChange).toHaveBeenLastCalledWith(null);
+    expect(firstName()).toBe("Budi");
+
+    rerender(
+      <Table
+        columns={sortableColumns}
+        data={rows}
+        rowKey={(row) => String(row.id)}
+        sort={null}
+      />,
+    );
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "none",
+    );
+    expect(firstName()).toBe("Andi");
+  });
+
   it("selects rows and toggles all rows via checkboxes", async () => {
     const user = userEvent.setup();
     const onSelectionChange = vi.fn();
