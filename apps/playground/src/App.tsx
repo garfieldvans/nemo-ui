@@ -1,4 +1,5 @@
 import {
+  ScrollToTop,
   themeNames,
   themeSurfaces,
   toThemeOverride,
@@ -128,6 +129,7 @@ function Site({
         {renderRoute(path)}
       </main>
       <SiteFooter />
+      <ScrollToTop threshold={600} />
     </div>
   );
 }

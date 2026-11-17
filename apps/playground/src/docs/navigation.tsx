@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Menu, Pagination, Tabs } from "@nemo/ui";
+import { Button, Menu, Pagination, ScrollToTop, Tabs } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
 
 const tabItems = [
@@ -30,6 +30,18 @@ function PaginationDemo() {
       <span style={{ fontSize: 13, opacity: 0.75 }}>
         Halaman {page} dari 12
       </span>
+    </div>
+  );
+}
+
+function ScrollDemoContent() {
+  return (
+    <div style={{ display: "grid", gap: 8 }}>
+      {Array.from({ length: 12 }, (_, index) => (
+        <p key={index} className="site-p" style={{ margin: 0 }}>
+          Baris {index + 1} — gulir halaman ini ke bawah untuk melihat tombol muncul.
+        </p>
+      ))}
     </div>
   );
 }
@@ -384,6 +396,100 @@ export const navigationDocs: ComponentDoc[] = [
           },
         ],
       },
+    ],
+  },
+  {
+    slug: "scroll-to-top",
+    name: "ScrollToTop",
+    group: "Navigation",
+    summary:
+      "Tombol mengambang yang muncul setelah halaman digulir dan mengembalikan tampilan ke atas.",
+    examples: [
+      {
+        id: "basic",
+        title: "Dasar",
+        description:
+          "Tombol hanya dirender saat posisi gulir melewati `threshold`, lalu menggulir jendela kembali ke atas dengan animasi halus.",
+        code: `<ScrollToTop threshold={400} position="bottom-left" />`,
+        preview: (
+          <>
+            <ScrollDemoContent />
+            <ScrollToTop threshold={200} position="bottom-left" />
+          </>
+        ),
+      },
+      {
+        id: "label",
+        title: "Label & posisi",
+        description:
+          "`showLabel` menampilkan teks di samping ikon (teks itu juga menjadi nama aksesibel), dan `position` memindahkan tombol ke sudut lain atau tengah bawah.",
+        code: `<ScrollToTop showLabel position="bottom-center" size="lg" />`,
+        preview: (
+          <>
+            <ScrollDemoContent />
+            <ScrollToTop threshold={200} showLabel position="bottom-center" size="lg" />
+          </>
+        ),
+      },
+    ],
+    props: [
+      {
+        name: "threshold",
+        type: "number",
+        default: "400",
+        description: "Jarak gulir minimum (px) sebelum tombol tampil.",
+      },
+      {
+        name: "position",
+        type: '"bottom-right" | "bottom-left" | "bottom-center"',
+        default: '"bottom-right"',
+        description: "Sudut tempat tombol menempel.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        default: '"md"',
+        description: "Ukuran tombol.",
+      },
+      {
+        name: "label",
+        type: "string",
+        default: '"Kembali ke atas"',
+        description: "Nama aksesibel tombol; jadi teks terlihat bila `showLabel` aktif.",
+      },
+      {
+        name: "showLabel",
+        type: "boolean",
+        default: "false",
+        description: "Menampilkan teks label di samping ikon.",
+      },
+      {
+        name: "smooth",
+        type: "boolean",
+        default: "true",
+        description:
+          "Gulir halus; otomatis dimatikan bila pengguna memilih reduced motion.",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        description: "Ikon kustom menggantikan panah bawaan.",
+      },
+      {
+        name: "onClick",
+        type: "() => void",
+        description: "Dipanggil setiap tombol diklik, setelah gulir dimulai.",
+      },
+      {
+        name: "className / style",
+        type: "string · CSSProperties",
+        description: "Penyesuaian tampilan tambahan untuk tombol.",
+      },
+    ],
+    notes: [
+      "Tombol ini dipakai di seluruh playground ini (sudut kanan bawah, `threshold={600}`) sejak diimpor langsung dari `@nemo/ui`.",
+      "Komponen ini memantau guliran jendela (bukan container tertentu) dan hanya dirender ketika melewati `threshold`, sehingga tidak meninggalkan tab stop tersembunyi.",
+      "Animasi masuk dan gulir halus otomatis dimatikan bila pengguna mengaktifkan prefers-reduced-motion.",
     ],
   },
 ];
