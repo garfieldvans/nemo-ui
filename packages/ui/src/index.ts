@@ -31,3 +31,4 @@ export * from "./components/Menu";
 export * from "./components/Tabs";
 export * from "./components/Table";
 export * from "./components/Pagination";
+export * from "./components/ScrollToTop";

@@ -1,0 +1,125 @@
+$scroll-size-sm: 36px;
+$scroll-size-md: 44px;
+$scroll-size-lg: 52px;
+$scroll-offset: 24px;
+$scroll-z-index: 1500;
+$scroll-font-size-sm: 13px;
+$scroll-font-size-md: 14px;
+$scroll-font-size-lg: 15px;
+
+.root {
+  position: fixed;
+  z-index: $scroll-z-index;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0;
+  border: 1px solid var(--nemo-neutral-200, #e8eaed);
+  border-radius: 999px;
+  background: var(--nemo-neutral-0, #ffffff);
+  color: var(--nemo-neutral-900, #202124);
+  box-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  animation: scroll-to-top-in 0.18s ease;
+
+  &:hover {
+    background: var(--nemo-neutral-50, #f8f9fa);
+    box-shadow: var(--nemo-shadow-xl, 0 20px 25px rgba(0, 0, 0, 0.12));
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
+  }
+
+  &--bottom-right {
+    right: $scroll-offset;
+    bottom: $scroll-offset;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  &--bottom-left {
+    left: $scroll-offset;
+    bottom: $scroll-offset;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  &--bottom-center {
+    left: 50%;
+    bottom: $scroll-offset;
+    transform: translateX(-50%);
+
+    &:hover {
+      transform: translateX(-50%) translateY(-2px);
+    }
+  }
+
+  &--sm {
+    min-width: $scroll-size-sm;
+    height: $scroll-size-sm;
+    font-size: $scroll-font-size-sm;
+  }
+
+  &--md {
+    min-width: $scroll-size-md;
+    height: $scroll-size-md;
+    font-size: $scroll-font-size-md;
+  }
+
+  &--lg {
+    min-width: $scroll-size-lg;
+    height: $scroll-size-lg;
+    font-size: $scroll-font-size-lg;
+  }
+
+  // Teks label butuh ruang horizontal tambahan di samping ikon.
+  &--with-label {
+    padding-inline: 14px;
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@keyframes scroll-to-top-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation: none;
+    transition: none;
+
+    &:hover,
+    &--bottom-center:hover {
+      transform: none;
+    }
+
+    &--bottom-center {
+      transform: translateX(-50%);
+    }
+  }
+}

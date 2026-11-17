@@ -138,6 +138,7 @@ Dark vars are applied three ways (safely layered):
 | **Tabs** | SCSS Module | ARIA tablist, line/pill variants, arrow-key navigation that skips disabled, controlled/uncontrolled |
 | **Table** | SCSS Module | Generic `columns`/`data`, custom cell render, align, striped, empty state |
 | **Pagination** | SCSS Module | Page window with ellipsis, first/prev/next/last, controlled `page` / uncontrolled `defaultPage` |
+| **ScrollToTop** | SCSS Module | Floating button after a scroll threshold, three placements and sizes, optional label, reduced-motion aware |
 
 ---
 
@@ -265,7 +266,7 @@ Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Stor
 - Select, Checkbox, Radio, RadioGroup, Switch, FormField
 - Skeleton, Spinner, Progress, Alert, Toast
 - Modal, Drawer, Tooltip, Popover, Menu
-- Tabs, Table, Pagination
+- Tabs, Table, Pagination, ScrollToTop
 
 ### Near-term
 
