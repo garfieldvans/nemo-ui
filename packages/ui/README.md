@@ -27,12 +27,55 @@
 
 ## Getting Started
 
-### Prerequisites
+### Requirements
 
-- **Node.js**: >= 18
-- **pnpm**: >= 9
+- **React 19** — `react` dan `react-dom` `^19` adalah peer dependency, tidak ikut di-bundle.
+- **Node.js >= 18** hanya dibutuhkan untuk tooling lokal.
+- Paket ini ESM murni, jadi butuh bundler yang mendukung ESM (Vite, Next.js, webpack 5).
 
-### Install & Run
+### Installation
+
+```bash
+pnpm add @nemo/ui
+# atau
+npm install @nemo/ui
+```
+
+Pastikan `react` dan `react-dom` versi 19 sudah ada di proyekmu, karena keduanya tidak dipasang otomatis.
+
+### Import the stylesheet
+
+Theming berjalan lewat CSS Custom Properties, jadi stylesheet harus dimuat **sekali** di entry aplikasi. Tanpa baris ini komponen tampil tanpa styling.
+
+```tsx
+import "@nemo/ui/index.css";
+```
+
+**Vite / webpack** — letakkan di file entry, sebelum komponen dipakai:
+
+```tsx
+// src/main.tsx
+import "@nemo/ui/index.css";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+
+createRoot(document.getElementById("root")!).render(<App />);
+```
+
+**Next.js App Router** — global CSS hanya boleh di root layout:
+
+```tsx
+// app/layout.tsx
+import "@nemo/ui/index.css";
+```
+
+### Next.js / React Server Components
+
+Entry paket ditandai `"use client"` saat build, sehingga komponennya bisa di-import langsung dari Server Component dan React akan merendernya di sisi client. Konsekuensinya semua ekspor bersifat client-only, termasuk util seperti `toCssVarMap`.
+
+### Local development (repo ini)
+
+Butuh Node.js >= 18 dan pnpm >= 9.
 
 ```bash
 git clone https://github.com/garfieldvans/nemo-ui.git
@@ -45,8 +88,7 @@ pnpm storybook    # open Storybook on port 6006
 ### Basic Usage
 
 ```tsx
-// Wajib — CSS tidak di-attach otomatis oleh entry JS;
-// tanpa baris ini komponen tampil tanpa styling.
+// Wajib — CSS tidak di-attach otomatis oleh entry JS.
 import "@nemo/ui/index.css";
 import { ThemeProvider, Button, Input, Typography } from "@nemo/ui";
 
@@ -67,7 +109,7 @@ function App() {
 
 ## Theming
 
-Nemo UI uses **CSS Custom Properties** for theming. Tokens are defined in TypeScript (`src/theme/tokens.ts`) and emitted as static CSS in `src/styles/themes.scss`.
+Nemo UI uses **CSS Custom Properties** for theming. Tokens are defined once in TypeScript (`src/theme/tokens.ts`); `src/styles/themes.scss` di-generate darinya lewat `pnpm tokens:build` dan diperiksa drift-nya di CI, jadi CSS statis dan `ThemeProvider` tidak bisa berbeda nilai.
 
 ### ThemeProvider / useTheme
 
@@ -185,7 +227,7 @@ pnpm storybook        # dev server at http://localhost:6006
 pnpm build-storybook  # static build → storybook-static/
 ```
 
-Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
+Stories are located at `packages/ui/src/components/**/*.stories.tsx`. Build statisnya otomatis di-deploy ke GitHub Pages setiap push ke `main` (`.github/workflows/storybook-deploy.yml`).
 
 ---
 
@@ -205,6 +247,8 @@ Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
 | `pnpm build-storybook`  | Static Storybook build                              |
 | `pnpm clean`            | Remove all build artifacts                          |
 | `pnpm format`           | Format with Prettier                                |
+| `pnpm tokens:build`     | Regenerate `themes.scss` from `tokens.ts`           |
+| `pnpm tokens:check`     | Verify `themes.scss` is in sync (used in CI)        |
 
 ---
 
@@ -231,12 +275,12 @@ nemo-ui/
 
 ## Design Tokens
 
-Tokens live in two places:
+Token didefinisikan sekali di TypeScript, lalu dicerminkan ke CSS statis:
 
 | Location                             | Purpose                                                                                |
 | ------------------------------------ | -------------------------------------------------------------------------------------- |
 | `packages/ui/src/theme/tokens.ts`    | **Source of truth** — `ThemeTokens` type, `defaultTheme`, `darkTheme`, `toCssVarMap()` |
-| `packages/ui/src/styles/themes.scss` | **Static mirror** — `:root` + `[data-theme="dark"]` blocks, manually kept in sync      |
+| `packages/ui/src/styles/themes.scss` | **Generated** oleh `pnpm tokens:build`; jangan diedit manual                           |
 
 ### Available Tokens
 
@@ -274,21 +318,21 @@ Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Stor
 
 ### Near-term
 
-- [ ] Stabilisasi dan konsistensi perilaku overlay (Modal / Drawer / Popover / Menu / Tooltip)
+- [x] Stabilisasi dan konsistensi perilaku overlay (Modal / Drawer / Popover / Menu / Tooltip)
 - [ ] Penajaman dokumentasi komponen (props, contoh, aksesibilitas)
-- [ ] Sinkronisasi token tema: pastikan `themes.scss` tetap sesuai dengan `tokens.ts` (codegen sebagai rencana berikutnya)
+- [x] Sinkronisasi token tema: `themes.scss` di-generate dari `tokens.ts` dan diperiksa di CI
 
 ### Later
 
-- [ ] CI/CD pipeline + visual regression tests
-- [ ] Codegen: auto-generate `themes.scss` dari `tokens.ts`
+- [x] CI/CD pipeline + visual regression tests
+- [x] Codegen: auto-generate `themes.scss` dari `tokens.ts`
 - [ ] npm publish (`@nemo/ui`)
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+MIT — see [LICENSE](https://github.com/garfieldvans/nemo-ui/blob/main/packages/ui/LICENSE)
 
 ---
 
