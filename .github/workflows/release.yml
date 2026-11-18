@@ -39,6 +39,7 @@ jobs:
       # `pnpm release` = `changeset publish`; `prepublishOnly` di packages/ui
       # menjalankan build + test sebelum tarball diunggah.
       - uses: changesets/action@v1
+        id: changeset
         with:
           version: pnpm version-packages
           publish: pnpm release
@@ -50,3 +51,27 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           # provenance hanya aktif di CI (OIDC), tidak memengaruhi publish lokal.
           NPM_CONFIG_PROVENANCE: "true"
+
+      # Publish bisa dilaporkan sukses walau registry belum menyajikan versinya
+      # (propagasi CDN). Polling ini memastikan rilis benar-benar bisa di-install.
+      - name: Verify published versions on npm
+        if: steps.changeset.outputs.published == 'true'
+        env:
+          PUBLISHED_PACKAGES: ${{ steps.changeset.outputs.publishedPackages }}
+        run: |
+          set -euo pipefail
+          specs=$(node -e 'JSON.parse(process.env.PUBLISHED_PACKAGES).forEach((p) => console.log(`${p.name}@${p.version}`))')
+          for spec in $specs; do
+            for attempt in $(seq 1 10); do
+              if npm view "$spec" version >/dev/null 2>&1; then
+                echo "$spec tersedia di registry"
+                break
+              fi
+              if [ "$attempt" -eq 10 ]; then
+                echo "::error::$spec tidak ditemukan di registry setelah 10 percobaan"
+                exit 1
+              fi
+              echo "Menunggu $spec (percobaan $attempt/10)..."
+              sleep 6
+            done
+          done
