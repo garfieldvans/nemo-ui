@@ -36,6 +36,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Publish memakai trusted publishing (OIDC), tanpa NPM_TOKEN.
+      # Butuh npm >= 11.5.1 sedangkan Node 22 di runner membawa npm 10.
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@^11.5.1 && npm --version
+
       # `pnpm release` = `changeset publish`; `prepublishOnly` di packages/ui
       # menjalankan build + test sebelum tarball diunggah.
       - uses: changesets/action@v1
@@ -48,8 +53,9 @@ jobs:
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # provenance hanya aktif di CI (OIDC), tidak memengaruhi publish lokal.
+          # Tanpa NODE_AUTH_TOKEN: npm memakai identitas OIDC dari
+          # trusted publisher yang didaftarkan di halaman pengaturan paket.
+          # Provenance ikut terkirim otomatis saat memakai OIDC.
           NPM_CONFIG_PROVENANCE: "true"
 
       # Publish bisa dilaporkan sukses walau registry belum menyajikan versinya
