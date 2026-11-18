@@ -202,16 +202,22 @@ canvas; kontras tetap diperiksa manual lewat Storybook a11y addon.
 
 ## Release
 
-Paket `@nemo/ui` dirilis dengan [changesets](https://github.com/changesets/changesets).
+Paket `@nemo/ui` dirilis dengan [changesets](https://github.com/changesets/changesets) lewat
+`.github/workflows/release.yml`.
 
-```bash
-pnpm changeset          # catat perubahan (patch/minor/major)
-pnpm version-packages   # naikkan versi + tulis CHANGELOG
-pnpm release            # publish; prepublishOnly menjalankan build + test
-```
+1. Sertakan changeset (`pnpm changeset`) di PR yang mengubah `packages/ui`.
+2. Setelah PR di-merge ke `main`, workflow membuka PR **“chore(release): version packages”** berisi
+   versi baru + `CHANGELOG.md`.
+3. Merge PR tersebut → workflow membangun `dist`, menjalankan seluruh test, lalu publish ke npm dengan
+   [provenance](https://docs.npmjs.com/generating-provenance-statements), git tag `@nemo/ui@x.y.z`,
+   dan GitHub Release.
 
-Playground tidak ikut dirilis. Setiap publish selalu membangun ulang `dist` dan menjalankan seluruh
-test lebih dulu, jadi tidak ada rilis dari artefak basi.
+Sekali setup: secret `NPM_TOKEN` (granular/automation token dengan izin publish ke scope `@nemo`),
+scope `@nemo` yang sudah dimiliki, dan repo publik — provenance butuh OIDC dan tidak jalan di repo
+private. Playground tidak ikut dirilis.
+
+Publish manual tetap mungkin untuk keadaan darurat (`pnpm release`); `prepublishOnly` di
+`packages/ui` membangun ulang `dist` dan menjalankan test lebih dulu, tanpa provenance.
 
 ---
 

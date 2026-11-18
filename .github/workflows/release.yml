@@ -1,0 +1,52 @@
+name: Release
+
+# Alur: PR dengan changeset di-merge ke main → action membuka PR "Version Packages"
+# (menaikkan versi + menulis CHANGELOG) → PR itu di-merge → action mem-publish ke npm,
+# membuat git tag `@nemo/ui@x.y.z`, dan GitHub Release.
+on:
+  push:
+    branches: [main]
+
+# Jangan pernah membatalkan publish yang sedang berjalan.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push commit versi + git tag
+      pull-requests: write # buka/update PR "Version Packages"
+      id-token: write # provenance attestation (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Perlu riwayat penuh agar action bisa mendeteksi tag & commit versi.
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          # Menulis .npmrc dengan NODE_AUTH_TOKEN saat step publish.
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      # `pnpm release` = `changeset publish`; `prepublishOnly` di packages/ui
+      # menjalankan build + test sebelum tarball diunggah.
+      - uses: changesets/action@v1
+        with:
+          version: pnpm version-packages
+          publish: pnpm release
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # provenance hanya aktif di CI (OIDC), tidak memengaruhi publish lokal.
+          NPM_CONFIG_PROVENANCE: "true"

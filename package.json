@@ -21,7 +21,7 @@
     "format:check": "prettier . --check",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "changeset publish"
+    "release": "pnpm run build:ui && changeset publish"
   },
   "keywords": [],
   "author": "",
