@@ -54,6 +54,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "typecheck": "tsc --noEmit",
+    "tokens:build": "esbuild scripts/build-theme-css.ts --bundle --platform=node --format=esm --target=node22 --external:prettier --log-level=warning --outfile=node_modules/.cache/theme-css.mjs && node node_modules/.cache/theme-css.mjs",
+    "tokens:check": "esbuild scripts/build-theme-css.ts --bundle --platform=node --format=esm --target=node22 --external:prettier --log-level=warning --outfile=node_modules/.cache/theme-css.mjs && node node_modules/.cache/theme-css.mjs --check",
     "prepublishOnly": "pnpm build && pnpm test:run"
   },
   "peerDependencies": {
@@ -69,6 +71,7 @@
     "@vitejs/plugin-react": "^6.0.5",
     "esbuild": "^0.28.0",
     "jsdom": "^30.0.1",
+    "prettier": "^3.9.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sass": "^1.102.0",

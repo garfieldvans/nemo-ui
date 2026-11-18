@@ -231,6 +231,9 @@ importers:
       '@types/node':
         specifier: ^24.13.3
         version: 24.13.3
+      chromatic:
+        specifier: ^18.14.5
+        version: 18.14.5
       eslint:
         specifier: ^10.8.0
         version: 10.8.0(supports-color@7.2.0)
@@ -337,6 +340,9 @@ importers:
       jsdom:
         specifier: ^30.0.1
         version: 30.0.1
+      prettier:
+        specifier: ^3.9.6
+        version: 3.9.6
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -1855,6 +1861,22 @@ packages:
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
     engines: {node: '>= 20.19.0'}
+
+  chromatic@18.14.5:
+    resolution: {integrity: sha512-FKSNgph3UnlQ9adzpENaHzPsxOfaVFdurvudxoEVwXOWGHRZ58l4h5cfXMGXF5GzxmiJ08nK4cqYxjna2Eqe7w==}
+    engines: {node: '>=22.0.0'}
+    hasBin: true
+    peerDependencies:
+      '@chromatic-com/cypress': ^0.*.* || ^1.0.0
+      '@chromatic-com/playwright': ^0.*.* || ^1.0.0
+      '@chromatic-com/vitest': ^0.*.* || ^1.0.0
+    peerDependenciesMeta:
+      '@chromatic-com/cypress':
+        optional: true
+      '@chromatic-com/playwright':
+        optional: true
+      '@chromatic-com/vitest':
+        optional: true
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -3737,7 +3759,7 @@ snapshots:
       detect-libc: 2.1.2
       is-glob: 4.0.3
       node-addon-api: 7.1.1
-      picomatch: 4.0.5
+      picomatch: 4.0.7
     optionalDependencies:
       '@parcel/watcher-android-arm64': 2.6.0
       '@parcel/watcher-darwin-arm64': 2.6.0
@@ -4606,6 +4628,10 @@ snapshots:
     dependencies:
       readdirp: 5.0.0
 
+  chromatic@18.14.5:
+    dependencies:
+      semver: 7.8.5
+
   color-convert@2.0.1:
     dependencies:
       color-name: 1.1.4
@@ -4875,10 +4901,6 @@ snapshots:
   fast-wrap-ansi@0.2.2:
     dependencies:
       fast-string-width: 3.0.2
-
-  fdir@6.5.0(picomatch@4.0.5):
-    optionalDependencies:
-      picomatch: 4.0.5
 
   fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
@@ -5559,8 +5581,8 @@ snapshots:
 
   tinyglobby@0.2.17:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.5)
-      picomatch: 4.0.5
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
 
   tinyrainbow@1.2.0: {}
 

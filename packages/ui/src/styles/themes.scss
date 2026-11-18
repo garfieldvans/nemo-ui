@@ -1,38 +1,13 @@
-// ============================================================================
-// Static theme CSS variables (mirror of src/theme/tokens.ts)
-// ============================================================================
-// - `tokens.ts` adalah sumber kebenaran (source of truth) untuk nilai token:
-//     `defaultTheme`, `darkTheme`, dan `toCssVarMap()`.
-// - File ini adalah cerminan statis dalam bentuk CSS Custom Properties.
-//   Nilainya harus tetap sinkron dengan `tokens.ts`.
+// ---------------------------------------------------------------------------
+// AUTO-GENERATED FILE — jangan diedit manual.
 //
-// Cara verifikasi sinkronisasi (saat ini):
-//   1. Jalankan token inspect melalui Node, misalnya:
-//        node --input-type=module - <<'EOF'
-//        import { toCssVarMap, defaultTheme, darkTheme } from './src/theme/tokens.ts';
-//        console.log(Object.keys(toCssVarMap(defaultTheme)).sort().join('\n'));
-//        console.log(Object.keys(toCssVarMap(darkTheme)).sort().join('\n'));
-//        EOF
-//   2. Bandingkan daftar CSS variable yang dihasilkan dengan yang ada di
-//      file ini. Pastikan tidak ada key yang hilang atau berbeda pada
-//      masing-masing blok tema (light / dark / media query).
-//
-// Catatan:
-//   - Untuk saat ini, sinkronisasi tetap dilakukan secara manual.
-//   - Rencana berikutnya: kode generator yang menghasilkan file ini dari
-//     `tokens.ts` (diurusi di tahap berikutnya, bukan blok perubahan ini).
-//
-// Aturan minimal sebelum mengubah file ini:
-//   - Jika ada token baru di `tokens.ts`, tambahkan juga di sini.
-//   - Jika ada nilai token yang berubah, perbarui di kedua sisi.
-//   - Jika hanya ingin mengganti warna di CSS tanpa mengubah token, diskusi
-//     dulu apakah perubahan itu memang bagian dari static CSS atau sebaiknya
-//     masuk ke `tokens.ts`.
-// ============================================================================
+// Sumber nilai : src/theme/tokens.ts (defaultTheme, darkTheme, toCssVarMap)
+// Regenerate   : pnpm tokens:build
+// Verifikasi CI: pnpm tokens:check
+// ---------------------------------------------------------------------------
 
-// Inter font — Google Fonts, gratis untuk komersial
+// Inter font — Google Fonts, gratis untuk komersial.
 // Dokumentasi: https://fonts.google.com/specimen/Inter
-// 👇 Font face loaded dari Google Fonts CDN
 @font-face {
   font-family: "Inter";
   font-style: normal;
@@ -54,7 +29,7 @@
   --nemo-primary-800: #185abc;
   --nemo-primary-900: #174ea6;
 
-  // Colors — secondary (violet)
+  // Colors — secondary
   --nemo-secondary-50: #f5f3ff;
   --nemo-secondary-100: #ede9fe;
   --nemo-secondary-200: #ddd6fe;
@@ -85,27 +60,28 @@
   --nemo-error: #ea4335;
   --nemo-info: #4285f4;
 
-  // Tone mode-aware (mirror of tokens.ts toCssVarMap):
-  // `*-text` untuk teks di atas canvas, `*-fill` untuk bg filled berteks neutral-0.
-  // var() mereferensikan 500 lokal jadi otomatis mengikuti blok gelap/terang.
+  // Colors — surfaces
+  --nemo-surface-success: #f0fdf4;
+  --nemo-surface-warning: #fffef0;
+  --nemo-surface-error: #fef7f7;
+
+  // Colors — primary
   --nemo-primary-text: color-mix(in srgb, var(--nemo-primary-500) 60%, CanvasText);
   --nemo-primary-fill: color-mix(in srgb, var(--nemo-primary-500) 65%, CanvasText);
+
+  // Colors — secondary
   --nemo-secondary-text: color-mix(in srgb, var(--nemo-secondary-500) 60%, CanvasText);
   --nemo-secondary-fill: color-mix(in srgb, var(--nemo-secondary-500) 65%, CanvasText);
+
+  // Colors — mode-aware tones
   --nemo-success-text: color-mix(in srgb, var(--nemo-success) 60%, CanvasText);
   --nemo-success-fill: color-mix(in srgb, var(--nemo-success) 65%, CanvasText);
-  // Kuning butuh porsi warna lebih sedikit supaya lolos 4.5:1 dua mode.
   --nemo-warning-text: color-mix(in srgb, var(--nemo-warning) 45%, CanvasText);
   --nemo-warning-fill: color-mix(in srgb, var(--nemo-warning) 65%, CanvasText);
   --nemo-error-text: color-mix(in srgb, var(--nemo-error) 60%, CanvasText);
   --nemo-error-fill: color-mix(in srgb, var(--nemo-error) 65%, CanvasText);
   --nemo-info-text: color-mix(in srgb, var(--nemo-info) 60%, CanvasText);
   --nemo-info-fill: color-mix(in srgb, var(--nemo-info) 65%, CanvasText);
-
-  // Colors — surfaces (for status-filled backgrounds)
-  --nemo-surface-success: #f0fdf4;
-  --nemo-surface-warning: #fffef0;
-  --nemo-surface-error: #fef7f7;
 
   // Spacing
   --nemo-spacing-0: 0px;
@@ -145,39 +121,24 @@
   --nemo-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
-// Warna theme per palette kini di-mapping lewat JS:
-// lihat src/theme/ThemeMaps.ts (diterapkan oleh ThemeProvider sebagai token
-// inline di wrapper & Portal — bukan lewat CSS class, karena inline style
-// mengalahkan rule biasa di elemen yang sama).
-
-// Dark theme — data attribute selectors
+// Dark theme — atribut eksplisit.
 :root[data-theme="dark"],
 [data-theme="dark"] {
-  // Colors — primary (adjusted for dark backgrounds)
+  // Colors — primary
   --nemo-primary-50: #1b2f52;
   --nemo-primary-100: #23406f;
   --nemo-primary-200: #2d5694;
   --nemo-primary-300: #3b6db8;
   --nemo-primary-400: #5b9df6;
-  --nemo-primary-500: #4285f4;
-  --nemo-primary-600: #1a73e8;
-  --nemo-primary-700: #1967d2;
-  --nemo-primary-800: #185abc;
-  --nemo-primary-900: #174ea6;
 
-  // Colors — secondary (adjusted for dark backgrounds)
+  // Colors — secondary
   --nemo-secondary-50: #251b47;
   --nemo-secondary-100: #2e2358;
   --nemo-secondary-200: #3b2e71;
   --nemo-secondary-300: #4c3c94;
   --nemo-secondary-400: #8b78fa;
-  --nemo-secondary-500: #8b5cf6;
-  --nemo-secondary-600: #7c3aed;
-  --nemo-secondary-700: #6d28d9;
-  --nemo-secondary-800: #5b21b6;
-  --nemo-secondary-900: #4c1d95;
 
-  // Colors — neutral (flipped for dark)
+  // Colors — neutral
   --nemo-neutral-0: #0f1013;
   --nemo-neutral-50: #17181c;
   --nemo-neutral-100: #1f2128;
@@ -190,18 +151,12 @@
   --nemo-neutral-800: #d9dde6;
   --nemo-neutral-900: #f0f2f5;
 
-  // Colors — semantic (unchanged)
-  --nemo-success: #34a853;
-  --nemo-warning: #fbbc04;
-  --nemo-error: #ea4335;
-  --nemo-info: #4285f4;
-
-  // Colors — surfaces (darkened)
+  // Colors — surfaces
   --nemo-surface-success: #1a2e1f;
   --nemo-surface-warning: #2e2a14;
   --nemo-surface-error: #2e1a1a;
 
-  // Shadows (stronger for dark backgrounds)
+  // Shadows
   --nemo-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
   --nemo-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
   --nemo-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.45);
@@ -210,31 +165,24 @@
   color-scheme: dark;
 }
 
-// Respect OS preference when no explicit data-theme is set (avoids FOUC)
+// Ikuti preferensi OS ketika tidak ada data-theme eksplisit (mencegah FOUC).
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    // Colors — primary
     --nemo-primary-50: #1b2f52;
     --nemo-primary-100: #23406f;
     --nemo-primary-200: #2d5694;
     --nemo-primary-300: #3b6db8;
     --nemo-primary-400: #5b9df6;
-    --nemo-primary-500: #4285f4;
-    --nemo-primary-600: #1a73e8;
-    --nemo-primary-700: #1967d2;
-    --nemo-primary-800: #185abc;
-    --nemo-primary-900: #174ea6;
 
+    // Colors — secondary
     --nemo-secondary-50: #251b47;
     --nemo-secondary-100: #2e2358;
     --nemo-secondary-200: #3b2e71;
     --nemo-secondary-300: #4c3c94;
     --nemo-secondary-400: #8b78fa;
-    --nemo-secondary-500: #8b5cf6;
-    --nemo-secondary-600: #7c3aed;
-    --nemo-secondary-700: #6d28d9;
-    --nemo-secondary-800: #5b21b6;
-    --nemo-secondary-900: #4c1d95;
 
+    // Colors — neutral
     --nemo-neutral-0: #0f1013;
     --nemo-neutral-50: #17181c;
     --nemo-neutral-100: #1f2128;
@@ -247,11 +195,12 @@
     --nemo-neutral-800: #d9dde6;
     --nemo-neutral-900: #f0f2f5;
 
+    // Colors — surfaces
     --nemo-surface-success: #1a2e1f;
     --nemo-surface-warning: #2e2a14;
     --nemo-surface-error: #2e1a1a;
 
-    // Shadows (stronger for dark backgrounds)
+    // Shadows
     --nemo-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
     --nemo-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
     --nemo-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.45);

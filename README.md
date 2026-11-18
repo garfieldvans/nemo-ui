@@ -185,6 +185,12 @@ pnpm build-storybook  # static build → storybook-static/
 
 Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
 
+Build Storybook otomatis ter-deploy ke GitHub Pages setiap push ke `main`
+(`.github/workflows/storybook-deploy.yml`), dan setiap PR di-snapshot oleh
+[Chromatic](https://www.chromatic.com/) (`visual-regression.yml`). Review visual aktif setelah secret
+`CHROMATIC_PROJECT_TOKEN` diisi di repository settings; tanpa secret, job-nya hijau tanpa
+menjalankan apa pun.
+
 ## Accessibility Checks
 
 `src/a11y.test.tsx` merender setiap komponen dan menjalankan [axe](https://github.com/dequelabs/axe-core)
@@ -223,6 +229,8 @@ test lebih dulu, jadi tidak ada rilis dari artefak basi.
 | `pnpm typecheck`        | TypeScript type-check all packages                  |
 | `pnpm storybook`        | Start Storybook dev server (port 6006)              |
 | `pnpm build-storybook`  | Static Storybook build                              |
+| `pnpm tokens:build`     | Regenerate `themes.scss` from `tokens.ts`           |
+| `pnpm tokens:check`     | Verify `themes.scss` is in sync (used in CI)        |
 | `pnpm clean`            | Remove all build artifacts                          |
 | `pnpm format`           | Format the whole repo with Prettier                 |
 | `pnpm format:check`     | Verify formatting without writing (used in CI)      |
@@ -260,7 +268,7 @@ Tokens live in two places:
 | Location                             | Purpose                                                                                |
 | ------------------------------------ | -------------------------------------------------------------------------------------- |
 | `packages/ui/src/theme/tokens.ts`    | **Source of truth** — `ThemeTokens` type, `defaultTheme`, `darkTheme`, `toCssVarMap()` |
-| `packages/ui/src/styles/themes.scss` | **Static mirror** — `:root` + `[data-theme="dark"]` blocks, manually kept in sync      |
+| `packages/ui/src/styles/themes.scss` | **Generated** by `pnpm tokens:build`; jangan diedit manual, CI memeriksa drift-nya     |
 
 ### Available Tokens
 
@@ -300,7 +308,7 @@ Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Stor
 
 - [ ] Stabilisasi dan konsistensi perilaku overlay (Modal / Drawer / Popover / Menu / Tooltip)
 - [ ] Penajaman dokumentasi komponen (props, contoh, aksesibilitas)
-- [ ] Sinkronisasi token tema: pastikan `themes.scss` tetap sesuai dengan `tokens.ts` (codegen sebagai rencana berikutnya)
+- [x] Sinkronisasi token tema: `themes.scss` di-generate dari `tokens.ts` (`pnpm tokens:build` + `tokens:check` di CI)
 
 ### Later
 
