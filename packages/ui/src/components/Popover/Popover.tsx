@@ -16,6 +16,7 @@ import type { PopoverProps } from "./Popover.types";
 import { clsx } from "../../utils/clsx";
 import { composeRefs } from "../../utils/composeRefs";
 import { Portal } from "../internal/Portal";
+import { useDismiss } from "../internal/useDismiss";
 import { useFloating } from "../internal/useFloating";
 
 export function Popover({
@@ -72,36 +73,19 @@ export function Popover({
   // melalui `defaultOpen` + internal state.
   //
   // Popover adalah non-modal:
-  // - menutup saat Escape
+  // - menutup saat Escape, lalu fokus kembali ke trigger
   // - menutup saat pointer mousedown di luar trigger dan panel
   // - fokus dipindah ke panel saat terbuka (bukan focus trap)
-  //
-  // Karena sifatnya ringan, popover tidak menangani klik-luar dan Escape
-  // dengan focus recovery yang sama seperti modal; Escape langsung menutup,
-  // dan tidak ada jebakan fokus di dalam panel.
   useLayoutEffect(() => {
     if (isOpen) panelEl?.focus();
   }, [isOpen, panelEl]);
 
-  // Tutup saat klik di luar (mousedown) atau Escape.
-  useLayoutEffect(() => {
-    if (!isOpen) return;
-    const onPointerDown = (e: MouseEvent) => {
-      const target = e.target as Node | null;
-      if (!target) return;
-      if (triggerEl?.contains(target) || panelEl?.contains(target)) return;
-      setOpen(false);
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [isOpen, setOpen, triggerEl, panelEl]);
+  useDismiss({
+    active: isOpen,
+    onDismiss: () => setOpen(false),
+    elements: [triggerEl, panelEl],
+    restoreFocusTo: triggerEl,
+  });
 
   const panelStyle: CSSProperties = {
     top: floating.position?.top,

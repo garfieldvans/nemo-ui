@@ -43,6 +43,20 @@ describe("Tooltip", () => {
     expect(screen.getByRole("tooltip").id).toBe(describedBy);
   });
 
+  it("hides on Escape without moving focus (WCAG 1.4.13)", () => {
+    render(
+      <Tooltip content="Info tambahan" openDelay={0} closeDelay={0}>
+        <button type="button">Hover</button>
+      </Tooltip>,
+    );
+    const trigger = screen.getByRole("button", { name: "Hover" });
+    fireEvent.mouseEnter(trigger);
+    expect(screen.getByRole("tooltip")).toBeDefined();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("tooltip")).toBeNull();
+  });
+
   it("does not open when disabled", () => {
     render(
       <Tooltip content="Info" disabled openDelay={0} closeDelay={0}>

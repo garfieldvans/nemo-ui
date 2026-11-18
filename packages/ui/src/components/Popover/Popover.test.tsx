@@ -53,15 +53,20 @@ describe("Popover", () => {
     expect(panelAria()).toBeDefined();
   });
 
-  it("closes on Escape", () => {
+  it("closes on Escape and returns focus to the trigger", () => {
     render(
       <Popover trigger="Buka" ariaLabel="Konten popover">
         Isi
       </Popover>,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Buka" }));
+    const trigger = screen.getByRole("button", { name: "Buka" });
+    fireEvent.click(trigger);
+
+    // Fokus dipindah ke panel saat terbuka, jadi Escape harus mengembalikannya.
+    expect(document.activeElement).toBe(panelAria());
     fireEvent.keyDown(document, { key: "Escape" });
     expect(screen.queryByRole("dialog")).toBeNull();
+    expect(document.activeElement).toBe(trigger);
   });
 
   it("supports controlled open state", () => {

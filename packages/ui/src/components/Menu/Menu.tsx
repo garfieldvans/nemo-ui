@@ -20,6 +20,7 @@ import type { MenuItemProps, MenuProps } from "./Menu.types";
 import { clsx } from "../../utils/clsx";
 import { composeRefs } from "../../utils/composeRefs";
 import { Portal } from "../internal/Portal";
+import { useDismiss } from "../internal/useDismiss";
 import { useFloating } from "../internal/useFloating";
 
 function MenuItem({ label, icon, disabled, className, ...rest }: MenuItemProps) {
@@ -191,19 +192,15 @@ function MenuImpl({
     if (isOpen) panelEl?.focus();
   }, [isOpen, panelEl]);
 
-  useLayoutEffect(() => {
-    if (!isOpen) return;
-    const onPointerDown = (e: MouseEvent) => {
-      const target = e.target as Node | null;
-      if (!target) return;
-      if (triggerEl?.contains(target) || panelEl?.contains(target)) return;
-      setOpen(false);
-    };
-    document.addEventListener("mousedown", onPointerDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-    };
-  }, [isOpen, setOpen, triggerEl, panelEl]);
+  // Escape ditangani di panel (lihat handleKeyDown) karena sekaligus mengatur
+  // item aktif; hook hanya menyediakan klik-luar agar tidak ada dua handler
+  // Escape yang menutup menu dua kali.
+  useDismiss({
+    active: isOpen,
+    onDismiss: () => setOpen(false),
+    elements: [triggerEl, panelEl],
+    escape: false,
+  });
 
   const handleKeyDown = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     switch (e.key) {

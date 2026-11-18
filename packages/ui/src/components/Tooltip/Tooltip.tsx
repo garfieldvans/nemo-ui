@@ -16,6 +16,7 @@ import type { TooltipProps } from "./Tooltip.types";
 import { clsx } from "../../utils/clsx";
 import { composeRefs } from "../../utils/composeRefs";
 import { Portal } from "../internal/Portal";
+import { useDismiss } from "../internal/useDismiss";
 import { useFloating } from "../internal/useFloating";
 
 const DEFAULT_OPEN_DELAY = 100;
@@ -61,6 +62,11 @@ export function Tooltip({
 
   const show = useCallback(() => setOpen(true), []);
   const hide = useCallback(() => setOpen(false), []);
+
+  // WCAG 1.4.13: konten tambahan harus bisa ditutup tanpa memindahkan pointer
+  // atau fokus. Tooltip tidak menutup saat klik luar karena hover/leave sudah
+  // menanganinya, dan fokus tetap di trigger.
+  useDismiss({ active: open && !disabled, onDismiss: hide, outsideClick: false });
 
   const handleEnter = () => {
     if (disabled) return;
