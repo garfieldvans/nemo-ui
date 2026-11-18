@@ -31,7 +31,13 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # `enablement: true` mengaktifkan GitHub Pages (Source: GitHub Actions)
+      # saat repo belum punya site Pages; tanpa ini action gagal dengan
+      # "Get Pages site failed". Penulisan setelan ini tercakup permission
+      # `pages: write` di atas, jadi tidak perlu klik manual di Settings.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       # Storybook 8 menulis aset dengan path relatif (./), jadi build ini aman
       # dilayani dari subpath /<repo>/ tanpa konfigurasi base tambahan.
