@@ -185,6 +185,28 @@ pnpm build-storybook  # static build → storybook-static/
 
 Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
 
+## Accessibility Checks
+
+`src/a11y.test.tsx` merender setiap komponen dan menjalankan [axe](https://github.com/dequelabs/axe-core)
+lewat `vitest-axe`, sehingga regresi ARIA seperti label yang hilang atau atribut yang tidak sah
+langsung menggagalkan `pnpm test:run`. Aturan `color-contrast` dimatikan karena jsdom tidak punya
+canvas; kontras tetap diperiksa manual lewat Storybook a11y addon.
+
+---
+
+## Release
+
+Paket `@nemo/ui` dirilis dengan [changesets](https://github.com/changesets/changesets).
+
+```bash
+pnpm changeset          # catat perubahan (patch/minor/major)
+pnpm version-packages   # naikkan versi + tulis CHANGELOG
+pnpm release            # publish; prepublishOnly menjalankan build + test
+```
+
+Playground tidak ikut dirilis. Setiap publish selalu membangun ulang `dist` dan menjalankan seluruh
+test lebih dulu, jadi tidak ada rilis dari artefak basi.
+
 ---
 
 ## Available Scripts
@@ -204,6 +226,9 @@ Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
 | `pnpm clean`            | Remove all build artifacts                          |
 | `pnpm format`           | Format the whole repo with Prettier                 |
 | `pnpm format:check`     | Verify formatting without writing (used in CI)      |
+| `pnpm changeset`        | Record a change for the next release                |
+| `pnpm version-packages` | Apply changesets (versions + CHANGELOG)             |
+| `pnpm release`          | Publish `@nemo/ui` to npm                           |
 
 ---
 
