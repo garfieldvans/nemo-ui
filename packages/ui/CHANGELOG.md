@@ -1,5 +1,11 @@
 # @nemo-ui/ui
 
+## 0.1.1
+
+### Patch Changes
+
+- b8d6baa: 0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
