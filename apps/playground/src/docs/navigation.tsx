@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Menu, Pagination, ScrollToTop, Tabs } from "@nemo/ui";
+import { Button, Menu, Pagination, Tabs } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
 
 const tabItems = [
@@ -394,27 +394,12 @@ export const navigationDocs: ComponentDoc[] = [
         id: "basic",
         title: "Dasar",
         description:
-          "Tombol hanya dirender saat posisi gulir melewati `threshold`, lalu menggulir jendela kembali ke atas dengan animasi halus.",
-        code: `<ScrollToTop threshold={400} position="bottom-left" />`,
-        preview: (
-          <>
-            <ScrollDemoContent />
-            <ScrollToTop threshold={200} position="bottom-left" />
-          </>
-        ),
-      },
-      {
-        id: "label",
-        title: "Label & posisi",
-        description:
-          "`showLabel` menampilkan teks di samping ikon (teks itu juga menjadi nama aksesibel), dan `position` memindahkan tombol ke sudut lain atau tengah bawah.",
-        code: `<ScrollToTop showLabel position="bottom-center" size="lg" />`,
-        preview: (
-          <>
-            <ScrollDemoContent />
-            <ScrollToTop threshold={200} showLabel position="bottom-center" size="lg" />
-          </>
-        ),
+          "Tombol hanya dirender saat posisi gulir melewati `threshold`, lalu menggulir jendela kembali ke atas dengan animasi halus. Karena komponen ini bekerja pada jendela, halaman dokumentasi memakai satu instance global di pojok kanan bawah — gulir halaman ini untuk melihatnya.",
+        code: `<ScrollToTop threshold={400} />
+
+// Varian label & posisi
+<ScrollToTop showLabel position="bottom-center" size="lg" />`,
+        preview: <ScrollDemoContent />,
       },
     ],
     props: [
