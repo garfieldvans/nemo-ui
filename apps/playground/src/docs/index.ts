@@ -24,10 +24,7 @@ export function searchComponents(query: string): ComponentDoc[] {
   if (!term) return componentDocs;
 
   return componentDocs.filter((doc) =>
-    [doc.name, doc.slug, doc.group, doc.summary]
-      .join(" ")
-      .toLowerCase()
-      .includes(term),
+    [doc.name, doc.slug, doc.group, doc.summary].join(" ").toLowerCase().includes(term),
   );
 }
 

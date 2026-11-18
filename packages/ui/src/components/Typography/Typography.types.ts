@@ -13,13 +13,7 @@ export type TypographyVariant =
   | "overline"
   | "button";
 
-export type TypographyColor =
-  | "primary"
-  | "neutral"
-  | "success"
-  | "warning"
-  | "error"
-  | "info";
+export type TypographyColor = "primary" | "neutral" | "success" | "warning" | "error" | "info";
 
 export interface TypographyProps {
   variant?: TypographyVariant;

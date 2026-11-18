@@ -44,8 +44,7 @@ export function Tabs({
   style,
 }: TabsProps) {
   const isControlled = value !== undefined;
-  const fallbackDefault =
-    defaultValue ?? items.find((item) => !item.disabled)?.value;
+  const fallbackDefault = defaultValue ?? items.find((item) => !item.disabled)?.value;
   const [internalValue, setInternalValue] = useState(fallbackDefault);
   const currentValue = isControlled ? value : internalValue;
 
@@ -98,10 +97,7 @@ export function Tabs({
       <div
         role="tablist"
         aria-label={ariaLabel}
-        className={clsx(
-          styles.tablist,
-          styles[`tablist--${variant}`],
-        )}
+        className={clsx(styles.tablist, styles[`tablist--${variant}`])}
         onKeyDown={handleKeyDown}
       >
         {items.map((item) => {

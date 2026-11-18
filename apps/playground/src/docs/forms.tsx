@@ -77,7 +77,12 @@ const frameworks: ComboboxOption[] = [
   { label: "Vue", value: "vue", description: "Framework progresif" },
   { label: "Svelte", value: "svelte", description: "Compiler-first framework" },
   { label: "Angular", value: "angular", description: "Framework lengkap dari Google" },
-  { label: "Solid", value: "solid", description: "Reaktivitas halus tanpa virtual DOM", disabled: true },
+  {
+    label: "Solid",
+    value: "solid",
+    description: "Reaktivitas halus tanpa virtual DOM",
+    disabled: true,
+  },
 ];
 
 function ControlledCombobox() {
@@ -103,11 +108,7 @@ function AsyncCombobox() {
   useEffect(() => {
     const timer = setTimeout(() => {
       const term = query.trim().toLowerCase();
-      setOptions(
-        frameworks.filter((option) =>
-          String(option.label).toLowerCase().includes(term),
-        ),
-      );
+      setOptions(frameworks.filter((option) => String(option.label).toLowerCase().includes(term)));
       setLoading(false);
     }, 600);
     return () => clearTimeout(timer);
@@ -308,8 +309,7 @@ export const formsDocs: ComponentDoc[] = [
     slug: "input",
     name: "Input",
     group: "Forms",
-    summary:
-      "Field teks satu baris dengan label, status validasi, ikon, affix, dan tombol clear.",
+    summary: "Field teks satu baris dengan label, status validasi, ikon, affix, dan tombol clear.",
     examples: [
       {
         id: "basic",
@@ -341,12 +341,7 @@ export const formsDocs: ComponentDoc[] = [
         preview: (
           <>
             <Input label="Outlined" placeholder="Outlined" fullWidth />
-            <Input
-              label="Filled"
-              placeholder="Filled"
-              variant="filled"
-              fullWidth
-            />
+            <Input label="Filled" placeholder="Filled" variant="filled" fullWidth />
             <Input label="Ghost" placeholder="Ghost" variant="ghost" fullWidth />
           </>
         ),
@@ -362,12 +357,7 @@ export const formsDocs: ComponentDoc[] = [
           <>
             <Input label="Error" error="Format email tidak valid" fullWidth />
             <Input label="Warning" warning="Data belum lengkap" fullWidth />
-            <Input
-              label="Success"
-              success="Email tersedia"
-              defaultValue="me@nemo.dev"
-              fullWidth
-            />
+            <Input label="Success" success="Email tersedia" defaultValue="me@nemo.dev" fullWidth />
           </>
         ),
       },
@@ -388,18 +378,8 @@ export const formsDocs: ComponentDoc[] = [
               fullWidth
             />
             <Input label="Harga" prefix="Rp" placeholder="0" fullWidth />
-            <Input
-              label="Domain"
-              suffix="@nemo.dev"
-              placeholder="nama"
-              fullWidth
-            />
-            <Input
-              label="Clearable"
-              clearable
-              defaultValue="Hapus saya"
-              fullWidth
-            />
+            <Input label="Domain" suffix="@nemo.dev" placeholder="nama" fullWidth />
+            <Input label="Clearable" clearable defaultValue="Hapus saya" fullWidth />
           </>
         ),
       },
@@ -434,8 +414,7 @@ export const formsDocs: ComponentDoc[] = [
       {
         name: "rightIconAction",
         type: "MouseEventHandler<HTMLButtonElement>",
-        description:
-          "Membuat rightIcon bisa diklik sebagai tombol (mis. toggle password).",
+        description: "Membuat rightIcon bisa diklik sebagai tombol (mis. toggle password).",
       },
       {
         name: "prefix",
@@ -467,8 +446,7 @@ export const formsDocs: ComponentDoc[] = [
     slug: "textarea",
     name: "Textarea",
     group: "Forms",
-    summary:
-      "Field teks multi-baris dengan penghitung karakter dan gaya yang sama dengan Input.",
+    summary: "Field teks multi-baris dengan penghitung karakter dan gaya yang sama dengan Input.",
     examples: [
       {
         id: "basic",
@@ -505,12 +483,7 @@ export const formsDocs: ComponentDoc[] = [
           <>
             <Textarea label="Filled" variant="filled" rows={3} fullWidth />
             <Textarea label="Ghost" variant="ghost" rows={3} fullWidth />
-            <Textarea
-              label="Error"
-              error="Pesan terlalu pendek"
-              rows={3}
-              fullWidth
-            />
+            <Textarea label="Error" error="Pesan terlalu pendek" rows={3} fullWidth />
           </>
         ),
       },
@@ -563,12 +536,7 @@ export const formsDocs: ComponentDoc[] = [
 />`,
         stack: true,
         preview: (
-          <Select
-            label="Paket langganan"
-            options={plans}
-            placeholder="Pilih paket..."
-            fullWidth
-          />
+          <Select label="Paket langganan" options={plans} placeholder="Pilih paket..." fullWidth />
         ),
       },
       {
@@ -620,13 +588,7 @@ export const formsDocs: ComponentDoc[] = [
         stack: true,
         preview: (
           <>
-            <Select
-              label="Paket"
-              options={plans}
-              status="error"
-              error="Wajib dipilih"
-              fullWidth
-            />
+            <Select label="Paket" options={plans} status="error" error="Wajib dipilih" fullWidth />
             <Select
               label="Paket"
               options={plans}
@@ -642,8 +604,7 @@ export const formsDocs: ComponentDoc[] = [
       {
         name: "options",
         type: "SelectOption[]",
-        description:
-          "Daftar opsi: value, label, plus description/disabled opsional.",
+        description: "Daftar opsi: value, label, plus description/disabled opsional.",
       },
       {
         name: "value",
@@ -724,8 +685,7 @@ export const formsDocs: ComponentDoc[] = [
     slug: "checkbox",
     name: "Checkbox",
     group: "Forms",
-    summary:
-      "Kotak centang dengan label, status indeterminate, dan warna semantik.",
+    summary: "Kotak centang dengan label, status indeterminate, dan warna semantik.",
     examples: [
       {
         id: "basic",
@@ -808,21 +768,19 @@ export const formsDocs: ComponentDoc[] = [
       },
     ],
     notes: [
-      "Checkbox meneruskan atribut native <input type=\"checkbox\">, termasuk onChange dan name.",
+      'Checkbox meneruskan atribut native <input type="checkbox">, termasuk onChange dan name.',
     ],
   },
   {
     slug: "radio",
     name: "Radio",
     group: "Forms",
-    summary:
-      "Pilihan tunggal dalam grup — tersedia RadioGroup vertikal maupun horizontal.",
+    summary: "Pilihan tunggal dalam grup — tersedia RadioGroup vertikal maupun horizontal.",
     examples: [
       {
         id: "group",
         title: "RadioGroup",
-        description:
-          "RadioGroup mengelola nilai dan atribut name untuk semua Radio di dalamnya.",
+        description: "RadioGroup mengelola nilai dan atribut name untuk semua Radio di dalamnya.",
         code: `const [value, setValue] = useState("monthly");
 
 <RadioGroup
@@ -867,12 +825,7 @@ export const formsDocs: ComponentDoc[] = [
               <Radio value="landscape" label="Lanskap" />
               <Radio value="portrait" label="Potret" />
             </RadioGroup>
-            <RadioGroup
-              name="demo-locked"
-              label="Terkunci"
-              disabled
-              defaultValue="auto"
-            >
+            <RadioGroup name="demo-locked" label="Terkunci" disabled defaultValue="auto">
               <Radio value="auto" label="Otomatis" />
               <Radio value="manual" label="Manual" />
             </RadioGroup>
@@ -963,8 +916,7 @@ export const formsDocs: ComponentDoc[] = [
     slug: "switch",
     name: "Switch",
     group: "Forms",
-    summary:
-      "Tombol on/off untuk pengaturan yang langsung berlaku, dengan label dan bantuan.",
+    summary: "Tombol on/off untuk pengaturan yang langsung berlaku, dengan label dan bantuan.",
     examples: [
       {
         id: "basic",
@@ -1036,7 +988,7 @@ export const formsDocs: ComponentDoc[] = [
       },
     ],
     notes: [
-      "Switch memakai <input type=\"checkbox\" role=\"switch\"> sehingga tetap bisa dioperasikan keyboard.",
+      'Switch memakai <input type="checkbox" role="switch"> sehingga tetap bisa dioperasikan keyboard.',
     ],
   },
   {
@@ -1059,12 +1011,7 @@ export const formsDocs: ComponentDoc[] = [
 </FormField>`,
         stack: true,
         preview: (
-          <FormField
-            label="Nama lengkap"
-            htmlFor="demo-nama"
-            required
-            helperText="Sesuai KTP."
-          >
+          <FormField label="Nama lengkap" htmlFor="demo-nama" required helperText="Sesuai KTP.">
             <Input id="demo-nama" placeholder="Nama lengkap" fullWidth />
           </FormField>
         ),
@@ -1100,17 +1047,8 @@ export const formsDocs: ComponentDoc[] = [
 </FormField>`,
         stack: true,
         preview: (
-          <FormField
-            label="Paket"
-            htmlFor="demo-paket-error"
-            error="Wajib memilih paket"
-          >
-            <Select
-              id="demo-paket-error"
-              options={plans}
-              status="error"
-              fullWidth
-            />
+          <FormField label="Paket" htmlFor="demo-paket-error" error="Wajib memilih paket">
+            <Select id="demo-paket-error" options={plans} status="error" fullWidth />
           </FormField>
         ),
       },
@@ -1165,8 +1103,7 @@ export const formsDocs: ComponentDoc[] = [
     slug: "combobox",
     name: "Combobox",
     group: "Forms",
-    summary:
-      "Pemilih multi-nilai dengan pencarian, chip yang bisa dihapus, dan navigasi keyboard.",
+    summary: "Pemilih multi-nilai dengan pencarian, chip yang bisa dihapus, dan navigasi keyboard.",
     examples: [
       {
         id: "basic",
@@ -1275,8 +1212,7 @@ useEffect(() => {
       {
         name: "options",
         type: "ComboboxOption[]",
-        description:
-          "Daftar opsi: value, label, plus description/disabled opsional.",
+        description: "Daftar opsi: value, label, plus description/disabled opsional.",
       },
       {
         name: "value / defaultValue",
@@ -1355,8 +1291,7 @@ useEffect(() => {
       {
         name: "error / warning / success / helperText",
         type: "string",
-        description:
-          "Pesan validasi (sekaligus status) dan teks bantuan di bawah field.",
+        description: "Pesan validasi (sekaligus status) dan teks bantuan di bawah field.",
       },
       {
         name: "disabled",
@@ -1367,8 +1302,7 @@ useEffect(() => {
       {
         name: "name",
         type: "string",
-        description:
-          "Menghasilkan satu hidden input per nilai agar ikut terkirim bersama form.",
+        description: "Menghasilkan satu hidden input per nilai agar ikut terkirim bersama form.",
       },
       {
         name: "fullWidth",
@@ -1471,7 +1405,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
         name: "accept",
         type: "string",
         description:
-          "Atribut native accept (mis. \".pdf,image/*\"). Juga dipakai memfilter file hasil drag & drop.",
+          'Atribut native accept (mis. ".pdf,image/*"). Juga dipakai memfilter file hasil drag & drop.',
       },
       {
         name: "multiple",
@@ -1502,8 +1436,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
       {
         name: "onReject",
         type: "(rejected: FileUploadRejection[]) => void",
-        description:
-          "Menerima file yang ditolak beserta alasannya: type, size, atau count.",
+        description: "Menerima file yang ditolak beserta alasannya: type, size, atau count.",
       },
       {
         name: "getFileStatus",
@@ -1594,7 +1527,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
         id: "date-range",
         title: "Mode rentang tanggal",
         description:
-          "Set `mode=\"range\"` untuk memilih periode. Klik tanggal awal lalu tanggal akhir; rentang selalu dirapikan otomatis walau dipilih terbalik. Input manual menerima \"awal – akhir\" dan rentang tersimpan dikirim lewat dua hidden input `name` yang sama.",
+          'Set `mode="range"` untuk memilih periode. Klik tanggal awal lalu tanggal akhir; rentang selalu dirapikan otomatis walau dipilih terbalik. Input manual menerima "awal – akhir" dan rentang tersimpan dikirim lewat dua hidden input `name` yang sama.',
         code: `const [range, setRange] = useState<DatePickerRange | null>({
   start: new Date(2026, 10, 1),
   end: new Date(2026, 10, 14),
@@ -1612,8 +1545,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
       {
         id: "range",
         title: "Batasan min & max",
-        description:
-          "Hari di luar rentang tidak bisa dipilih dari kalender maupun diketik.",
+        description: "Hari di luar rentang tidak bisa dipilih dari kalender maupun diketik.",
         code: `<DatePicker
   label="Periode kampanye"
   defaultValue={new Date(2026, 11, 10)}
@@ -1642,19 +1574,9 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
         stack: true,
         preview: (
           <>
-            <DatePicker
-              label="Format ISO"
-              format="yyyy-mm-dd"
-              helperText="yyyy-mm-dd"
-              fullWidth
-            />
+            <DatePicker label="Format ISO" format="yyyy-mm-dd" helperText="yyyy-mm-dd" fullWidth />
             <DatePicker label="Wajib" required error="Tanggal belum diisi." fullWidth />
-            <DatePicker
-              label="Terkunci"
-              disabled
-              defaultValue={new Date(2026, 0, 15)}
-              fullWidth
-            />
+            <DatePicker label="Terkunci" disabled defaultValue={new Date(2026, 0, 15)} fullWidth />
           </>
         ),
       },
@@ -1732,8 +1654,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
       {
         name: "name",
         type: "string",
-        description:
-          "Hidden input berisi tanggal yyyy-mm-dd agar ikut terkirim bersama form.",
+        description: "Hidden input berisi tanggal yyyy-mm-dd agar ikut terkirim bersama form.",
       },
       {
         name: "fullWidth",
@@ -1745,7 +1666,7 @@ const [rejected, setRejected] = useState<FileUploadRejection[]>([]);
     notes: [
       "Tanggal dihitung pada tengah malam waktu lokal; komponen ini hanya memilih tanggal, bukan waktu.",
       "Mode range selalu mengirim start ≤ end; klik pertama hanya menandai tanggal awal dan kalender tetap terbuka untuk tanggal akhir.",
-      "Input manual pada mode range memakai pemisah \" – \" (juga menerima \"-\" atau \"s/d\" yang diapit spasi), mis. 01/11/2026 – 14/11/2026.",
+      'Input manual pada mode range memakai pemisah " – " (juga menerima "-" atau "s/d" yang diapit spasi), mis. 01/11/2026 – 14/11/2026.',
     ],
   },
 ];

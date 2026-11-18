@@ -13,12 +13,7 @@ import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { getComponentDoc } from "./docs";
 import { ComponentPage } from "./pages/ComponentPage";
-import {
-  ComponentsIndex,
-  DocsOverview,
-  GettingStarted,
-  Theming,
-} from "./pages/Docs";
+import { ComponentsIndex, DocsOverview, GettingStarted, Theming } from "./pages/Docs";
 import { Home } from "./pages/Home";
 import { Playground } from "./pages/Playground";
 import { Link, useRoute } from "./router";
@@ -56,8 +51,8 @@ function NotFound() {
         Halaman tidak ditemukan
       </h1>
       <p className="site-lead" style={{ marginBottom: 28 }}>
-        Alamat yang kamu buka tidak ada di dokumentasi ini. Coba mulai dari
-        halaman utama atau daftar komponen.
+        Alamat yang kamu buka tidak ada di dokumentasi ini. Coba mulai dari halaman utama atau
+        daftar komponen.
       </p>
       <div className="site-cta-row">
         <Link to="/" className="site-button">
@@ -112,9 +107,7 @@ function Site({
   }, [mode]);
 
   useEffect(() => {
-    const slug = path.startsWith("/docs/components/")
-      ? path.slice("/docs/components/".length)
-      : "";
+    const slug = path.startsWith("/docs/components/") ? path.slice("/docs/components/".length) : "";
     const doc = slug ? getComponentDoc(slug) : undefined;
     document.title = doc ? `${doc.name} — Nemo UI` : "Nemo UI — Dokumentasi";
   }, [path]);

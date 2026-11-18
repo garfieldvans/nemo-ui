@@ -20,7 +20,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       className,
       style,
     },
-    ref
+    ref,
   ) => {
     // error/warning = assertive (alert), success/info = polite (status)
     const resolvedRole = role ?? (tone === "error" || tone === "warning" ? "alert" : "status");
@@ -37,7 +37,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
           styles.alert,
           styles[`alert--${variant}`],
           styles[`alert--${tone}`],
-          className
+          className,
         )}
         style={style}
       >
@@ -61,7 +61,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Alert.displayName = "Alert";

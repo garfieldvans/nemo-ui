@@ -69,7 +69,7 @@ export const Select = forwardRef<SelectRef, SelectProps>(
       style,
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const randomId = useId().replace(/:/g, "");
@@ -92,23 +92,25 @@ export const Select = forwardRef<SelectRef, SelectProps>(
     const hasWarning = Boolean(warning);
     const hasSuccess = Boolean(success);
     const showHelper = hasError || hasWarning || hasSuccess || Boolean(helperText);
-    const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
+    const statusClass = hasError
+      ? "error"
+      : hasWarning
+        ? "warning"
+        : hasSuccess
+          ? "success"
+          : status;
 
     const isSearchable = searchable && !disabled;
 
     const filteredOptions = isSearchable
-      ? options.filter((o) =>
-          String(o.label).toLowerCase().includes(query.trim().toLowerCase())
-        )
+      ? options.filter((o) => String(o.label).toLowerCase().includes(query.trim().toLowerCase()))
       : options;
 
     const selectedOption = options.find((o) => o.value === currentValue);
     const selectedLabel = selectedOption ? String(selectedOption.label) : "";
 
     const effectiveActive =
-      filteredOptions.length === 0
-        ? -1
-        : Math.min(activeIndex, filteredOptions.length - 1);
+      filteredOptions.length === 0 ? -1 : Math.min(activeIndex, filteredOptions.length - 1);
 
     const showClear = clearable && Boolean(currentValue) && !disabled;
     const toggleLabel = open ? "Tutup dropdown" : "Buka dropdown";
@@ -116,34 +118,34 @@ export const Select = forwardRef<SelectRef, SelectProps>(
     const wrapperClasses = clsx(
       styles["select-wrapper"],
       fullWidth && styles["select-wrapper--full-width"],
-      className
+      className,
     );
 
     const containerClasses = clsx(
       styles["select-container"],
       styles[`select-container--${variant}`],
       statusClass !== "default" && styles[`select-container--${statusClass}`],
-      disabled && styles["select-container--disabled"]
+      disabled && styles["select-container--disabled"],
     );
 
     const inputClasses = clsx(
       styles["select-input"],
       styles[`select-input--${size}`],
       showClear && styles["select-input--clearable"],
-      Boolean(leftIcon) && styles["select-input--with-left-icon"]
+      Boolean(leftIcon) && styles["select-input--with-left-icon"],
     );
 
     const chevronClasses = clsx(
       styles["icon-button"],
       styles["select-chevron"],
-      open && styles["select-chevron--open"]
+      open && styles["select-chevron--open"],
     );
 
     const helperClasses = clsx(
       styles["helper-text"],
       hasError && styles["helper-text--error"],
       hasWarning && styles["helper-text--warning"],
-      hasSuccess && styles["helper-text--success"]
+      hasSuccess && styles["helper-text--success"],
     );
 
     const openMenu = () => {
@@ -243,7 +245,7 @@ export const Select = forwardRef<SelectRef, SelectProps>(
         styles["select-option"],
         i === effectiveActive && styles["select-option--active"],
         selectedOption?.value === opt.value && styles["select-option--selected"],
-        opt.disabled && styles["select-option--disabled"]
+        opt.disabled && styles["select-option--disabled"],
       );
 
     return (
@@ -285,9 +287,7 @@ export const Select = forwardRef<SelectRef, SelectProps>(
             aria-haspopup="listbox"
             aria-controls={open ? `${inputId}-listbox` : undefined}
             aria-activedescendant={
-              open && effectiveActive >= 0
-                ? `${inputId}-opt-${effectiveActive}`
-                : undefined
+              open && effectiveActive >= 0 ? `${inputId}-opt-${effectiveActive}` : undefined
             }
             aria-autocomplete={searchable ? "list" : undefined}
             aria-invalid={hasError}
@@ -349,7 +349,7 @@ export const Select = forwardRef<SelectRef, SelectProps>(
         {name && <input type="hidden" name={name} value={currentValue ?? ""} />}
       </div>
     );
-  }
+  },
 );
 
 Select.displayName = "Select";

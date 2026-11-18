@@ -70,7 +70,9 @@ $radio-transition: all 0.15s ease;
   border-radius: 50%;
   background: transparent;
   transform: scale(0);
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .radio--sm .radio-dot {

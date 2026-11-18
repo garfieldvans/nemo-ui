@@ -41,6 +41,6 @@ export function Portal({ children }: { children: ReactNode }) {
     <div data-theme={mode} style={{ ...cssVars, colorScheme: mode }}>
       {children}
     </div>,
-    portalNode
+    portalNode,
   );
 }

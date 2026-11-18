@@ -20,7 +20,7 @@ describe("Badge", () => {
     render(
       <Badge color="success" variant="outlined" size="sm">
         OK
-      </Badge>
+      </Badge>,
     );
     const badge = screen.getByText("OK");
     expect(badge.className).toContain("badge--outlined");

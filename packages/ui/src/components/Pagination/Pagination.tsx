@@ -22,7 +22,13 @@ function buildPages(page: number, pageCount: number, siblingCount: number): Page
   return [first, ...mid, last];
 }
 
-function ChevronIcon({ double = false, direction }: { double?: boolean; direction: "left" | "right" }) {
+function ChevronIcon({
+  double = false,
+  direction,
+}: {
+  double?: boolean;
+  direction: "left" | "right";
+}) {
   const rotate = direction === "right" ? undefined : "180 0 0 0";
   return (
     <svg
@@ -38,9 +44,7 @@ function ChevronIcon({ double = false, direction }: { double?: boolean; directio
       {...(rotate ? { style: { transform: "scaleX(-1)" } } : {})}
     >
       <polyline points={direction === "left" ? "15 18 9 12 15 6" : "9 18 15 12 9 6"} />
-      {double && (
-        <polyline points={direction === "left" ? "19 18 13 12 19 6" : "5 18 11 12 5 6"} />
-      )}
+      {double && <polyline points={direction === "left" ? "19 18 13 12 19 6" : "5 18 11 12 5 6"} />}
     </svg>
   );
 }
@@ -74,12 +78,7 @@ export function Pagination({
   const canNext = current < pageCount;
 
   const buttonClasses = (active: boolean, extra?: string) =>
-    clsx(
-      styles.button,
-      styles[`button--${size}`],
-      active && styles["button--active"],
-      extra,
-    );
+    clsx(styles.button, styles[`button--${size}`], active && styles["button--active"], extra);
 
   return (
     <nav aria-label={ariaLabel} className={clsx(styles.nav, className)} style={style}>

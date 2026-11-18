@@ -22,15 +22,15 @@
     padding: 10px 16px;
     text-align: left;
     font-weight: 600;
-    color: var(--nemo-neutral-700, #5F6368);
-    background: var(--nemo-neutral-50, #F8F9FA);
-    border-bottom: 1px solid var(--nemo-neutral-200, #E8EAED);
+    color: var(--nemo-neutral-700, #5f6368);
+    background: var(--nemo-neutral-50, #f8f9fa);
+    border-bottom: 1px solid var(--nemo-neutral-200, #e8eaed);
     white-space: nowrap;
   }
 
   td {
     padding: 10px 16px;
-    border-bottom: 1px solid var(--nemo-neutral-100, #F1F3F4);
+    border-bottom: 1px solid var(--nemo-neutral-100, #f1f3f4);
     vertical-align: middle;
   }
 
@@ -49,7 +49,7 @@
 }
 
 .table--striped tbody tr:nth-child(even) {
-  background: var(--nemo-neutral-50, #F8F9FA);
+  background: var(--nemo-neutral-50, #f8f9fa);
 }
 
 .table--sticky thead th {
@@ -59,11 +59,11 @@
 }
 
 .table__row--selected {
-  background: var(--nemo-primary-50, #E8F0FE);
+  background: var(--nemo-primary-50, #e8f0fe);
 }
 
 .table tbody tr:hover {
-  background: var(--nemo-neutral-100, #F1F3F4);
+  background: var(--nemo-neutral-100, #f1f3f4);
 }
 
 .checkbox-cell {
@@ -104,7 +104,7 @@
 .empty {
   padding: 24px 16px;
   text-align: center;
-  color: var(--nemo-neutral-700, #5F6368);
+  color: var(--nemo-neutral-700, #5f6368);
 }
 
 .pagination {

@@ -29,13 +29,7 @@ type Story = StoryObj<typeof Badge>;
 
 const colors = ["primary", "success", "warning", "error", "neutral"] as const;
 
-function StoryRow({
-  variant,
-  label,
-}: {
-  variant: "filled" | "outlined" | "dot";
-  label: string;
-}) {
+function StoryRow({ variant, label }: { variant: "filled" | "outlined" | "dot"; label: string }) {
   return (
     <div>
       <p style={{ fontFamily: "system-ui, sans-serif", marginBottom: 8 }}>{label}</p>

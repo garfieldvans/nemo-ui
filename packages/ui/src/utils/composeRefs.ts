@@ -8,9 +8,7 @@ function setRef<T>(ref: Ref<T> | undefined, node: T | null): void {
   }
 }
 
-export function composeRefs<T>(
-  ...refs: Array<Ref<T> | undefined | null>
-): RefCallback<T> {
+export function composeRefs<T>(...refs: Array<Ref<T> | undefined | null>): RefCallback<T> {
   return (node: T | null) => {
     refs.forEach((ref) => setRef(ref, node));
   };

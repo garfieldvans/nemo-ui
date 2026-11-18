@@ -61,18 +61,10 @@ export function SiteHeader({
         </Link>
 
         <nav className="site-nav" aria-label="Navigasi utama">
-          <Link
-            to="/"
-            className="site-nav__link"
-            aria-current={path === "/" ? "page" : undefined}
-          >
+          <Link to="/" className="site-nav__link" aria-current={path === "/" ? "page" : undefined}>
             Ikhtisar
           </Link>
-          <Link
-            to="/docs"
-            className="site-nav__link"
-            aria-current={isDocs ? "page" : undefined}
-          >
+          <Link to="/docs" className="site-nav__link" aria-current={isDocs ? "page" : undefined}>
             Dokumentasi
           </Link>
           <Link
@@ -95,9 +87,7 @@ export function SiteHeader({
               aria-label="Palet tema"
               className="site-palette__select"
               value={themeName}
-              onChange={(event) =>
-                onThemeChange(event.target.value as ThemeName)
-              }
+              onChange={(event) => onThemeChange(event.target.value as ThemeName)}
               title="Palet tema"
             >
               {themeNames.map((name) => (
@@ -125,9 +115,7 @@ export function SiteHeader({
             type="button"
             className="site-icon-button"
             onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-            aria-label={
-              mode === "dark" ? "Aktifkan mode terang" : "Aktifkan mode gelap"
-            }
+            aria-label={mode === "dark" ? "Aktifkan mode terang" : "Aktifkan mode gelap"}
             title={mode === "dark" ? "Mode terang" : "Mode gelap"}
           >
             {mode === "dark" ? <SunIcon /> : <MoonIcon />}

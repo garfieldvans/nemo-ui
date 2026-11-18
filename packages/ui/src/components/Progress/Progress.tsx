@@ -23,12 +23,10 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
       className,
       style,
     },
-    ref
+    ref,
   ) => {
     const safeMax = max > 0 ? max : 100;
-    const pct = indeterminate
-      ? 0
-      : Math.min(100, Math.max(0, (value / safeMax) * 100));
+    const pct = indeterminate ? 0 : Math.min(100, Math.max(0, (value / safeMax) * 100));
     const rounded = Math.round(pct);
     const accessibleLabel = label ?? "Progress";
 
@@ -54,7 +52,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
             styles["progress--circle"],
             styles[`progress--${size}`],
             indeterminate && styles["progress--indeterminate"],
-            className
+            className,
           )}
           style={{ width: px, height: px, ...style }}
         >
@@ -70,7 +68,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
             <circle
               className={clsx(
                 styles["progress-circle-fill"],
-                styles[`progress-circle-fill--${color}`]
+                styles[`progress-circle-fill--${color}`],
               )}
               cx="18"
               cy="18"
@@ -96,7 +94,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
           styles.progress,
           styles["progress--line"],
           styles[`progress--${size}`],
-          className
+          className,
         )}
         style={style}
       >
@@ -105,7 +103,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
             className={clsx(
               styles["progress-fill"],
               styles[`progress-fill--${color}`],
-              indeterminate && styles["progress-fill--indeterminate"]
+              indeterminate && styles["progress-fill--indeterminate"],
             )}
             style={indeterminate ? undefined : { width: `${pct}%` }}
           />
@@ -115,7 +113,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Progress.displayName = "Progress";

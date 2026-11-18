@@ -63,7 +63,7 @@ export function Drawer({
             styles.panel,
             styles[`panel--${placement}`],
             styles[`panel--size-${size}`],
-            className
+            className,
           )}
           style={style}
         >
@@ -72,12 +72,7 @@ export function Drawer({
               <h2 id={titleId} className={styles.title}>
                 {title}
               </h2>
-              <button
-                type="button"
-                className={styles.close}
-                onClick={close}
-                aria-label="Tutup"
-              >
+              <button type="button" className={styles.close} onClick={close} aria-label="Tutup">
                 <CloseIcon size={16} />
               </button>
             </header>

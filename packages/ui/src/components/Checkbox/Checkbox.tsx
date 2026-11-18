@@ -20,7 +20,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       disabled,
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const randomId = useId().replace(/:/g, "");
@@ -47,18 +47,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const labelClasses = clsx(
       styles.checkbox,
       styles[`checkbox--${size}`],
-      disabled && styles["checkbox--disabled"]
+      disabled && styles["checkbox--disabled"],
     );
 
-    const boxClasses = clsx(
-      styles["checkbox-box"],
-      styles[`checkbox-box--${color}`]
-    );
+    const boxClasses = clsx(styles["checkbox-box"], styles[`checkbox-box--${color}`]);
 
-    const helperClasses = clsx(
-      styles["helper-text"],
-      hasError && styles["helper-text--error"]
-    );
+    const helperClasses = clsx(styles["helper-text"], hasError && styles["helper-text--error"]);
 
     return (
       <div className={fieldClasses} style={style}>
@@ -110,7 +104,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Checkbox.displayName = "Checkbox";

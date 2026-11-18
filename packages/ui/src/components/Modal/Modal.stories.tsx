@@ -41,9 +41,9 @@ function ModalDemo(props: Partial<ModalProps>) {
       <Button onClick={() => setOpen(true)}>Buka modal</Button>
       <Modal open={open} onOpenChange={setOpen} {...props}>
         <p>
-          Modal digunakan untuk konten yang butuh perhatian penuh pengguna: konfirmasi,
-          formulir ringkas, atau detail task. Fokus terkunci di dalam, scroll halaman
-          terkunci, dan Escape / klik backdrop menutup.
+          Modal digunakan untuk konten yang butuh perhatian penuh pengguna: konfirmasi, formulir
+          ringkas, atau detail task. Fokus terkunci di dalam, scroll halaman terkunci, dan Escape /
+          klik backdrop menutup.
         </p>
       </Modal>
     </>

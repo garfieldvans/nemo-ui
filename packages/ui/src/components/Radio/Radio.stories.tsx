@@ -46,12 +46,7 @@ export const Default: Story = {
 export const Horizontal: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <RadioGroup
-      name="gender"
-      orientation="horizontal"
-      defaultValue="male"
-      label="Jenis kelamin"
-    >
+    <RadioGroup name="gender" orientation="horizontal" defaultValue="male" label="Jenis kelamin">
       <Radio value="male" label="Laki-laki" />
       <Radio value="female" label="Perempuan" />
     </RadioGroup>
@@ -61,12 +56,7 @@ export const Horizontal: Story = {
 export const Disabled: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <RadioGroup
-      name="mode"
-      defaultValue="auto"
-      label="Mode pencahayaan"
-      disabled
-    >
+    <RadioGroup name="mode" defaultValue="auto" label="Mode pencahayaan" disabled>
       <Radio value="auto" label="Otomatis" />
       <Radio value="manual" label="Manual" />
     </RadioGroup>
@@ -87,12 +77,7 @@ export const WithDisabledOption: Story = {
 export const WithError: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <RadioGroup
-      name="plan"
-      label="Pilih paket"
-      required
-      error="Wajib memilih salah satu paket"
-    >
+    <RadioGroup name="plan" label="Pilih paket" required error="Wajib memilih salah satu paket">
       <Radio value="starter" label="Starter" />
       <Radio value="pro" label="Pro" />
     </RadioGroup>
@@ -118,18 +103,9 @@ export const Colors: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <Stack direction="column" spacing={4}>
-      {(["primary", "success", "warning", "error", "neutral"] as const).map(
-        (c) => (
-          <Radio
-            key={c}
-            name="colors"
-            value={c}
-            color={c}
-            label={c}
-            defaultChecked
-          />
-        )
-      )}
+      {(["primary", "success", "warning", "error", "neutral"] as const).map((c) => (
+        <Radio key={c} name="colors" value={c} color={c} label={c} defaultChecked />
+      ))}
     </Stack>
   ),
 };

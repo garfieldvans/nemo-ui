@@ -8,7 +8,7 @@ describe("Stack", () => {
     render(
       <Stack>
         <div>item-a</div>
-      </Stack>
+      </Stack>,
     );
     const stack = screen.getByText("item-a").parentElement!;
     expect(stack.style.display).toBe("flex");
@@ -16,13 +16,21 @@ describe("Stack", () => {
   });
 
   it("uses numeric spacing as a CSS var with fallback", () => {
-    render(<Stack spacing={3}><span>content</span></Stack>);
+    render(
+      <Stack spacing={3}>
+        <span>content</span>
+      </Stack>,
+    );
     const stack = screen.getByText("content").parentElement!;
     expect(stack.style.gap).toBe("var(--nemo-spacing-3, 12px)");
   });
 
   it("passes through string spacing directly", () => {
-    render(<Stack spacing="24px"><span>content</span></Stack>);
+    render(
+      <Stack spacing="24px">
+        <span>content</span>
+      </Stack>,
+    );
     const stack = screen.getByText("content").parentElement!;
     expect(stack.style.gap).toBe("24px");
   });
@@ -31,7 +39,7 @@ describe("Stack", () => {
     render(
       <Stack direction="row">
         <span>content</span>
-      </Stack>
+      </Stack>,
     );
     const stack = screen.getByText("content").parentElement!;
     expect(stack.style.flexDirection).toBe("row");
@@ -41,7 +49,7 @@ describe("Stack", () => {
     render(
       <Stack justify="between">
         <span>content</span>
-      </Stack>
+      </Stack>,
     );
     const stack = screen.getByText("content").parentElement!;
     expect(stack.style.justifyContent).toBe("space-between");
@@ -51,7 +59,7 @@ describe("Stack", () => {
     render(
       <Stack align="center">
         <span>content</span>
-      </Stack>
+      </Stack>,
     );
     const stack = screen.getByText("content").parentElement!;
     expect(stack.style.alignItems).toBe("center");
@@ -63,7 +71,7 @@ describe("Stack", () => {
         <div>a</div>
         <div>b</div>
         <div>c</div>
-      </Stack>
+      </Stack>,
     );
     expect(screen.getAllByRole("separator")).toHaveLength(2);
   });
@@ -72,7 +80,7 @@ describe("Stack", () => {
     render(
       <Stack as="ul">
         <span>content</span>
-      </Stack>
+      </Stack>,
     );
     const stack = screen.getByText("content").parentElement!;
     expect(stack.tagName).toBe("UL");

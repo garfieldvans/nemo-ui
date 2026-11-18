@@ -180,10 +180,6 @@ export const FullWidth: Story = {
 export const WithDescriptions: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <Select
-      options={plans}
-      label="Paket dengan deskripsi"
-      placeholder="Pilih paket..."
-    />
+    <Select options={plans} label="Paket dengan deskripsi" placeholder="Pilih paket..." />
   ),
 };

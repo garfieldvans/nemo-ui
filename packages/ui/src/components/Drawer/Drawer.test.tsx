@@ -5,9 +5,7 @@ import { useState } from "react";
 import { Drawer } from "./Drawer";
 import type { DrawerProps } from "./Drawer.types";
 
-function Harness(
-  props: Omit<Partial<DrawerProps>, "open" | "onOpenChange"> & { open?: boolean }
-) {
+function Harness(props: Omit<Partial<DrawerProps>, "open" | "onOpenChange"> & { open?: boolean }) {
   const initial = props.open ?? true;
   const [open, setOpen] = useState(initial);
   return (
@@ -56,7 +54,7 @@ describe("Drawer", () => {
     render(
       <Drawer open onOpenChange={onOpenChange} closeOnEsc={false}>
         Isi
-      </Drawer>
+      </Drawer>,
     );
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(onOpenChange).not.toHaveBeenCalled();
@@ -90,7 +88,11 @@ describe("Drawer", () => {
 
   it("renders footer slot and merges className", () => {
     render(
-      <Harness title="Judul" className="custom-drawer" footer={<button type="button">Simpan</button>} />
+      <Harness
+        title="Judul"
+        className="custom-drawer"
+        footer={<button type="button">Simpan</button>}
+      />,
     );
     expect(screen.getByRole("button", { name: "Simpan" })).toBeDefined();
     expect(screen.getByRole("dialog")).toHaveClass("custom-drawer");

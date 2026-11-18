@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Button,
-  Drawer,
-  Modal,
-  Popover,
-  Stack,
-  Tooltip,
-  type DrawerProps,
-} from "@nemo/ui";
+import { Button, Drawer, Modal, Popover, Stack, Tooltip, type DrawerProps } from "@nemo/ui";
 import type { ComponentDoc } from "./types";
 
 function ModalDemo() {
@@ -34,10 +26,7 @@ function ModalDemo() {
           </>
         }
       >
-        <p>
-          Project &quot;Nemo UI&quot; beserta seluruh riwayatnya akan dihapus
-          selamanya.
-        </p>
+        <p>Project &quot;Nemo UI&quot; beserta seluruh riwayatnya akan dihapus selamanya.</p>
       </Modal>
     </>
   );
@@ -60,8 +49,7 @@ function ReflessBadge({ children }: { children: string }) {
 }
 
 function DrawerDemo() {
-  const [placement, setPlacement] =
-    useState<DrawerProps["placement"]>("right");
+  const [placement, setPlacement] = useState<DrawerProps["placement"]>("right");
   const [open, setOpen] = useState(false);
 
   return (
@@ -96,9 +84,8 @@ function DrawerDemo() {
         }
       >
         <p>
-          Drawer menyajikan konten sekunder dari tepi layar. Coba ganti sisi
-          dengan tombol di atas, lalu klik backdrop atau tekan Escape untuk
-          menutup.
+          Drawer menyajikan konten sekunder dari tepi layar. Coba ganti sisi dengan tombol di atas,
+          lalu klik backdrop atau tekan Escape untuk menutup.
         </p>
       </Drawer>
     </>
@@ -201,8 +188,7 @@ export const overlaysDocs: ComponentDoc[] = [
     slug: "drawer",
     name: "Drawer",
     group: "Overlays",
-    summary:
-      "Panel yang muncul dari tepi layar untuk konten pendukung tanpa meninggalkan halaman.",
+    summary: "Panel yang muncul dari tepi layar untuk konten pendukung tanpa meninggalkan halaman.",
     examples: [
       {
         id: "placement",
@@ -281,8 +267,7 @@ export const overlaysDocs: ComponentDoc[] = [
     slug: "tooltip",
     name: "Tooltip",
     group: "Overlays",
-    summary:
-      "Label singkat yang muncul saat trigger di-hover atau difokus dengan keyboard.",
+    summary: "Label singkat yang muncul saat trigger di-hover atau difokus dengan keyboard.",
     examples: [
       {
         id: "basic",
@@ -339,8 +324,7 @@ function ReflessBadge({ children }) {
       {
         name: "children",
         type: "ReactElement",
-        description:
-          "Satu elemen trigger: button, link, span, dan sebagainya.",
+        description: "Satu elemen trigger: button, link, span, dan sebagainya.",
       },
       {
         name: "asChild",
@@ -385,8 +369,7 @@ function ReflessBadge({ children }) {
     slug: "popover",
     name: "Popover",
     group: "Overlays",
-    summary:
-      "Panel mengambang dengan konten interaktif, dibuka dari elemen trigger.",
+    summary: "Panel mengambang dengan konten interaktif, dibuka dari elemen trigger.",
     examples: [
       {
         id: "basic",
@@ -410,9 +393,7 @@ function ReflessBadge({ children }) {
           >
             <Stack direction="column" spacing={2}>
               <p style={{ margin: 0, fontWeight: 600 }}>Filter daftar</p>
-              <p style={{ margin: 0 }}>
-                Pilih kriteria lalu terapkan untuk menyaring data.
-              </p>
+              <p style={{ margin: 0 }}>Pilih kriteria lalu terapkan untuk menyaring data.</p>
               <Button size="sm">Terapkan</Button>
             </Stack>
           </Popover>
@@ -436,18 +417,13 @@ function ReflessBadge({ children }) {
           <Popover
             asChild
             trigger={
-              <a
-                href="#filter"
-                style={{ color: "inherit", textDecoration: "underline" }}
-              >
+              <a href="#filter" style={{ color: "inherit", textDecoration: "underline" }}>
                 Atur filter
               </a>
             }
             ariaLabel="Panel filter (asChild)"
           >
-            <p style={{ margin: 0 }}>
-              Trigger berupa link — tidak ada tombol tambahan.
-            </p>
+            <p style={{ margin: 0 }}>Trigger berupa link — tidak ada tombol tambahan.</p>
           </Popover>
         ),
       },

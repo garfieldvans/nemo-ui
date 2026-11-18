@@ -41,111 +41,111 @@
 .badge--primary {
   // filled
   &.badge--filled {
-    background: var(--nemo-primary-fill, #1F5BB8);
-    color: var(--nemo-neutral-0, #FFFFFF);
-    border-color: var(--nemo-primary-fill, #1F5BB8);
+    background: var(--nemo-primary-fill, #1f5bb8);
+    color: var(--nemo-neutral-0, #ffffff);
+    border-color: var(--nemo-primary-fill, #1f5bb8);
   }
 
   // outlined
   &.badge--outlined {
     background: transparent;
-    color: var(--nemo-primary-text, #1967D2);
-    border-color: var(--nemo-primary-text, #1967D2);
+    color: var(--nemo-primary-text, #1967d2);
+    border-color: var(--nemo-primary-text, #1967d2);
   }
 
   // dot
   &.badge--dot {
-    background: var(--nemo-primary-text, #1967D2);
+    background: var(--nemo-primary-text, #1967d2);
   }
 }
 
 .badge--secondary {
   &.badge--filled {
-    background: var(--nemo-secondary-fill, #5B3AB0);
-    color: var(--nemo-neutral-0, #FFFFFF);
-    border-color: var(--nemo-secondary-fill, #5B3AB0);
+    background: var(--nemo-secondary-fill, #5b3ab0);
+    color: var(--nemo-neutral-0, #ffffff);
+    border-color: var(--nemo-secondary-fill, #5b3ab0);
   }
 
   &.badge--outlined {
     background: transparent;
-    color: var(--nemo-secondary-text, #4C1D95);
-    border-color: var(--nemo-secondary-text, #4C1D95);
+    color: var(--nemo-secondary-text, #4c1d95);
+    border-color: var(--nemo-secondary-text, #4c1d95);
   }
 
   &.badge--dot {
-    background: var(--nemo-secondary-text, #4C1D95);
+    background: var(--nemo-secondary-text, #4c1d95);
   }
 }
 
 .badge--success {
   &.badge--filled {
-    background: var(--nemo-success-fill, #14803A);
-    color: var(--nemo-neutral-0, #FFFFFF);
-    border-color: var(--nemo-success-fill, #14803A);
+    background: var(--nemo-success-fill, #14803a);
+    color: var(--nemo-neutral-0, #ffffff);
+    border-color: var(--nemo-success-fill, #14803a);
   }
 
   &.badge--outlined {
     background: transparent;
-    color: var(--nemo-success-text, #0D652D);
-    border-color: var(--nemo-success-text, #0D652D);
+    color: var(--nemo-success-text, #0d652d);
+    border-color: var(--nemo-success-text, #0d652d);
   }
 
   &.badge--dot {
-    background: var(--nemo-success-text, #0D652D);
+    background: var(--nemo-success-text, #0d652d);
   }
 }
 
 .badge--warning {
   &.badge--filled {
     // Kuning tetap kuning dua mode → teks disimpan gelap agar terbaca.
-    background: var(--nemo-warning, #FBBC04);
+    background: var(--nemo-warning, #fbbc04);
     color: #171717;
-    border-color: var(--nemo-warning, #FBBC04);
+    border-color: var(--nemo-warning, #fbbc04);
   }
 
   &.badge--outlined {
     background: transparent;
-    color: var(--nemo-warning-text, #7A4E00);
-    border-color: var(--nemo-warning-text, #7A4E00);
+    color: var(--nemo-warning-text, #7a4e00);
+    border-color: var(--nemo-warning-text, #7a4e00);
   }
 
   &.badge--dot {
-    background: var(--nemo-warning-text, #7A4E00);
+    background: var(--nemo-warning-text, #7a4e00);
   }
 }
 
 .badge--error {
   &.badge--filled {
-    background: var(--nemo-error-fill, #A50E0E);
-    color: var(--nemo-neutral-0, #FFFFFF);
-    border-color: var(--nemo-error-fill, #A50E0E);
+    background: var(--nemo-error-fill, #a50e0e);
+    color: var(--nemo-neutral-0, #ffffff);
+    border-color: var(--nemo-error-fill, #a50e0e);
   }
 
   &.badge--outlined {
     background: transparent;
-    color: var(--nemo-error-text, #A50E0E);
-    border-color: var(--nemo-error-text, #A50E0E);
+    color: var(--nemo-error-text, #a50e0e);
+    border-color: var(--nemo-error-text, #a50e0e);
   }
 
   &.badge--dot {
-    background: var(--nemo-error-text, #A50E0E);
+    background: var(--nemo-error-text, #a50e0e);
   }
 }
 
 .badge--neutral {
   &.badge--filled {
-    background: var(--nemo-neutral-100, #F1F3F4);
-    color: var(--nemo-neutral-700, #5F6368);
-    border-color: var(--nemo-neutral-100, #F1F3F4);
+    background: var(--nemo-neutral-100, #f1f3f4);
+    color: var(--nemo-neutral-700, #5f6368);
+    border-color: var(--nemo-neutral-100, #f1f3f4);
   }
 
   &.badge--outlined {
     background: transparent;
-    color: var(--nemo-neutral-700, #5F6368);
-    border-color: var(--nemo-neutral-300, #DADCE0);
+    color: var(--nemo-neutral-700, #5f6368);
+    border-color: var(--nemo-neutral-300, #dadce0);
   }
 
   &.badge--dot {
-    background: var(--nemo-neutral-600, #80868B);
+    background: var(--nemo-neutral-600, #80868b);
   }
 }

@@ -37,15 +37,15 @@ $alert-gap: 12px;
 
   &--filled {
     // neutral-0 mengikuti mode; bg *-fill dicampur CanvasText → kontras AA.
-    color: var(--nemo-neutral-0, #FFFFFF);
+    color: var(--nemo-neutral-0, #ffffff);
     border-left: 4px solid transparent;
 
     &.alert--success {
-      background: var(--nemo-success-fill, #14803A);
+      background: var(--nemo-success-fill, #14803a);
     }
 
     &.alert--info {
-      background: var(--nemo-primary-fill, #1F5BB8);
+      background: var(--nemo-primary-fill, #1f5bb8);
     }
 
     &.alert--warning {
@@ -75,22 +75,22 @@ $alert-gap: 12px;
     }
 
     &.alert--error {
-      background: var(--nemo-error-fill, #A50E0E);
+      background: var(--nemo-error-fill, #a50e0e);
     }
 
     .alert-description {
-      color: var(--nemo-neutral-0, #FFFFFF);
+      color: var(--nemo-neutral-0, #ffffff);
     }
 
     .alert-close {
-      color: color-mix(in srgb, var(--nemo-neutral-0, #FFFFFF) 85%, transparent);
+      color: color-mix(in srgb, var(--nemo-neutral-0, #ffffff) 85%, transparent);
 
       &:hover:not(:disabled) {
-        color: var(--nemo-neutral-0, #FFFFFF);
+        color: var(--nemo-neutral-0, #ffffff);
       }
 
       &:focus-visible {
-        box-shadow: 0 0 0 2px color-mix(in srgb, var(--nemo-neutral-0, #FFFFFF) 60%, transparent);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--nemo-neutral-0, #ffffff) 60%, transparent);
       }
     }
   }
@@ -121,7 +121,7 @@ $alert-gap: 12px;
 }
 
 .alert--filled .alert-icon {
-  color: var(--nemo-neutral-0, #FFFFFF);
+  color: var(--nemo-neutral-0, #ffffff);
 }
 
 .alert-content {

@@ -18,7 +18,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       disabled,
       ...props
     },
-    ref
+    ref,
   ) => {
     const randomId = useId().replace(/:/g, "");
     const inputId = id ?? `switch-${randomId}`;
@@ -31,15 +31,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     const labelClasses = clsx(
       styles.switch,
       styles[`switch--${size}`],
-      disabled && styles["switch--disabled"]
+      disabled && styles["switch--disabled"],
     );
 
     const trackClasses = clsx(styles["switch-track"], styles[`switch-track--${color}`]);
 
-    const helperClasses = clsx(
-      styles["helper-text"],
-      hasError && styles["helper-text--error"]
-    );
+    const helperClasses = clsx(styles["helper-text"], hasError && styles["helper-text--error"]);
 
     return (
       <div className={fieldClasses} style={style}>
@@ -67,7 +64,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Switch.displayName = "Switch";

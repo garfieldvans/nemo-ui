@@ -43,7 +43,15 @@ export const Vertical: Story = {
   },
   decorators: [
     (Story) => (
-      <div style={{ display: "flex", alignItems: "center", height: "80px", gap: "12px", padding: "24px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          height: "80px",
+          gap: "12px",
+          padding: "24px",
+        }}
+      >
         <span style={{ fontFamily: "system-ui, sans-serif" }}>Kiri</span>
         <Story />
         <span style={{ fontFamily: "system-ui, sans-serif" }}>Kanan</span>

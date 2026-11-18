@@ -53,7 +53,9 @@ import { ThemeProvider, Button, Input, Typography } from "@nemo/ui";
 function App() {
   return (
     <ThemeProvider mode="dark">
-      <Typography variant="h1" color="primary">Hello Nemo UI</Typography>
+      <Typography variant="h1" color="primary">
+        Hello Nemo UI
+      </Typography>
       <Input label="Email" placeholder="you@example.com" />
       <Button>Submit</Button>
     </ThemeProvider>
@@ -75,7 +77,7 @@ import { ThemeProvider, useTheme } from "@nemo/ui";
 // Wrap your app (sets data-theme + inline CSS vars on wrapper)
 <ThemeProvider mode="dark" theme={{ colors: { primary: { 500: "#FF5722" } } }}>
   <YourApp />
-</ThemeProvider>
+</ThemeProvider>;
 
 // Inside any component — read the current theme
 function StatusBadge() {
@@ -89,7 +91,7 @@ function StatusBadge() {
 All component SCSS uses `var(--nemo-*)` with hex fallbacks:
 
 ```scss
-background: var(--nemo-primary-500, #4285F4);
+background: var(--nemo-primary-500, #4285f4);
 color: var(--nemo-neutral-900, #202124);
 // color-mix for opacity (rgba doesn't work with var())
 box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-primary-500) 20%, transparent);
@@ -99,46 +101,46 @@ box-shadow: 0 0 0 3px color-mix(in srgb, var(--nemo-primary-500) 20%, transparen
 
 Dark vars are applied three ways (safely layered):
 
-| Layer | Mechanism |
-|-------|-----------|
-| **Static CSS** | `:root[data-theme="dark"]` block in `themes.scss` |
+| Layer                 | Mechanism                                                                  |
+| --------------------- | -------------------------------------------------------------------------- |
+| **Static CSS**        | `:root[data-theme="dark"]` block in `themes.scss`                          |
 | **System preference** | `@media (prefers-color-scheme: dark)` on `:root:not([data-theme="light"])` |
-| **Runtime** | `ThemeProvider` renders wrapper with `data-theme` attr + inline `style` |
+| **Runtime**           | `ThemeProvider` renders wrapper with `data-theme` attr + inline `style`    |
 
 ---
 
 ## Components
 
-| Component | Styling | Description |
-|-----------|---------|-------------|
-| **Button** | SCSS Module | `filled` / `outlined` / `text` variants, 3 sizes, color props |
-| **Input** | SCSS Module | `outlined` / `filled` / `ghost` variants, floating label, icons, prefix/suffix, clearable |
-| **Textarea** | SCSS Module | Extends Input patterns, character count, rows |
-| **Typography** | Inline + `useTheme()` | 12 variants (h1–h6, body, caption, overline, button), semantic `as` prop |
-| **Card** | SCSS Module | Header, body, footer; `filled` / `outlined` variants |
-| **Badge** | SCSS Module | `filled` / `outlined` / `dot` variants, color and size props |
-| **Avatar** | SCSS Module | Image, initials fallback, sizes, shape; `AvatarGroup` for stacked avatars |
-| **Divider** | SCSS Module | Horizontal / vertical orientation |
-| **Stack** | SCSS Module | Vertical or horizontal layout with configurable spacing and wrap |
-| **Select** | SCSS Module | `outlined` / `filled` / `ghost`, searchable, clearable, sizes |
-| **Checkbox** | SCSS Module | Checked / unchecked, indeterminate, colors, error state |
-| **Radio** / **RadioGroup** | SCSS Module | Grouped selection, vertical / horizontal orientation |
-| **Switch** | SCSS Module | On/off toggle, sizes, color, label and helper text |
-| **FormField** | SCSS Module | Label + optional helper text / error, vertical or horizontal layout |
-| **Skeleton** | SCSS Module | Text lines, circle, rect; animation variants |
-| **Spinner** | Inline + `useTheme()` | Sizes and color variants |
-| **Progress** | SCSS Module | Line and circle variants, indeterminate, value / color options |
-| **Alert** | SCSS Module | `surface` / `filled` variants, tone colors, closable, action slot |
-| **Toast** | SCSS Module + `useToast()` | Success / error / warning / info, custom duration, dismiss |
-| **Modal** | SCSS Module | Centered dialog, header, footer, controlled open state |
-| **Drawer** | SCSS Module | Edge panel, placement and size variants, focus trap and scroll lock |
-| **Tooltip** | SCSS Module | Hover / focus trigger, placement, open/close delays |
-| **Popover** | SCSS Module | Trigger + floating panel, placement, offset, auto-flip |
-| **Menu** | SCSS Module | Trigger + items, divider, item states and selection pattern |
-| **Tabs** | SCSS Module | ARIA tablist, line/pill variants, arrow-key navigation that skips disabled, controlled/uncontrolled |
-| **Table** | SCSS Module | Generic `columns`/`data`, custom cell render, align, striped, empty state |
-| **Pagination** | SCSS Module | Page window with ellipsis, first/prev/next/last, controlled `page` / uncontrolled `defaultPage` |
-| **ScrollToTop** | SCSS Module | Floating button after a scroll threshold, three placements and sizes, optional label, reduced-motion aware |
+| Component                  | Styling                    | Description                                                                                                |
+| -------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Button**                 | SCSS Module                | `filled` / `outlined` / `text` variants, 3 sizes, color props                                              |
+| **Input**                  | SCSS Module                | `outlined` / `filled` / `ghost` variants, floating label, icons, prefix/suffix, clearable                  |
+| **Textarea**               | SCSS Module                | Extends Input patterns, character count, rows                                                              |
+| **Typography**             | Inline + `useTheme()`      | 12 variants (h1–h6, body, caption, overline, button), semantic `as` prop                                   |
+| **Card**                   | SCSS Module                | Header, body, footer; `filled` / `outlined` variants                                                       |
+| **Badge**                  | SCSS Module                | `filled` / `outlined` / `dot` variants, color and size props                                               |
+| **Avatar**                 | SCSS Module                | Image, initials fallback, sizes, shape; `AvatarGroup` for stacked avatars                                  |
+| **Divider**                | SCSS Module                | Horizontal / vertical orientation                                                                          |
+| **Stack**                  | SCSS Module                | Vertical or horizontal layout with configurable spacing and wrap                                           |
+| **Select**                 | SCSS Module                | `outlined` / `filled` / `ghost`, searchable, clearable, sizes                                              |
+| **Checkbox**               | SCSS Module                | Checked / unchecked, indeterminate, colors, error state                                                    |
+| **Radio** / **RadioGroup** | SCSS Module                | Grouped selection, vertical / horizontal orientation                                                       |
+| **Switch**                 | SCSS Module                | On/off toggle, sizes, color, label and helper text                                                         |
+| **FormField**              | SCSS Module                | Label + optional helper text / error, vertical or horizontal layout                                        |
+| **Skeleton**               | SCSS Module                | Text lines, circle, rect; animation variants                                                               |
+| **Spinner**                | Inline + `useTheme()`      | Sizes and color variants                                                                                   |
+| **Progress**               | SCSS Module                | Line and circle variants, indeterminate, value / color options                                             |
+| **Alert**                  | SCSS Module                | `surface` / `filled` variants, tone colors, closable, action slot                                          |
+| **Toast**                  | SCSS Module + `useToast()` | Success / error / warning / info, custom duration, dismiss                                                 |
+| **Modal**                  | SCSS Module                | Centered dialog, header, footer, controlled open state                                                     |
+| **Drawer**                 | SCSS Module                | Edge panel, placement and size variants, focus trap and scroll lock                                        |
+| **Tooltip**                | SCSS Module                | Hover / focus trigger, placement, open/close delays                                                        |
+| **Popover**                | SCSS Module                | Trigger + floating panel, placement, offset, auto-flip                                                     |
+| **Menu**                   | SCSS Module                | Trigger + items, divider, item states and selection pattern                                                |
+| **Tabs**                   | SCSS Module                | ARIA tablist, line/pill variants, arrow-key navigation that skips disabled, controlled/uncontrolled        |
+| **Table**                  | SCSS Module                | Generic `columns`/`data`, custom cell render, align, striped, empty state                                  |
+| **Pagination**             | SCSS Module                | Page window with ellipsis, first/prev/next/last, controlled `page` / uncontrolled `defaultPage`            |
+| **ScrollToTop**            | SCSS Module                | Floating button after a scroll threshold, three placements and sizes, optional label, reduced-motion aware |
 
 ---
 
@@ -148,12 +150,12 @@ Canonical API patterns — keep these when adding new components.
 
 ### Controlled / uncontrolled
 
-| Family | Pattern | Components |
-|--------|---------|------------|
-| Native form | `value` / `checked` + `onChange(event)` + `defaultValue` / `defaultChecked` (React native) | Input, Textarea, Checkbox, Radio, Switch |
-| Composite value | `value` + `defaultValue` + `onChange(value)` — receives the value, not the event (Pagination uses `page` + `defaultPage`) | Select, RadioGroup, Tabs, Pagination |
-| Modal overlay | controlled-only: `open` + `onOpenChange` | Modal, Drawer |
-| Non-modal overlay | both: `open` + `onOpenChange` + `defaultOpen` | Popover, Menu |
+| Family            | Pattern                                                                                                                   | Components                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Native form       | `value` / `checked` + `onChange(event)` + `defaultValue` / `defaultChecked` (React native)                                | Input, Textarea, Checkbox, Radio, Switch |
+| Composite value   | `value` + `defaultValue` + `onChange(value)` — receives the value, not the event (Pagination uses `page` + `defaultPage`) | Select, RadioGroup, Tabs, Pagination     |
+| Modal overlay     | controlled-only: `open` + `onOpenChange`                                                                                  | Modal, Drawer                            |
+| Non-modal overlay | both: `open` + `onOpenChange` + `defaultOpen`                                                                             | Popover, Menu                            |
 
 ### Form status
 
@@ -187,20 +189,21 @@ Stories are located at `packages/ui/src/components/**/*.stories.tsx`.
 
 ## Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `pnpm dev` | Start playground dev server |
-| `pnpm build` | Build UI library + playground |
-| `pnpm build:ui` | Build UI library only |
-| `pnpm build:playground` | Build playground only |
-| `pnpm test` | Run vitest in watch mode |
-| `pnpm test:run` | Run vitest once |
-| `pnpm lint` | ESLint on `packages/ui/src` + `apps/playground/src` |
-| `pnpm typecheck` | TypeScript type-check all packages |
-| `pnpm storybook` | Start Storybook dev server (port 6006) |
-| `pnpm build-storybook` | Static Storybook build |
-| `pnpm clean` | Remove all build artifacts |
-| `pnpm format` | Format with Prettier |
+| Script                  | Description                                         |
+| ----------------------- | --------------------------------------------------- |
+| `pnpm dev`              | Start playground dev server                         |
+| `pnpm build`            | Build UI library + playground                       |
+| `pnpm build:ui`         | Build UI library only                               |
+| `pnpm build:playground` | Build playground only                               |
+| `pnpm test`             | Run vitest in watch mode                            |
+| `pnpm test:run`         | Run vitest once                                     |
+| `pnpm lint`             | ESLint on `packages/ui/src` + `apps/playground/src` |
+| `pnpm typecheck`        | TypeScript type-check all packages                  |
+| `pnpm storybook`        | Start Storybook dev server (port 6006)              |
+| `pnpm build-storybook`  | Static Storybook build                              |
+| `pnpm clean`            | Remove all build artifacts                          |
+| `pnpm format`           | Format the whole repo with Prettier                 |
+| `pnpm format:check`     | Verify formatting without writing (used in CI)      |
 
 ---
 
@@ -229,10 +232,10 @@ nemo-ui/
 
 Tokens live in two places:
 
-| Location | Purpose |
-|----------|---------|
-| `packages/ui/src/theme/tokens.ts` | **Source of truth** — `ThemeTokens` type, `defaultTheme`, `darkTheme`, `toCssVarMap()` |
-| `packages/ui/src/styles/themes.scss` | **Static mirror** — `:root` + `[data-theme="dark"]` blocks, manually kept in sync |
+| Location                             | Purpose                                                                                |
+| ------------------------------------ | -------------------------------------------------------------------------------------- |
+| `packages/ui/src/theme/tokens.ts`    | **Source of truth** — `ThemeTokens` type, `defaultTheme`, `darkTheme`, `toCssVarMap()` |
+| `packages/ui/src/styles/themes.scss` | **Static mirror** — `:root` + `[data-theme="dark"]` blocks, manually kept in sync      |
 
 ### Available Tokens
 

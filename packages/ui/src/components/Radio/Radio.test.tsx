@@ -46,15 +46,13 @@ describe("Radio (standalone)", () => {
 describe("RadioGroup", () => {
   const options = ["Starter", "Pro", "Enterprise"];
 
-  function renderGroup(
-    props: Omit<ComponentProps<typeof RadioGroup>, "name" | "children"> = {}
-  ) {
+  function renderGroup(props: Omit<ComponentProps<typeof RadioGroup>, "name" | "children"> = {}) {
     const utils = render(
       <RadioGroup name="plan" label="Pilih paket" {...props}>
         {options.map((o) => (
           <Radio key={o} value={o} label={o} />
         ))}
-      </RadioGroup>
+      </RadioGroup>,
     );
     const radios = options.map((o) => screen.getByRole("radio", { name: o }));
     return { utils, radios };
@@ -65,9 +63,7 @@ describe("RadioGroup", () => {
     const group = screen.getByRole("radiogroup");
     const labelledby = group.getAttribute("aria-labelledby");
     expect(labelledby).not.toBeNull();
-    expect(document.getElementById(labelledby as string)?.textContent).toContain(
-      "Pilih paket"
-    );
+    expect(document.getElementById(labelledby as string)?.textContent).toContain("Pilih paket");
   });
 
   it("shares the group name across all radios", () => {
@@ -109,7 +105,7 @@ describe("RadioGroup", () => {
       <RadioGroup name="plan" value={undefined} defaultValue="Starter">
         <Radio value="Starter" label="Starter" />
         <Radio value="Locked" label="Locked" disabled />
-      </RadioGroup>
+      </RadioGroup>,
     );
     const locked = screen.getByRole("radio", { name: "Locked" });
     expect(locked).toBeDisabled();
@@ -119,9 +115,7 @@ describe("RadioGroup", () => {
 
   it("applies horizontal orientation class", () => {
     renderGroup({ orientation: "horizontal" });
-    expect(screen.getByRole("radiogroup").className).toContain(
-      "options--horizontal"
-    );
+    expect(screen.getByRole("radiogroup").className).toContain("options--horizontal");
   });
 
   it("shows group error with alert role", () => {

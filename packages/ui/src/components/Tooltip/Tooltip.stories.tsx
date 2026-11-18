@@ -46,16 +46,24 @@ export const Placements: Story = {
     <div style={{ padding: "80px 0" }}>
       <Stack direction="row" spacing={8} align="center">
         <Tooltip content="Di atas" placement="top" openDelay={0} closeDelay={0}>
-          <Button variant="outlined" size="sm">Top</Button>
+          <Button variant="outlined" size="sm">
+            Top
+          </Button>
         </Tooltip>
         <Tooltip content="Di kanan" placement="right" openDelay={0} closeDelay={0}>
-          <Button variant="outlined" size="sm">Right</Button>
+          <Button variant="outlined" size="sm">
+            Right
+          </Button>
         </Tooltip>
         <Tooltip content="Di bawah" placement="bottom" openDelay={0} closeDelay={0}>
-          <Button variant="outlined" size="sm">Bottom</Button>
+          <Button variant="outlined" size="sm">
+            Bottom
+          </Button>
         </Tooltip>
         <Tooltip content="Di kiri" placement="left" openDelay={0} closeDelay={0}>
-          <Button variant="outlined" size="sm">Left</Button>
+          <Button variant="outlined" size="sm">
+            Left
+          </Button>
         </Tooltip>
       </Stack>
     </div>

@@ -117,14 +117,18 @@ export const Combobox = forwardRef<ComboboxRef, ComboboxProps>(
     const hasWarning = Boolean(warning);
     const hasSuccess = Boolean(success);
     const showHelper = hasError || hasWarning || hasSuccess || Boolean(helperText);
-    const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
+    const statusClass = hasError
+      ? "error"
+      : hasWarning
+        ? "warning"
+        : hasSuccess
+          ? "success"
+          : status;
 
     const normalizedQuery = query.trim().toLowerCase();
     const filteredOptions =
       filter && normalizedQuery
-        ? options.filter((option) =>
-            String(option.label).toLowerCase().includes(normalizedQuery),
-          )
+        ? options.filter((option) => String(option.label).toLowerCase().includes(normalizedQuery))
         : options;
 
     // Opsi yang pernah dipilih disimpan agar chip tetap terbaca ketika hasil

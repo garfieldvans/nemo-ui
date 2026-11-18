@@ -27,7 +27,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={() => {}}>
         Isi modal
-      </Modal>
+      </Modal>,
     );
     const dialog = screen.getByRole("dialog");
     expect(dialog).toHaveAttribute("aria-modal", "true");
@@ -38,7 +38,7 @@ describe("Modal", () => {
     render(
       <Modal open={false} onOpenChange={() => {}}>
         Isi modal
-      </Modal>
+      </Modal>,
     );
     expect(screen.queryByRole("dialog")).toBeNull();
   });
@@ -47,7 +47,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={() => {}} title="Judul" description="Deskripsi">
         Isi
-      </Modal>
+      </Modal>,
     );
     const dialog = screen.getByRole("dialog");
     const title = screen.getByText("Judul");
@@ -61,7 +61,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={onOpenChange}>
         Isi
-      </Modal>
+      </Modal>,
     );
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -72,7 +72,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={onOpenChange} closeOnEsc={false}>
         Isi
-      </Modal>
+      </Modal>,
     );
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(onOpenChange).not.toHaveBeenCalled();
@@ -83,7 +83,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={onOpenChange}>
         Isi
-      </Modal>
+      </Modal>,
     );
     const overlay = document.querySelector("[data-nemo-overlay]") as HTMLElement;
     fireEvent.mouseDown(overlay);
@@ -95,7 +95,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={onOpenChange}>
         Isi
-      </Modal>
+      </Modal>,
     );
     fireEvent.mouseDown(screen.getByRole("dialog"));
     expect(onOpenChange).not.toHaveBeenCalled();
@@ -106,7 +106,7 @@ describe("Modal", () => {
     render(
       <Modal open onOpenChange={onOpenChange} title="Judul">
         Isi
-      </Modal>
+      </Modal>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Tutup" }));
     expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -118,7 +118,7 @@ describe("Modal", () => {
         <button type="button" data-autofocus>
           ok
         </button>
-      </Modal>
+      </Modal>,
     );
     // close button (header) muncul lebih dulu di DOM, tapi data-autofocus menang.
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "ok" }));
@@ -128,24 +128,20 @@ describe("Modal", () => {
     const { rerender } = render(
       <Modal open onOpenChange={() => {}}>
         Isi
-      </Modal>
+      </Modal>,
     );
     expect(document.body.style.overflow).toBe("hidden");
 
     rerender(
       <Modal open={false} onOpenChange={() => {}}>
         Isi
-      </Modal>
+      </Modal>,
     );
     expect(document.body.style.overflow).not.toBe("hidden");
   });
 
   it("restores focus to the opener when closed", () => {
-    render(
-      <ToggleHarness title="Judul">
-        Isi
-      </ToggleHarness>
-    );
+    render(<ToggleHarness title="Judul">Isi</ToggleHarness>);
     const openBtn = screen.getByRole("button", { name: "open" });
     // jsdom tidak fokus saat klik → set fokus eksplisit dulu (seperti browser asli)
     openBtn.focus();
@@ -168,7 +164,7 @@ describe("Modal", () => {
         footer={<button type="button">Simpan</button>}
       >
         Isi
-      </Modal>
+      </Modal>,
     );
     expect(screen.getByRole("button", { name: "Simpan" })).toBeDefined();
     const dialog = screen.getByRole("dialog");

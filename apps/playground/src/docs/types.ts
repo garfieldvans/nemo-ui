@@ -1,13 +1,7 @@
 import type { ReactNode } from "react";
 
 export type ComponentGroup =
-  | "Actions"
-  | "Forms"
-  | "Feedback"
-  | "Navigation"
-  | "Overlays"
-  | "Data display"
-  | "Layout";
+  "Actions" | "Forms" | "Feedback" | "Navigation" | "Overlays" | "Data display" | "Layout";
 
 export interface PropRow {
   name: string;

@@ -77,9 +77,7 @@ describe("Tabs", () => {
 
   it("supports controlled value", () => {
     const onChange = vi.fn();
-    const { rerender } = render(
-      <Tabs items={items} value="ringkasan" onChange={onChange} />,
-    );
+    const { rerender } = render(<Tabs items={items} value="ringkasan" onChange={onChange} />);
     fireEvent.click(tab("Anggota"));
     expect(onChange).toHaveBeenCalledWith("anggota");
     // Controlled: panel tidak berubah sampai parent update value.

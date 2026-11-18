@@ -5,10 +5,7 @@ import type { SpinnerProps } from "./Spinner.types";
 import { clsx } from "../../utils/clsx";
 
 export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
-  (
-    { size = "md", color = "primary", label = "Loading...", className, style },
-    ref
-  ) => {
+  ({ size = "md", color = "primary", label = "Loading...", className, style }, ref) => {
     return (
       <span
         ref={ref}
@@ -25,7 +22,7 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
         />
       </span>
     );
-  }
+  },
 );
 
 Spinner.displayName = "Spinner";

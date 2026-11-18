@@ -24,10 +24,7 @@ import { useFloating } from "../internal/useFloating";
 
 function MenuItem({ label, icon, disabled, className, ...rest }: MenuItemProps) {
   return (
-    <div
-      className={clsx(styles.item, disabled && styles["item--disabled"], className)}
-      {...rest}
-    >
+    <div className={clsx(styles.item, disabled && styles["item--disabled"], className)} {...rest}>
       {icon && <span className={styles["item-icon"]}>{icon}</span>}
       <span className={styles["item-label"]}>{label}</span>
     </div>
@@ -48,11 +45,7 @@ interface ItemMeta {
   disabled: boolean;
 }
 
-function nextActive(
-  from: number,
-  dir: 1 | -1,
-  meta: ItemMeta[]
-): number {
+function nextActive(from: number, dir: 1 | -1, meta: ItemMeta[]): number {
   const count = meta.length;
   if (count === 0) return -1;
   if (from < 0) return dir === 1 ? firstEnabled(meta) : lastEnabled(meta);
@@ -81,7 +74,10 @@ function lastEnabled(meta: ItemMeta[]): number {
 
 function isMenuItem(child: ReactNode): child is ReactElement<MenuItemProps> {
   return (
-    typeof child === "object" && child !== null && "type" in child && (child as ReactElement).type === MenuItem
+    typeof child === "object" &&
+    child !== null &&
+    "type" in child &&
+    (child as ReactElement).type === MenuItem
   );
 }
 
@@ -142,7 +138,7 @@ function MenuImpl({
         setInternalOpen(next);
       }
     },
-    [isControlled, onOpenChange]
+    [isControlled, onOpenChange],
   );
 
   const menuId = useId().replace(/:/g, "");
@@ -157,14 +153,14 @@ function MenuImpl({
       setTriggerEl(el);
       floatingTriggerRef(el);
     },
-    [floatingTriggerRef]
+    [floatingTriggerRef],
   );
   const panelRef = useCallback(
     (el: HTMLElement | null) => {
       setPanelEl(el);
       floatingPanelRef(el);
     },
-    [floatingPanelRef]
+    [floatingPanelRef],
   );
 
   const meta: ItemMeta[] = [];
@@ -241,7 +237,9 @@ function MenuImpl({
         setOpen(false);
         // Fokus kembali ke elemen interaktif di dalam trigger (host span bisa
         // membungkus <Button>), atau ke trigger itu sendiri.
-        (triggerEl?.querySelector<HTMLElement>("button, a[href], [tabindex]") ?? triggerEl)?.focus();
+        (
+          triggerEl?.querySelector<HTMLElement>("button, a[href], [tabindex]") ?? triggerEl
+        )?.focus();
         break;
       case "Tab":
         setOpen(false);
@@ -260,17 +258,11 @@ function MenuImpl({
   // asChild: trigger itu sendiri yang menjadi elemen trigger (tanpa wrapper),
   // dengan ref/handler digabung ke milik child.
   const childTrigger =
-    asChild && isValidElement(trigger)
-      ? (trigger as ReactElement<Record<string, unknown>>)
-      : null;
+    asChild && isValidElement(trigger) ? (trigger as ReactElement<Record<string, unknown>>) : null;
   const childOnClick = childTrigger?.props.onClick as
-    | ((event: ReactMouseEvent<HTMLElement>) => void)
-    | undefined;
+    ((event: ReactMouseEvent<HTMLElement>) => void) | undefined;
   const childRef = childTrigger?.props.ref as Ref<HTMLElement> | undefined;
-  const childTriggerRef = useMemo(
-    () => composeRefs(childRef, buttonRef),
-    [childRef, buttonRef]
-  );
+  const childTriggerRef = useMemo(() => composeRefs(childRef, buttonRef), [childRef, buttonRef]);
 
   // Bila trigger sudah berupa elemen interaktif (mis. <Button>), jangan bungkus
   // lagi dengan <button> — cukup host tipis untuk pengukuran posisi.

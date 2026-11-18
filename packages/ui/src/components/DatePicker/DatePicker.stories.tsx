@@ -84,7 +84,10 @@ const ControlledRangeExample = () => {
         fullWidth
       />
       <span style={{ fontSize: 12, color: "var(--nemo-neutral-700, #5f6368)" }}>
-        Nilai: {range ? `${range.start.toISOString().slice(0, 10)} → ${range.end.toISOString().slice(0, 10)}` : "kosong"}
+        Nilai:{" "}
+        {range
+          ? `${range.start.toISOString().slice(0, 10)} → ${range.end.toISOString().slice(0, 10)}`
+          : "kosong"}
       </span>
     </div>
   );

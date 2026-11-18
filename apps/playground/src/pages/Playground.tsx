@@ -8,9 +8,8 @@ export function Playground() {
       <header className="site-playground__head">
         <h1>Playground</h1>
         <p>
-          Setiap komponen Nemo UI dirender langsung di halaman ini. Ganti palet
-          dan mode dari header untuk melihat reaksinya, lalu salin kode dari tab
-          Kode pada tiap contoh.
+          Setiap komponen Nemo UI dirender langsung di halaman ini. Ganti palet dan mode dari header
+          untuk melihat reaksinya, lalu salin kode dari tab Kode pada tiap contoh.
         </p>
       </header>
 
@@ -36,11 +35,7 @@ export function Playground() {
             </Link>
           </p>
           {doc.examples.map((example) => (
-            <Example
-              key={example.id}
-              example={example}
-              idPrefix={doc.slug}
-            />
+            <Example key={example.id} example={example} idPrefix={doc.slug} />
           ))}
         </section>
       ))}

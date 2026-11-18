@@ -15,7 +15,7 @@
   border: 1px solid transparent;
   border-radius: var(--nemo-radius-sm, 4px);
   background: transparent;
-  color: var(--nemo-neutral-700, #5F6368);
+  color: var(--nemo-neutral-700, #5f6368);
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
@@ -27,13 +27,13 @@
     border-color 0.15s ease;
 
   &:hover:not(:disabled):not(.button--active) {
-    background: var(--nemo-neutral-100, #F1F3F4);
+    background: var(--nemo-neutral-100, #f1f3f4);
     color: var(--nemo-neutral-900, #202124);
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
   }
 
   &:disabled {
@@ -48,13 +48,13 @@
   }
 
   &--active {
-    background: var(--nemo-primary-fill, #1F5BB8);
-    border-color: var(--nemo-primary-fill, #1F5BB8);
-    color: var(--nemo-neutral-0, #FFFFFF);
+    background: var(--nemo-primary-fill, #1f5bb8);
+    border-color: var(--nemo-primary-fill, #1f5bb8);
+    color: var(--nemo-neutral-0, #ffffff);
   }
 
   &--nav {
-    color: var(--nemo-neutral-700, #5F6368);
+    color: var(--nemo-neutral-700, #5f6368);
   }
 }
 
@@ -64,7 +64,7 @@
   justify-content: center;
   min-width: 24px;
   height: 32px;
-  color: var(--nemo-neutral-700, #5F6368);
+  color: var(--nemo-neutral-700, #5f6368);
   user-select: none;
 
   .button--sm ~ &,

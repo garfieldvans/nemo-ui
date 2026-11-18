@@ -18,9 +18,7 @@ function ToastDemo() {
       <Button
         color="success"
         size="sm"
-        onClick={() =>
-          toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })
-        }
+        onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}
       >
         Success
       </Button>
@@ -50,9 +48,7 @@ function ToastDemo() {
       <Button
         variant="outlined"
         size="sm"
-        onClick={() =>
-          toast.info("Informasi", { message: "Tersedia pembaruan terbaru." })
-        }
+        onClick={() => toast.info("Informasi", { message: "Tersedia pembaruan terbaru." })}
       >
         Info
       </Button>
@@ -85,8 +81,7 @@ export const feedbackDocs: ComponentDoc[] = [
     slug: "alert",
     name: "Alert",
     group: "Feedback",
-    summary:
-      "Pesan kontekstual yang menonjol untuk status sukses, info, peringatan, atau error.",
+    summary: "Pesan kontekstual yang menonjol untuk status sukses, info, peringatan, atau error.",
     examples: [
       {
         id: "tones",
@@ -213,8 +208,7 @@ export const feedbackDocs: ComponentDoc[] = [
     slug: "toast",
     name: "Toast",
     group: "Feedback",
-    summary:
-      "Notifikasi sementara yang muncul di sudut layar, dipicu lewat hook useToast.",
+    summary: "Notifikasi sementara yang muncul di sudut layar, dipicu lewat hook useToast.",
     examples: [
       {
         id: "usage",
@@ -357,8 +351,7 @@ toast.warning("Ketiga");`,
     slug: "progress",
     name: "Progress",
     group: "Feedback",
-    summary:
-      "Indikator kemajuan berbentuk garis atau cincin, dengan mode indeterminate.",
+    summary: "Indikator kemajuan berbentuk garis atau cincin, dengan mode indeterminate.",
     examples: [
       {
         id: "line",
@@ -444,8 +437,7 @@ toast.warning("Ketiga");`,
     slug: "skeleton",
     name: "Skeleton",
     group: "Feedback",
-    summary:
-      "Placeholder abu-abu yang meniru bentuk konten selama data dimuat.",
+    summary: "Placeholder abu-abu yang meniru bentuk konten selama data dimuat.",
     examples: [
       {
         id: "text",

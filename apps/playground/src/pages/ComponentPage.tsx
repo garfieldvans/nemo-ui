@@ -10,9 +10,7 @@ export function ComponentPage({ doc }: { doc: ComponentDoc }) {
   const index = componentDocs.findIndex((item) => item.slug === doc.slug);
   const previous = index > 0 ? componentDocs[index - 1] : undefined;
   const next =
-    index >= 0 && index < componentDocs.length - 1
-      ? componentDocs[index + 1]
-      : undefined;
+    index >= 0 && index < componentDocs.length - 1 ? componentDocs[index + 1] : undefined;
 
   return (
     <DocsLayout>
@@ -29,11 +27,7 @@ export function ComponentPage({ doc }: { doc: ComponentDoc }) {
         <p className="site-doc-summary">{doc.summary}</p>
         <div className="site-doc-import">
           <p className="site-doc-import__label">Import</p>
-          <CodeBlock
-            code={`import { ${doc.name} } from "@nemo/ui";`}
-            standalone
-            hideCopy
-          />
+          <CodeBlock code={`import { ${doc.name} } from "@nemo/ui";`} standalone hideCopy />
         </div>
       </header>
 
@@ -43,9 +37,7 @@ export function ComponentPage({ doc }: { doc: ComponentDoc }) {
       {doc.examples.map((example) => (
         <section key={example.id}>
           <h3 className="site-h3">{example.title}</h3>
-          {example.description && (
-            <p className="site-p">{example.description}</p>
-          )}
+          {example.description && <p className="site-p">{example.description}</p>}
           <Example example={example} />
         </section>
       ))}
@@ -54,8 +46,8 @@ export function ComponentPage({ doc }: { doc: ComponentDoc }) {
         API Reference
       </h2>
       <p className="site-p">
-        Semua props bersifat opsional kecuali ditandai. Atribut HTML native pada
-        elemen dasar ikut diteruskan.
+        Semua props bersifat opsional kecuali ditandai. Atribut HTML native pada elemen dasar ikut
+        diteruskan.
       </p>
       <PropTable title={doc.name} rows={doc.props} />
 
@@ -78,10 +70,7 @@ export function ComponentPage({ doc }: { doc: ComponentDoc }) {
 
       <nav className="site-pager" aria-label="Navigasi komponen">
         {previous ? (
-          <Link
-            to={`/docs/components/${previous.slug}`}
-            className="site-pager__link"
-          >
+          <Link to={`/docs/components/${previous.slug}`} className="site-pager__link">
             <span className="site-pager__label">Sebelumnya</span>
             <span className="site-pager__name">{previous.name}</span>
           </Link>

@@ -27,9 +27,7 @@ function PaginationDemo() {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
       <Pagination page={page} pageCount={12} onChange={setPage} />
-      <span style={{ fontSize: 13, opacity: 0.75 }}>
-        Halaman {page} dari 12
-      </span>
+      <span style={{ fontSize: 13, opacity: 0.75 }}>Halaman {page} dari 12</span>
     </div>
   );
 }
@@ -57,18 +55,12 @@ function MenuDemo() {
   return (
     <Menu
       trigger={
-        <Button variant="outlined">
-          {views.find((item) => item.value === view)?.label}
-        </Button>
+        <Button variant="outlined">{views.find((item) => item.value === view)?.label}</Button>
       }
       ariaLabel="Pilih tampilan"
     >
       {views.map((item) => (
-        <Menu.Item
-          key={item.value}
-          label={item.label}
-          onSelect={() => setView(item.value)}
-        />
+        <Menu.Item key={item.value} label={item.label} onSelect={() => setView(item.value)} />
       ))}
       <Menu.Divider />
       <Menu.Item label="Reset ke default" disabled />
@@ -95,9 +87,7 @@ export const navigationDocs: ComponentDoc[] = [
 
 <Tabs items={items} defaultValue="ringkasan" ariaLabel="Info project" />`,
         stack: true,
-        preview: (
-          <Tabs items={tabItems} defaultValue="ringkasan" ariaLabel="Info project" />
-        ),
+        preview: <Tabs items={tabItems} defaultValue="ringkasan" ariaLabel="Info project" />,
       },
       {
         id: "pill",
@@ -145,8 +135,7 @@ export const navigationDocs: ComponentDoc[] = [
       {
         name: "items",
         type: "TabsItem[]",
-        description:
-          "Daftar tab: value, label, content opsional, dan disabled opsional.",
+        description: "Daftar tab: value, label, content opsional, dan disabled opsional.",
       },
       {
         name: "value",
@@ -156,8 +145,7 @@ export const navigationDocs: ComponentDoc[] = [
       {
         name: "defaultValue",
         type: "string",
-        description:
-          "Tab aktif awal; default item pertama yang tidak disabled.",
+        description: "Tab aktif awal; default item pertama yang tidak disabled.",
       },
       {
         name: "onChange",
@@ -297,10 +285,7 @@ export const navigationDocs: ComponentDoc[] = [
           <Menu
             asChild
             trigger={
-              <a
-                href="#tampilan"
-                style={{ color: "inherit", textDecoration: "underline" }}
-              >
+              <a href="#tampilan" style={{ color: "inherit", textDecoration: "underline" }}>
                 Tampilan web
               </a>
             }
@@ -467,8 +452,7 @@ export const navigationDocs: ComponentDoc[] = [
         name: "smooth",
         type: "boolean",
         default: "true",
-        description:
-          "Gulir halus; otomatis dimatikan bila pengguna memilih reduced motion.",
+        description: "Gulir halus; otomatis dimatikan bila pengguna memilih reduced motion.",
       },
       {
         name: "icon",

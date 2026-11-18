@@ -8,13 +8,7 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true,
-      exclude: [
-        "**/*.stories.tsx",
-        "**/*.test.tsx",
-        "**/*.stories.ts",
-        "**/*.test.ts",
-        "tests/**",
-      ],
+      exclude: ["**/*.stories.tsx", "**/*.test.tsx", "**/*.stories.ts", "**/*.test.ts", "tests/**"],
     }),
   ],
 
@@ -28,11 +22,7 @@ export default defineConfig({
     cssCodeSplit: false,
 
     rollupOptions: {
-      external: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-      ],
+      external: ["react", "react-dom", "react/jsx-runtime"],
     },
   },
 

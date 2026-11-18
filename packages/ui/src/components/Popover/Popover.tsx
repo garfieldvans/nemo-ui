@@ -43,7 +43,7 @@ export function Popover({
         setInternalOpen(next);
       }
     },
-    [isControlled, onOpenChange]
+    [isControlled, onOpenChange],
   );
 
   const floating = useFloating({ placement, offset });
@@ -57,14 +57,14 @@ export function Popover({
       setTriggerEl(el);
       floatingTriggerRef(el);
     },
-    [floatingTriggerRef]
+    [floatingTriggerRef],
   );
   const panelRef = useCallback(
     (el: HTMLElement | null) => {
       setPanelEl(el);
       floatingPanelRef(el);
     },
-    [floatingPanelRef]
+    [floatingPanelRef],
   );
 
   // Popover bersifat controlled/uncontrolled: saat `open` diberikan, state
@@ -114,17 +114,11 @@ export function Popover({
   // asChild: trigger itu sendiri yang menjadi elemen trigger (tanpa wrapper),
   // dengan ref/handler digabung ke milik child.
   const childTrigger =
-    asChild && isValidElement(trigger)
-      ? (trigger as ReactElement<Record<string, unknown>>)
-      : null;
+    asChild && isValidElement(trigger) ? (trigger as ReactElement<Record<string, unknown>>) : null;
   const childOnClick = childTrigger?.props.onClick as
-    | ((event: ReactMouseEvent<HTMLElement>) => void)
-    | undefined;
+    ((event: ReactMouseEvent<HTMLElement>) => void) | undefined;
   const childRef = childTrigger?.props.ref as Ref<HTMLElement> | undefined;
-  const childTriggerRef = useMemo(
-    () => composeRefs(childRef, buttonRef),
-    [childRef, buttonRef]
-  );
+  const childTriggerRef = useMemo(() => composeRefs(childRef, buttonRef), [childRef, buttonRef]);
 
   // Trigger yang sudah berupa elemen (mis. <Button>) dirender apa adanya agar
   // tidak menjadi <button> di dalam <button>. Host span hanya untuk posisi.

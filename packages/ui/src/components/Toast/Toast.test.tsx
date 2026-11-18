@@ -5,11 +5,7 @@ import { ToastProvider } from "./ToastProvider";
 import { useToast } from "./useToast";
 import type { ToastProviderProps } from "./Toast.types";
 
-function Trigger({
-  onClick,
-}: {
-  onClick: (toast: ReturnType<typeof useToast>) => void;
-}) {
+function Trigger({ onClick }: { onClick: (toast: ReturnType<typeof useToast>) => void }) {
   const toast = useToast();
   return (
     <button type="button" onClick={() => onClick(toast)}>
@@ -20,12 +16,12 @@ function Trigger({
 
 function renderTrigger(
   onClick: (toast: ReturnType<typeof useToast>) => void,
-  props: Partial<ToastProviderProps> = {}
+  props: Partial<ToastProviderProps> = {},
 ) {
   return render(
     <ToastProvider {...props}>
       <Trigger onClick={onClick} />
-    </ToastProvider>
+    </ToastProvider>,
   );
 }
 
@@ -42,7 +38,7 @@ describe("ToastProvider", () => {
     render(
       <ToastProvider>
         <span>konten</span>
-      </ToastProvider>
+      </ToastProvider>,
     );
     expect(screen.getByText("konten")).toBeDefined();
     expect(screen.queryByRole("status")).toBeNull();
@@ -63,9 +59,7 @@ describe("ToastProvider", () => {
   });
 
   it("supports warning and info helpers with a message", () => {
-    renderTrigger((toast) =>
-      toast.warning("Hampir penuh", { message: "Bersihkan dulu." })
-    );
+    renderTrigger((toast) => toast.warning("Hampir penuh", { message: "Bersihkan dulu." }));
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
     expect(screen.getByText("Hampir penuh")).toBeDefined();
     expect(screen.getByText("Bersihkan dulu.")).toBeDefined();
@@ -83,9 +77,7 @@ describe("ToastProvider", () => {
   });
 
   it("honors a custom duration", () => {
-    renderTrigger((toast) =>
-      toast.info("Langsung hilang", { duration: 1200 })
-    );
+    renderTrigger((toast) => toast.info("Langsung hilang", { duration: 1200 }));
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
 
     act(() => {
@@ -146,7 +138,7 @@ describe("ToastProvider", () => {
             toast.success("Tiga");
           }}
         />
-      </ToastProvider>
+      </ToastProvider>,
     );
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
     // Satu di-drop karena cuma 2 slot; paling baru (Dua, Tiga) bertahan.
@@ -156,9 +148,7 @@ describe("ToastProvider", () => {
   });
 
   it("does not render a close button when closable is false", () => {
-    renderTrigger((toast) =>
-      toast.success("Tanpa tombol", { closable: false })
-    );
+    renderTrigger((toast) => toast.success("Tanpa tombol", { closable: false }));
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
     expect(screen.queryByRole("button", { name: "Tutup notifikasi" })).toBeNull();
   });
@@ -166,7 +156,7 @@ describe("ToastProvider", () => {
   it("throws when useToast is used outside the provider", () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
     expect(() => render(<Trigger onClick={() => {}} />)).toThrow(
-      "useToast harus dipakai di dalam <ToastProvider>."
+      "useToast harus dipakai di dalam <ToastProvider>.",
     );
     consoleError.mockRestore();
   });
@@ -198,7 +188,7 @@ describe("ToastProvider", () => {
         toast.info("Pertama");
         toast.info("Kedua");
       },
-      { queue: true }
+      { queue: true },
     );
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
 
@@ -213,7 +203,7 @@ describe("ToastProvider", () => {
         toast.info("Pertama");
         toast.info("Kedua");
       },
-      { queue: true }
+      { queue: true },
     );
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
 
@@ -228,7 +218,7 @@ describe("ToastProvider", () => {
         toast.info("Pertama", { duration: 1000 });
         toast.info("Kedua", { duration: 1000 });
       },
-      { queue: true }
+      { queue: true },
     );
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
 
@@ -251,7 +241,7 @@ describe("ToastProvider", () => {
         toast.info("Dua");
         toast.info("Tiga");
       },
-      { queue: true, maxToasts: 2 }
+      { queue: true, maxToasts: 2 },
     );
     fireEvent.click(screen.getByRole("button", { name: "trigger" }));
 

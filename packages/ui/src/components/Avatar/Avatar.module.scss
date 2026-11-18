@@ -6,8 +6,8 @@
   flex-shrink: 0;
   user-select: none;
   font-weight: 500;
-  background: var(--nemo-neutral-100, #F1F3F4);
-  color: var(--nemo-neutral-700, #5F6368);
+  background: var(--nemo-neutral-100, #f1f3f4);
+  color: var(--nemo-neutral-700, #5f6368);
 
   &--circle {
     border-radius: 50%;
@@ -48,28 +48,28 @@
   }
 
   &--primary {
-    background: var(--nemo-primary-100, #E8F0FE);
-    color: var(--nemo-primary-text, #1967D2);
+    background: var(--nemo-primary-100, #e8f0fe);
+    color: var(--nemo-primary-text, #1967d2);
   }
 
   &--success {
-    background: color-mix(in srgb, var(--nemo-success, #34A853) 15%, transparent);
-    color: var(--nemo-success-text, #0D652D);
+    background: color-mix(in srgb, var(--nemo-success, #34a853) 15%, transparent);
+    color: var(--nemo-success-text, #0d652d);
   }
 
   &--warning {
-    background: color-mix(in srgb, var(--nemo-warning, #FBBC04) 15%, transparent);
-    color: var(--nemo-warning-text, #7A4E00);
+    background: color-mix(in srgb, var(--nemo-warning, #fbbc04) 15%, transparent);
+    color: var(--nemo-warning-text, #7a4e00);
   }
 
   &--error {
-    background: color-mix(in srgb, var(--nemo-error, #EA4335) 15%, transparent);
-    color: var(--nemo-error-text, #A50E0E);
+    background: color-mix(in srgb, var(--nemo-error, #ea4335) 15%, transparent);
+    color: var(--nemo-error-text, #a50e0e);
   }
 
   &--neutral {
-    background: var(--nemo-neutral-100, #F1F3F4);
-    color: var(--nemo-neutral-700, #5F6368);
+    background: var(--nemo-neutral-100, #f1f3f4);
+    color: var(--nemo-neutral-700, #5f6368);
   }
 }
 
@@ -89,14 +89,14 @@
   }
 
   .avatar {
-    border: 2px solid var(--nemo-neutral-0, #FFFFFF);
+    border: 2px solid var(--nemo-neutral-0, #ffffff);
   }
 }
 
 .group-more {
-  border: 2px solid var(--nemo-neutral-0, #FFFFFF);
-  background: var(--nemo-neutral-100, #F1F3F4);
-  color: var(--nemo-neutral-700, #5F6368);
+  border: 2px solid var(--nemo-neutral-0, #ffffff);
+  background: var(--nemo-neutral-100, #f1f3f4);
+  color: var(--nemo-neutral-700, #5f6368);
   font-weight: 500;
   letter-spacing: -0.5px;
 }

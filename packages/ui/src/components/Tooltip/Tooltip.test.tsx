@@ -6,13 +6,9 @@ import { Tooltip } from "./Tooltip";
 describe("Tooltip", () => {
   it("shows tooltip on hover and hides on leave", () => {
     render(
-      <Tooltip
-        content="Info tambahan"
-        openDelay={0}
-        closeDelay={0}
-      >
+      <Tooltip content="Info tambahan" openDelay={0} closeDelay={0}>
         <button type="button">Hover</button>
-      </Tooltip>
+      </Tooltip>,
     );
     const trigger = screen.getByRole("button", { name: "Hover" });
     fireEvent.mouseEnter(trigger);
@@ -23,13 +19,9 @@ describe("Tooltip", () => {
 
   it("shows tooltip on focus and hides on blur", () => {
     render(
-      <Tooltip
-        content="Info fokus"
-        openDelay={0}
-        closeDelay={0}
-      >
+      <Tooltip content="Info fokus" openDelay={0} closeDelay={0}>
         <button type="button">Fokus</button>
-      </Tooltip>
+      </Tooltip>,
     );
     const trigger = screen.getByRole("button", { name: "Fokus" });
     fireEvent.focus(trigger);
@@ -42,7 +34,7 @@ describe("Tooltip", () => {
     render(
       <Tooltip content="Info" openDelay={0} closeDelay={0}>
         <button type="button">Hover</button>
-      </Tooltip>
+      </Tooltip>,
     );
     const trigger = screen.getByRole("button", { name: "Hover" });
     const describedBy = trigger.getAttribute("aria-describedby");
@@ -55,7 +47,7 @@ describe("Tooltip", () => {
     render(
       <Tooltip content="Info" disabled openDelay={0} closeDelay={0}>
         <button type="button">Hover</button>
-      </Tooltip>
+      </Tooltip>,
     );
     fireEvent.mouseEnter(screen.getByRole("button", { name: "Hover" }));
     expect(screen.queryByRole("tooltip")).toBeNull();
@@ -68,7 +60,7 @@ describe("Tooltip", () => {
         <button type="button" onMouseEnter={onEnter}>
           Hover
         </button>
-      </Tooltip>
+      </Tooltip>,
     );
     fireEvent.mouseEnter(screen.getByRole("button", { name: "Hover" }));
     expect(onEnter).toHaveBeenCalledTimes(1);
@@ -79,7 +71,7 @@ describe("Tooltip", () => {
     render(
       <Tooltip content="Info" asChild={false} openDelay={0} closeDelay={0}>
         <button type="button">Hover</button>
-      </Tooltip>
+      </Tooltip>,
     );
     const trigger = screen.getByRole("button", { name: "Hover" });
     const host = trigger.parentElement as HTMLElement;
@@ -94,7 +86,7 @@ describe("Tooltip", () => {
     render(
       <Tooltip content="Info" placement="right" openDelay={0} closeDelay={0}>
         <button type="button">Hover</button>
-      </Tooltip>
+      </Tooltip>,
     );
     fireEvent.mouseEnter(screen.getByRole("button", { name: "Hover" }));
     expect(screen.getByRole("tooltip")).toHaveAttribute("data-placement", "right");
@@ -106,7 +98,7 @@ describe("Tooltip", () => {
       render(
         <Tooltip content="Info" openDelay={100} closeDelay={50}>
           <button type="button">Hover</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const trigger = screen.getByRole("button", { name: "Hover" });
       fireEvent.mouseEnter(trigger);

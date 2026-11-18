@@ -1,15 +1,9 @@
-import type {
-  ReactNode,
-  CSSProperties,
-  ForwardedRef,
-  InputHTMLAttributes,
-} from "react";
+import type { ReactNode, CSSProperties, ForwardedRef, InputHTMLAttributes } from "react";
 
 export type RadioSize = "sm" | "md";
 export type RadioColor = "primary" | "success" | "warning" | "error" | "neutral";
 
-export interface RadioProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
+export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
   label?: ReactNode;
   value: string;
   error?: string;

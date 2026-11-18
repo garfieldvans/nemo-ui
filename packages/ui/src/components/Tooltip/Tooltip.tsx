@@ -26,7 +26,7 @@ type MergedHandler = (e: ReactMouseEvent | ReactFocusEvent) => void;
 // Jalankan handler original elemen trigger, lalu handler tooltip.
 function mergeHandler(
   existing: unknown,
-  next: (e: ReactMouseEvent | ReactFocusEvent) => void
+  next: (e: ReactMouseEvent | ReactFocusEvent) => void,
 ): MergedHandler {
   if (typeof existing === "function") {
     return (e) => {
@@ -92,7 +92,7 @@ export function Tooltip({
       if (openTimer.current !== null) window.clearTimeout(openTimer.current);
       if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
     },
-    []
+    [],
   );
 
   const childProps = (children as ReactElement<Record<string, unknown>>).props ?? {};

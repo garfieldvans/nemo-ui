@@ -74,12 +74,7 @@ export function Modal({
                   </p>
                 )}
               </div>
-              <button
-                type="button"
-                className={styles.close}
-                onClick={close}
-                aria-label="Tutup"
-              >
+              <button type="button" className={styles.close} onClick={close} aria-label="Tutup">
                 <CloseIcon size={16} />
               </button>
             </header>

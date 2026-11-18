@@ -1,22 +1,10 @@
-import {
-  createContext,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import styles from "./Toast.module.scss";
 
 import { clsx } from "../../utils/clsx";
 import { CloseIcon, ToneIcon } from "../internal/icons";
 import { Portal } from "../internal/Portal";
-import type {
-  ToastContextValue,
-  ToastItem,
-  ToastOptions,
-  ToastProviderProps,
-} from "./Toast.types";
+import type { ToastContextValue, ToastItem, ToastOptions, ToastProviderProps } from "./Toast.types";
 
 export const ToastContext = createContext<ToastContextValue | null>(null);
 
@@ -62,7 +50,7 @@ export function ToastProvider({
       });
       return id;
     },
-    [maxToasts]
+    [maxToasts],
   );
 
   const value = useMemo<ToastContextValue>(() => {
@@ -106,13 +94,7 @@ export function ToastProvider({
   );
 }
 
-function ToastView({
-  item,
-  onDismiss,
-}: {
-  item: ToastItem;
-  onDismiss: (id: string) => void;
-}) {
+function ToastView({ item, onDismiss }: { item: ToastItem; onDismiss: (id: string) => void }) {
   const [paused, setPaused] = useState(false);
   const duration = item.duration ?? DEFAULT_DURATION;
 

@@ -228,7 +228,9 @@ describe("DatePicker", () => {
     });
 
     expect(getInput()).toHaveValue("2026-07-16");
-    expect(container.querySelector('input[type="hidden"][name="tanggal"]')).toHaveValue("2026-07-16");
+    expect(container.querySelector('input[type="hidden"][name="tanggal"]')).toHaveValue(
+      "2026-07-16",
+    );
 
     await user.click(getInput());
     await user.clear(getInput());

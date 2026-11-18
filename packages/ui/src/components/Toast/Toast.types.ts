@@ -3,12 +3,7 @@ import type { ReactNode } from "react";
 export type ToastTone = "success" | "info" | "warning" | "error";
 
 export type ToastPlacement =
-  | "top-right"
-  | "top-left"
-  | "bottom-right"
-  | "bottom-left"
-  | "top-center"
-  | "bottom-center";
+  "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
 
 export interface ToastOptions {
   title?: ReactNode;

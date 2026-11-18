@@ -19,9 +19,7 @@ export function SiteSidebar() {
   return (
     <aside className="site-sidebar" aria-label="Navigasi dokumentasi">
       {/* Halaman indeks punya kolom pencarian sendiri untuk grid komponen. */}
-      {path === "/docs/components" ? null : (
-        <ComponentSearch value={query} onChange={setQuery} />
-      )}
+      {path === "/docs/components" ? null : <ComponentSearch value={query} onChange={setQuery} />}
 
       <div className="site-sidebar__group">
         <p className="site-sidebar__title">Mulai</p>

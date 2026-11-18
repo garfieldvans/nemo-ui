@@ -10,9 +10,7 @@ export function Divider({
   const isHorizontal = orientation === "horizontal";
 
   const borderColor =
-    color === "subtle"
-      ? "var(--nemo-neutral-100, #F1F3F4)"
-      : "var(--nemo-neutral-200, #E8EAED)";
+    color === "subtle" ? "var(--nemo-neutral-100, #F1F3F4)" : "var(--nemo-neutral-200, #E8EAED)";
 
   const baseStyle: CSSProperties = {
     border: "none",

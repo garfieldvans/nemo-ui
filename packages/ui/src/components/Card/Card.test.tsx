@@ -20,7 +20,7 @@ describe("Card", () => {
     render(
       <Card variant="outlined" padding="lg" rounded="none">
         Content
-      </Card>
+      </Card>,
     );
     const card = screen.getByText("Content");
     expect(card.className).toContain("card--outlined");
@@ -32,7 +32,7 @@ describe("Card", () => {
     render(
       <Card as="section">
         <span>Content</span>
-      </Card>
+      </Card>,
     );
     const card = screen.getByText("Content").parentElement!;
     expect(card.tagName).toBe("SECTION");

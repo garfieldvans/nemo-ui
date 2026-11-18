@@ -2,12 +2,7 @@ import { useState, type ReactNode } from "react";
 import { CodeBlock } from "../components/CodeBlock";
 import { ComponentSearch } from "../components/ComponentSearch";
 import { SiteSidebar } from "../components/SiteSidebar";
-import {
-  componentDocs,
-  componentGroups,
-  GROUP_ORDER,
-  searchComponents,
-} from "../docs";
+import { componentDocs, componentGroups, GROUP_ORDER, searchComponents } from "../docs";
 import { Link } from "../router";
 
 export function DocsLayout({ children }: { children: ReactNode }) {
@@ -66,27 +61,24 @@ export function DocsOverview() {
       <header className="site-doc-head">
         <h1>Dokumentasi</h1>
         <p className="site-doc-summary">
-          Nemo UI adalah kumpulan komponen React yang memakai token desain untuk
-          warna, jarak, radius, dan bayangan. Semua komponen mendukung mode
-          terang dan gelap tanpa konfigurasi tambahan.
+          Nemo UI adalah kumpulan komponen React yang memakai token desain untuk warna, jarak,
+          radius, dan bayangan. Semua komponen mendukung mode terang dan gelap tanpa konfigurasi
+          tambahan.
         </p>
       </header>
 
       <div className="site-prose">
         <h2 className="site-h2">Yang ada di dalamnya</h2>
         <p className="site-p">
-          Ada {componentDocs.length} komponen yang dikelompokkan ke dalam{" "}
-          {componentGroups.length} kategori. Setiap halaman komponen berisi
-          contoh yang bisa dijalankan, cuplikan kode, dan tabel API lengkap
-          dengan nilai default.
+          Ada {componentDocs.length} komponen yang dikelompokkan ke dalam {componentGroups.length}{" "}
+          kategori. Setiap halaman komponen berisi contoh yang bisa dijalankan, cuplikan kode, dan
+          tabel API lengkap dengan nilai default.
         </p>
         <ul>
           {componentGroups.map((group) => (
             <li key={group.group}>
               <Link
-                to={`/docs/components#${group.group
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
+                to={`/docs/components#${group.group.toLowerCase().replace(/\s+/g, "-")}`}
                 className="site-link"
               >
                 {group.group}
@@ -124,18 +116,16 @@ export function GettingStarted() {
       <header className="site-doc-head">
         <h1>Memulai</h1>
         <p className="site-doc-summary">
-          Tiga langkah untuk memakai Nemo UI: install paket, muat stylesheet,
-          lalu bungkus aplikasi dengan ThemeProvider.
+          Tiga langkah untuk memakai Nemo UI: install paket, muat stylesheet, lalu bungkus aplikasi
+          dengan ThemeProvider.
         </p>
       </header>
 
       <div className="site-prose">
         <h2 className="site-h2">1. Install</h2>
         <p className="site-p">
-          Paket dipublikasikan sebagai <code className="site-inline-code">
-            @nemo/ui
-          </code>{" "}
-          dan membutuhkan React 18 ke atas.
+          Paket dipublikasikan sebagai <code className="site-inline-code">@nemo/ui</code> dan
+          membutuhkan React 18 ke atas.
         </p>
       </div>
       <CodeBlock code={installSnippet} standalone />
@@ -143,8 +133,8 @@ export function GettingStarted() {
       <div className="site-prose">
         <h2 className="site-h2">2. Muat stylesheet &amp; provider</h2>
         <p className="site-p">
-          Stylesheet berisi token CSS dan gaya komponen. ThemeProvider mengatur
-          mode terang/gelap serta menyuntikkan token tema ke dalam wrapper.
+          Stylesheet berisi token CSS dan gaya komponen. ThemeProvider mengatur mode terang/gelap
+          serta menyuntikkan token tema ke dalam wrapper.
         </p>
       </div>
       <CodeBlock code={providerSnippet} standalone />
@@ -152,8 +142,8 @@ export function GettingStarted() {
       <div className="site-prose">
         <h2 className="site-h2">3. Pakai komponen</h2>
         <p className="site-p">
-          Import komponen dari root paket. Semua props bertipe, jadi editor akan
-          menampilkan pilihan varian dan warna yang tersedia.
+          Import komponen dari root paket. Semua props bertipe, jadi editor akan menampilkan pilihan
+          varian dan warna yang tersedia.
         </p>
       </div>
       <CodeBlock code={usageSnippet} standalone />
@@ -161,8 +151,8 @@ export function GettingStarted() {
       <div className="site-prose">
         <h2 className="site-h2">Mengganti mode</h2>
         <p className="site-p">
-          Panggil <code className="site-inline-code">useTheme()</code> di dalam
-          provider untuk membaca dan mengganti mode:
+          Panggil <code className="site-inline-code">useTheme()</code> di dalam provider untuk
+          membaca dan mengganti mode:
         </p>
       </div>
       <CodeBlock
@@ -225,18 +215,17 @@ export function Theming() {
       <header className="site-doc-head">
         <h1>Tema &amp; warna</h1>
         <p className="site-doc-summary">
-          Semua komponen membaca warna, jarak, dan radius dari CSS variable
-          berawalan <code className="site-inline-code">--nemo-</code>. Ganti
-          variabelnya, seluruh UI ikut berubah.
+          Semua komponen membaca warna, jarak, dan radius dari CSS variable berawalan{" "}
+          <code className="site-inline-code">--nemo-</code>. Ganti variabelnya, seluruh UI ikut
+          berubah.
         </p>
       </header>
 
       <div className="site-prose">
         <h2 className="site-h2">Token di CSS</h2>
         <p className="site-p">
-          Gunakan token yang sama di komponen buatanmu supaya tetap konsisten
-          saat mode atau palet berganti. Nilai neutral 300–900 otomatis dibalik
-          pada mode gelap.
+          Gunakan token yang sama di komponen buatanmu supaya tetap konsisten saat mode atau palet
+          berganti. Nilai neutral 300–900 otomatis dibalik pada mode gelap.
         </p>
       </div>
       <CodeBlock code={tokenSnippet} standalone />
@@ -244,9 +233,8 @@ export function Theming() {
       <div className="site-prose">
         <h2 className="site-h2">Palet bawaan</h2>
         <p className="site-p">
-          Sembilan palet tersedia dan bisa diganti dari pemilih di header
-          dokumentasi ini. Pilihan palet disimpan di localStorage, begitu juga
-          mode terang/gelap.
+          Sembilan palet tersedia dan bisa diganti dari pemilih di header dokumentasi ini. Pilihan
+          palet disimpan di localStorage, begitu juga mode terang/gelap.
         </p>
         <ul>
           <li>Sapphire — biru tenang, palet default.</li>
@@ -262,11 +250,9 @@ export function Theming() {
 
         <h2 className="site-h2">Override per aplikasi</h2>
         <p className="site-p">
-          Untuk warna brand sendiri, kirim objek <code className="site-inline-code">
-            theme
-          </code>{" "}
-          ke provider. Objek ini digabung dalam ke token default, jadi cukup
-          isi bagian yang ingin diubah.
+          Untuk warna brand sendiri, kirim objek <code className="site-inline-code">theme</code> ke
+          provider. Objek ini digabung dalam ke token default, jadi cukup isi bagian yang ingin
+          diubah.
         </p>
       </div>
       <CodeBlock code={overrideSnippet} standalone />
@@ -274,13 +260,11 @@ export function Theming() {
       <div className="site-prose">
         <h2 className="site-h2">Mode gelap</h2>
         <p className="site-p">
-          Prop <code className="site-inline-code">mode</code> hanya menentukan
-          nilai awal; setelah itu gunakan <code className="site-inline-code">
-            setMode
-          </code>{" "}
-          dari <code className="site-inline-code">useTheme()</code>. Provider
-          menulis <code className="site-inline-code">data-theme</code> pada
-          wrapper sehingga selector CSS bisa menyesuaikan diri.
+          Prop <code className="site-inline-code">mode</code> hanya menentukan nilai awal; setelah
+          itu gunakan <code className="site-inline-code">setMode</code> dari{" "}
+          <code className="site-inline-code">useTheme()</code>. Provider menulis{" "}
+          <code className="site-inline-code">data-theme</code> pada wrapper sehingga selector CSS
+          bisa menyesuaikan diri.
         </p>
       </div>
     </DocsLayout>
@@ -305,16 +289,12 @@ export function ComponentsIndex() {
       <header className="site-doc-head">
         <h1>Semua komponen</h1>
         <p className="site-doc-summary">
-          {componentDocs.length} komponen, dikelompokkan berdasarkan fungsinya.
-          Klik salah satu untuk melihat contoh dan tabel API.
+          {componentDocs.length} komponen, dikelompokkan berdasarkan fungsinya. Klik salah satu
+          untuk melihat contoh dan tabel API.
         </p>
       </header>
 
-      <ComponentSearch
-        value={query}
-        onChange={setQuery}
-        className="site-index-search"
-      />
+      <ComponentSearch value={query} onChange={setQuery} className="site-index-search" />
 
       {isSearching ? (
         <p className="site-index-status" aria-live="polite">
@@ -326,10 +306,7 @@ export function ComponentsIndex() {
 
       {groups.map((group) => (
         <section key={group.group}>
-          <h2
-            className="site-h2"
-            id={group.group.toLowerCase().replace(/\s+/g, "-")}
-          >
+          <h2 className="site-h2" id={group.group.toLowerCase().replace(/\s+/g, "-")}>
             {group.group}
           </h2>
           <div className="site-grid">

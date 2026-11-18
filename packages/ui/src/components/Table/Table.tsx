@@ -21,7 +21,10 @@ function cellValue<T>(row: T, column: TableColumn<T>): string | number | null | 
   return value === null || value === undefined ? value : String(value);
 }
 
-function compareValues(a: string | number | null | undefined, b: string | number | null | undefined) {
+function compareValues(
+  a: string | number | null | undefined,
+  b: string | number | null | undefined,
+) {
   if (typeof a === "number" && typeof b === "number") return a - b;
   const left = a === null || a === undefined ? "" : String(a);
   const right = b === null || b === undefined ? "" : String(b);
@@ -64,7 +67,9 @@ export function Table<T>({
     const column = columns.find((col) => col.key === sort.key);
     if (!column) return data;
     const factor = sort.direction === "asc" ? 1 : -1;
-    return [...data].sort((a, b) => compareValues(cellValue(a, column), cellValue(b, column)) * factor);
+    return [...data].sort(
+      (a, b) => compareValues(cellValue(a, column), cellValue(b, column)) * factor,
+    );
   }, [columns, data, sort]);
 
   const pageSize = pagination?.pageSize ?? 10;
@@ -137,7 +142,10 @@ export function Table<T>({
     className,
   );
 
-  const wrapperClasses = clsx(styles.wrapper, maxHeight !== undefined && styles["wrapper--scrollable"]);
+  const wrapperClasses = clsx(
+    styles.wrapper,
+    maxHeight !== undefined && styles["wrapper--scrollable"],
+  );
 
   const firstColSpan = columns.length + (selectable ? 1 : 0);
   const showPagination = Boolean(pagination) && pageCount > 1;
@@ -163,7 +171,11 @@ export function Table<T>({
               )}
               {columns.map((col) => {
                 const active = sort?.key === col.key;
-                const ariaSort = active ? (sort.direction === "asc" ? "ascending" : "descending") : "none";
+                const ariaSort = active
+                  ? sort.direction === "asc"
+                    ? "ascending"
+                    : "descending"
+                  : "none";
                 return (
                   <th
                     key={col.key}

@@ -46,9 +46,9 @@ export function Home() {
           <span className="site-eyebrow">React component library</span>
           <h1>Komponen siap pakai untuk antarmuka yang rapi.</h1>
           <p className="site-lead">
-            Nemo UI mengumpulkan {componentDocs.length} komponen React yang
-            aksesibel, konsisten, dan mudah diubah temanya — dari tombol sampai
-            tabel data. Salin contohnya, tempel ke project, selesai.
+            Nemo UI mengumpulkan {componentDocs.length} komponen React yang aksesibel, konsisten,
+            dan mudah diubah temanya — dari tombol sampai tabel data. Salin contohnya, tempel ke
+            project, selesai.
           </p>
           <div className="site-cta-row site-hero__actions">
             <Link to="/docs/getting-started" className="site-button site-button--lg">
@@ -60,10 +60,7 @@ export function Home() {
             >
               Jelajahi komponen
             </Link>
-            <Link
-              to="/playground"
-              className="site-button site-button--text site-button--lg"
-            >
+            <Link to="/playground" className="site-button site-button--text site-button--lg">
               Buka playground
             </Link>
           </div>
@@ -82,8 +79,8 @@ export function Home() {
             <div>
               <h2>Mulai dalam satu menit</h2>
               <p>
-                Install paket, bungkus aplikasi dengan provider, lalu pakai
-                komponen seperti komponen React biasa.
+                Install paket, bungkus aplikasi dengan provider, lalu pakai komponen seperti
+                komponen React biasa.
               </p>
             </div>
             <Link to="/docs/getting-started" className="site-link">
@@ -106,8 +103,8 @@ export function Home() {
             <div>
               <h2>Kenapa Nemo UI</h2>
               <p>
-                Dibuat untuk tim yang ingin tampilan konsisten tanpa menulis
-                ulang lapisan aksesibilitas dan tema.
+                Dibuat untuk tim yang ingin tampilan konsisten tanpa menulis ulang lapisan
+                aksesibilitas dan tema.
               </p>
             </div>
           </div>
@@ -142,8 +139,8 @@ export function Home() {
             <div>
               <h2>Semua komponen</h2>
               <p>
-                {componentDocs.length} komponen dengan dokumentasi API lengkap
-                dan contoh yang bisa langsung disalin.
+                {componentDocs.length} komponen dengan dokumentasi API lengkap dan contoh yang bisa
+                langsung disalin.
               </p>
             </div>
             <Link to="/docs/components" className="site-link">
@@ -171,8 +168,8 @@ export function Home() {
             <div>
               <h2>Coba semuanya sekaligus</h2>
               <p>
-                Playground menampilkan setiap komponen dalam keadaan hidup —
-                ganti palet dan mode dari header.
+                Playground menampilkan setiap komponen dalam keadaan hidup — ganti palet dan mode
+                dari header.
               </p>
             </div>
             <Link to="/playground" className="site-button site-button--lg">

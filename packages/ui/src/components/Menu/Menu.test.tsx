@@ -22,7 +22,7 @@ function renderMenu(props: Partial<MenuProps> & { children?: ReactNode } = {}) {
             <Menu.Item label="Hapus" onSelect={onDelete} />
           </>
         )}
-      </Menu>
+      </Menu>,
     ),
   };
 }
@@ -156,7 +156,7 @@ describe("Menu", () => {
     const { container } = render(
       <Menu trigger={<Button>Aksi</Button>} ariaLabel="Menu aksi">
         <Menu.Item label="Ubah" />
-      </Menu>
+      </Menu>,
     );
     const triggerButton = screen.getByRole("button", { name: "Aksi" });
     expect(container.querySelector("button button")).toBeNull();
@@ -171,7 +171,7 @@ describe("Menu", () => {
     const { container } = render(
       <Menu asChild trigger={<Button onClick={onClick}>Aksi</Button>} ariaLabel="Menu aksi">
         <Menu.Item label="Ubah" />
-      </Menu>
+      </Menu>,
     );
     const triggerButton = screen.getByRole("button", { name: "Aksi" });
     expect(container.firstElementChild).toBe(triggerButton);

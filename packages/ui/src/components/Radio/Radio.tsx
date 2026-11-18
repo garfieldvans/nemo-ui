@@ -23,7 +23,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       disabled,
       ...props
     },
-    ref
+    ref,
   ) => {
     const group = useContext(RadioGroupContext);
     const randomId = useId().replace(/:/g, "");
@@ -48,18 +48,12 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
     const labelClasses = clsx(
       styles.radio,
       styles[`radio--${size}`],
-      finalDisabled && styles["radio--disabled"]
+      finalDisabled && styles["radio--disabled"],
     );
 
-    const controlClasses = clsx(
-      styles["radio-control"],
-      styles[`radio-control--${color}`]
-    );
+    const controlClasses = clsx(styles["radio-control"], styles[`radio-control--${color}`]);
 
-    const helperClasses = clsx(
-      styles["helper-text"],
-      hasError && styles["helper-text--error"]
-    );
+    const helperClasses = clsx(styles["helper-text"], hasError && styles["helper-text--error"]);
 
     return (
       <div className={fieldClasses} style={style}>
@@ -93,7 +87,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Radio.displayName = "Radio";

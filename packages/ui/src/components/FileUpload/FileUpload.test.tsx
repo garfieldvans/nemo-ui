@@ -59,9 +59,10 @@ describe("FileUpload", () => {
       getFileStatus: () => ({ status: "uploading", progress: 140 }),
     });
 
-    expect(
-      screen.getByRole("progressbar", { name: "Progres unggah besar.bin" }),
-    ).toHaveAttribute("aria-valuenow", "100");
+    expect(screen.getByRole("progressbar", { name: "Progres unggah besar.bin" })).toHaveAttribute(
+      "aria-valuenow",
+      "100",
+    );
     expect(screen.getByText("Mengunggah 100%")).toBeDefined();
   });
 

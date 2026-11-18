@@ -12,7 +12,6 @@ export function Button({
 
   ...props
 }: ButtonProps) {
-
   const classes = [
     styles.button,
     styles[`button--${variant}`],
@@ -24,10 +23,7 @@ export function Button({
     .join(" ");
 
   return (
-    <button
-      className={classes}
-      {...props}
-    >
+    <button className={classes} {...props}>
       {children}
     </button>
   );

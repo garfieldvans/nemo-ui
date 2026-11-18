@@ -54,22 +54,14 @@ export function Avatar({
   );
 }
 
-export function AvatarGroup({
-  children,
-  max,
-  size = "md",
-  className,
-  style,
-}: AvatarGroupProps) {
+export function AvatarGroup({ children, max, size = "md", className, style }: AvatarGroupProps) {
   const avatars = Children.toArray(children) as ReactElement<AvatarProps>[];
   const visible = max ? avatars.slice(0, max) : avatars;
   const extraCount = max && avatars.length > max ? avatars.length - max : 0;
 
   return (
     <span className={`${styles.group} ${className ?? ""}`.trim()} style={style}>
-      {visible.map((avatar, index) =>
-        cloneElement(avatar, { key: avatar.key ?? index, size })
-      )}
+      {visible.map((avatar, index) => cloneElement(avatar, { key: avatar.key ?? index, size }))}
       {extraCount > 0 ? (
         <span
           className={`${styles.avatar} ${styles[`avatar--${size}`]} ${styles.group_more}`}

@@ -9,7 +9,12 @@ const frameworks: ComboboxOption[] = [
   { label: "Vue", value: "vue", description: "Framework progresif" },
   { label: "Svelte", value: "svelte", description: "Compiler-first framework" },
   { label: "Angular", value: "angular", description: "Framework lengkap dari Google" },
-  { label: "Solid", value: "solid", description: "Reaktivitas halus tanpa virtual DOM", disabled: true },
+  {
+    label: "Solid",
+    value: "solid",
+    description: "Reaktivitas halus tanpa virtual DOM",
+    disabled: true,
+  },
 ];
 
 const meta: Meta<typeof Combobox> = {
@@ -97,11 +102,7 @@ const AsyncExample = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       const term = query.trim().toLowerCase();
-      setOptions(
-        frameworks.filter((option) =>
-          String(option.label).toLowerCase().includes(term),
-        ),
-      );
+      setOptions(frameworks.filter((option) => String(option.label).toLowerCase().includes(term)));
       setLoading(false);
     }, 600);
     return () => clearTimeout(timer);

@@ -1,7 +1,7 @@
 .tablist {
   display: flex;
   gap: 4px;
-  border-bottom: 1px solid var(--nemo-neutral-200, #E8EAED);
+  border-bottom: 1px solid var(--nemo-neutral-200, #e8eaed);
 }
 
 .tablist--pill {
@@ -10,7 +10,7 @@
   padding: 3px;
   border: none;
   border-radius: var(--nemo-radius-md, 8px);
-  background: var(--nemo-neutral-100, #F1F3F4);
+  background: var(--nemo-neutral-100, #f1f3f4);
 }
 
 .tab {
@@ -23,7 +23,7 @@
   border-bottom: 2px solid transparent;
   margin-bottom: -1px; // tumpang tindih dengan garis tablist
   background: transparent;
-  color: var(--nemo-neutral-700, #5F6368);
+  color: var(--nemo-neutral-700, #5f6368);
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
@@ -41,7 +41,7 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
     border-radius: var(--nemo-radius-sm, 4px);
   }
 
@@ -51,8 +51,8 @@
   }
 
   &--active {
-    color: var(--nemo-primary-text, #1967D2);
-    border-bottom-color: var(--nemo-primary-text, #1967D2);
+    color: var(--nemo-primary-text, #1967d2);
+    border-bottom-color: var(--nemo-primary-text, #1967d2);
   }
 
   &--disabled {
@@ -68,8 +68,8 @@
   border-radius: var(--nemo-radius-sm, 4px);
 
   &.tab--active {
-    background: var(--nemo-neutral-0, #FFFFFF);
-    color: var(--nemo-primary-text, #1967D2);
+    background: var(--nemo-neutral-0, #ffffff);
+    color: var(--nemo-primary-text, #1967d2);
     box-shadow: var(--nemo-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
   }
 }
@@ -79,7 +79,7 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285F4);
+    box-shadow: 0 0 0 2px var(--nemo-primary-500, #4285f4);
     border-radius: var(--nemo-radius-sm, 4px);
   }
 }

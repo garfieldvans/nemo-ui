@@ -61,13 +61,7 @@ export function CodeBlock({ code, standalone, hideCopy }: CodeBlockProps) {
   );
 }
 
-export function PropTable({
-  title,
-  rows,
-}: {
-  title: string;
-  rows: PropRow[];
-}) {
+export function PropTable({ title, rows }: { title: string; rows: PropRow[] }) {
   return (
     <div className="site-props">
       <div className="site-props__scroll">

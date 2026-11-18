@@ -43,47 +43,47 @@
 
 :root {
   // Colors — primary
-  --nemo-primary-50: #E8F0FE;
-  --nemo-primary-100: #D2E3FC;
-  --nemo-primary-200: #AECBFA;
-  --nemo-primary-300: #8AB4F8;
-  --nemo-primary-400: #669DF6;
-  --nemo-primary-500: #4285F4;
-  --nemo-primary-600: #1A73E8;
-  --nemo-primary-700: #1967D2;
-  --nemo-primary-800: #185ABC;
-  --nemo-primary-900: #174EA6;
+  --nemo-primary-50: #e8f0fe;
+  --nemo-primary-100: #d2e3fc;
+  --nemo-primary-200: #aecbfa;
+  --nemo-primary-300: #8ab4f8;
+  --nemo-primary-400: #669df6;
+  --nemo-primary-500: #4285f4;
+  --nemo-primary-600: #1a73e8;
+  --nemo-primary-700: #1967d2;
+  --nemo-primary-800: #185abc;
+  --nemo-primary-900: #174ea6;
 
   // Colors — secondary (violet)
-  --nemo-secondary-50: #F5F3FF;
-  --nemo-secondary-100: #EDE9FE;
-  --nemo-secondary-200: #DDD6FE;
-  --nemo-secondary-300: #C4B5FD;
-  --nemo-secondary-400: #A78BFA;
-  --nemo-secondary-500: #8B5CF6;
-  --nemo-secondary-600: #7C3AED;
-  --nemo-secondary-700: #6D28D9;
-  --nemo-secondary-800: #5B21B6;
-  --nemo-secondary-900: #4C1D95;
+  --nemo-secondary-50: #f5f3ff;
+  --nemo-secondary-100: #ede9fe;
+  --nemo-secondary-200: #ddd6fe;
+  --nemo-secondary-300: #c4b5fd;
+  --nemo-secondary-400: #a78bfa;
+  --nemo-secondary-500: #8b5cf6;
+  --nemo-secondary-600: #7c3aed;
+  --nemo-secondary-700: #6d28d9;
+  --nemo-secondary-800: #5b21b6;
+  --nemo-secondary-900: #4c1d95;
 
   // Colors — neutral
-  --nemo-neutral-0: #FFFFFF;
-  --nemo-neutral-50: #F8F9FA;
-  --nemo-neutral-100: #F1F3F4;
-  --nemo-neutral-200: #E8EAED;
-  --nemo-neutral-300: #DADCE0;
-  --nemo-neutral-400: #BDC1C6;
-  --nemo-neutral-500: #9AA0A6;
-  --nemo-neutral-600: #80868B;
-  --nemo-neutral-700: #5F6368;
-  --nemo-neutral-800: #3C4043;
+  --nemo-neutral-0: #ffffff;
+  --nemo-neutral-50: #f8f9fa;
+  --nemo-neutral-100: #f1f3f4;
+  --nemo-neutral-200: #e8eaed;
+  --nemo-neutral-300: #dadce0;
+  --nemo-neutral-400: #bdc1c6;
+  --nemo-neutral-500: #9aa0a6;
+  --nemo-neutral-600: #80868b;
+  --nemo-neutral-700: #5f6368;
+  --nemo-neutral-800: #3c4043;
   --nemo-neutral-900: #202124;
 
   // Colors — semantic
-  --nemo-success: #34A853;
-  --nemo-warning: #FBBC04;
-  --nemo-error: #EA4335;
-  --nemo-info: #4285F4;
+  --nemo-success: #34a853;
+  --nemo-warning: #fbbc04;
+  --nemo-error: #ea4335;
+  --nemo-info: #4285f4;
 
   // Tone mode-aware (mirror of tokens.ts toCssVarMap):
   // `*-text` untuk teks di atas canvas, `*-fill` untuk bg filled berteks neutral-0.
@@ -154,52 +154,52 @@
 :root[data-theme="dark"],
 [data-theme="dark"] {
   // Colors — primary (adjusted for dark backgrounds)
-  --nemo-primary-50: #1B2F52;
-  --nemo-primary-100: #23406F;
-  --nemo-primary-200: #2D5694;
-  --nemo-primary-300: #3B6DB8;
-  --nemo-primary-400: #5B9DF6;
-  --nemo-primary-500: #4285F4;
-  --nemo-primary-600: #1A73E8;
-  --nemo-primary-700: #1967D2;
-  --nemo-primary-800: #185ABC;
-  --nemo-primary-900: #174EA6;
+  --nemo-primary-50: #1b2f52;
+  --nemo-primary-100: #23406f;
+  --nemo-primary-200: #2d5694;
+  --nemo-primary-300: #3b6db8;
+  --nemo-primary-400: #5b9df6;
+  --nemo-primary-500: #4285f4;
+  --nemo-primary-600: #1a73e8;
+  --nemo-primary-700: #1967d2;
+  --nemo-primary-800: #185abc;
+  --nemo-primary-900: #174ea6;
 
   // Colors — secondary (adjusted for dark backgrounds)
-  --nemo-secondary-50: #251B47;
-  --nemo-secondary-100: #2E2358;
-  --nemo-secondary-200: #3B2E71;
-  --nemo-secondary-300: #4C3C94;
-  --nemo-secondary-400: #8B78FA;
-  --nemo-secondary-500: #8B5CF6;
-  --nemo-secondary-600: #7C3AED;
-  --nemo-secondary-700: #6D28D9;
-  --nemo-secondary-800: #5B21B6;
-  --nemo-secondary-900: #4C1D95;
+  --nemo-secondary-50: #251b47;
+  --nemo-secondary-100: #2e2358;
+  --nemo-secondary-200: #3b2e71;
+  --nemo-secondary-300: #4c3c94;
+  --nemo-secondary-400: #8b78fa;
+  --nemo-secondary-500: #8b5cf6;
+  --nemo-secondary-600: #7c3aed;
+  --nemo-secondary-700: #6d28d9;
+  --nemo-secondary-800: #5b21b6;
+  --nemo-secondary-900: #4c1d95;
 
   // Colors — neutral (flipped for dark)
-  --nemo-neutral-0: #0F1013;
-  --nemo-neutral-50: #17181C;
-  --nemo-neutral-100: #1F2128;
-  --nemo-neutral-200: #2A2D36;
-  --nemo-neutral-300: #3A3E48;
-  --nemo-neutral-400: #5A5F6B;
-  --nemo-neutral-500: #8B919E;
-  --nemo-neutral-600: #A6ACB8;
-  --nemo-neutral-700: #C2C7D2;
-  --nemo-neutral-800: #D9DDE6;
-  --nemo-neutral-900: #F0F2F5;
+  --nemo-neutral-0: #0f1013;
+  --nemo-neutral-50: #17181c;
+  --nemo-neutral-100: #1f2128;
+  --nemo-neutral-200: #2a2d36;
+  --nemo-neutral-300: #3a3e48;
+  --nemo-neutral-400: #5a5f6b;
+  --nemo-neutral-500: #8b919e;
+  --nemo-neutral-600: #a6acb8;
+  --nemo-neutral-700: #c2c7d2;
+  --nemo-neutral-800: #d9dde6;
+  --nemo-neutral-900: #f0f2f5;
 
   // Colors — semantic (unchanged)
-  --nemo-success: #34A853;
-  --nemo-warning: #FBBC04;
-  --nemo-error: #EA4335;
-  --nemo-info: #4285F4;
+  --nemo-success: #34a853;
+  --nemo-warning: #fbbc04;
+  --nemo-error: #ea4335;
+  --nemo-info: #4285f4;
 
   // Colors — surfaces (darkened)
-  --nemo-surface-success: #1A2E1F;
-  --nemo-surface-warning: #2E2A14;
-  --nemo-surface-error: #2E1A1A;
+  --nemo-surface-success: #1a2e1f;
+  --nemo-surface-warning: #2e2a14;
+  --nemo-surface-error: #2e1a1a;
 
   // Shadows (stronger for dark backgrounds)
   --nemo-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
@@ -213,43 +213,43 @@
 // Respect OS preference when no explicit data-theme is set (avoids FOUC)
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --nemo-primary-50: #1B2F52;
-    --nemo-primary-100: #23406F;
-    --nemo-primary-200: #2D5694;
-    --nemo-primary-300: #3B6DB8;
-    --nemo-primary-400: #5B9DF6;
-    --nemo-primary-500: #4285F4;
-    --nemo-primary-600: #1A73E8;
-    --nemo-primary-700: #1967D2;
-    --nemo-primary-800: #185ABC;
-    --nemo-primary-900: #174EA6;
+    --nemo-primary-50: #1b2f52;
+    --nemo-primary-100: #23406f;
+    --nemo-primary-200: #2d5694;
+    --nemo-primary-300: #3b6db8;
+    --nemo-primary-400: #5b9df6;
+    --nemo-primary-500: #4285f4;
+    --nemo-primary-600: #1a73e8;
+    --nemo-primary-700: #1967d2;
+    --nemo-primary-800: #185abc;
+    --nemo-primary-900: #174ea6;
 
-    --nemo-secondary-50: #251B47;
-    --nemo-secondary-100: #2E2358;
-    --nemo-secondary-200: #3B2E71;
-    --nemo-secondary-300: #4C3C94;
-    --nemo-secondary-400: #8B78FA;
-    --nemo-secondary-500: #8B5CF6;
-    --nemo-secondary-600: #7C3AED;
-    --nemo-secondary-700: #6D28D9;
-    --nemo-secondary-800: #5B21B6;
-    --nemo-secondary-900: #4C1D95;
+    --nemo-secondary-50: #251b47;
+    --nemo-secondary-100: #2e2358;
+    --nemo-secondary-200: #3b2e71;
+    --nemo-secondary-300: #4c3c94;
+    --nemo-secondary-400: #8b78fa;
+    --nemo-secondary-500: #8b5cf6;
+    --nemo-secondary-600: #7c3aed;
+    --nemo-secondary-700: #6d28d9;
+    --nemo-secondary-800: #5b21b6;
+    --nemo-secondary-900: #4c1d95;
 
-    --nemo-neutral-0: #0F1013;
-    --nemo-neutral-50: #17181C;
-    --nemo-neutral-100: #1F2128;
-    --nemo-neutral-200: #2A2D36;
-    --nemo-neutral-300: #3A3E48;
-    --nemo-neutral-400: #5A5F6B;
-    --nemo-neutral-500: #8B919E;
-    --nemo-neutral-600: #A6ACB8;
-    --nemo-neutral-700: #C2C7D2;
-    --nemo-neutral-800: #D9DDE6;
-    --nemo-neutral-900: #F0F2F5;
+    --nemo-neutral-0: #0f1013;
+    --nemo-neutral-50: #17181c;
+    --nemo-neutral-100: #1f2128;
+    --nemo-neutral-200: #2a2d36;
+    --nemo-neutral-300: #3a3e48;
+    --nemo-neutral-400: #5a5f6b;
+    --nemo-neutral-500: #8b919e;
+    --nemo-neutral-600: #a6acb8;
+    --nemo-neutral-700: #c2c7d2;
+    --nemo-neutral-800: #d9dde6;
+    --nemo-neutral-900: #f0f2f5;
 
-    --nemo-surface-success: #1A2E1F;
-    --nemo-surface-warning: #2E2A14;
-    --nemo-surface-error: #2E1A1A;
+    --nemo-surface-success: #1a2e1f;
+    --nemo-surface-warning: #2e2a14;
+    --nemo-surface-error: #2e1a1a;
 
     // Shadows (stronger for dark backgrounds)
     --nemo-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);

@@ -43,11 +43,7 @@ export function Example({
       </div>
       <div id={panelId} role="tabpanel">
         {tab === "preview" ? (
-          <div
-            className={`site-example__body${
-              example.stack ? " site-example__body--stack" : ""
-            }`}
-          >
+          <div className={`site-example__body${example.stack ? " site-example__body--stack" : ""}`}>
             {example.preview}
           </div>
         ) : (

@@ -89,7 +89,7 @@ export function useFloating({
       setPosition({ top, left });
       setEffPlacement(eff);
     },
-    [placement, offset, flip]
+    [placement, offset, flip],
   );
 
   const triggerRef = useCallback((el: HTMLElement | null) => {
@@ -108,7 +108,7 @@ export function useFloating({
       // useLayoutEffect Portal (satu commit yang sama) sudah selesai menempel.
       queueMicrotask(() => compute(trigger, el));
     },
-    [compute]
+    [compute],
   );
 
   useEffect(() => {

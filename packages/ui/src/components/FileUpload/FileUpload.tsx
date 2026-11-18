@@ -1,11 +1,7 @@
 import { useEffect, useId, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./FileUpload.module.scss";
 
-import type {
-  FileUploadProps,
-  FileUploadRejection,
-  FileUploadRef,
-} from "./FileUpload.types";
+import type { FileUploadProps, FileUploadRejection, FileUploadRef } from "./FileUpload.types";
 import { clsx } from "../../utils/clsx";
 
 function UploadIcon() {
@@ -158,7 +154,7 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
       style,
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const zoneRef = useRef<HTMLDivElement>(null);
@@ -277,7 +273,7 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
     const wrapperClasses = clsx(
       styles["file-upload-wrapper"],
       fullWidth && styles["file-upload-wrapper--full-width"],
-      className
+      className,
     );
 
     const zoneClasses = clsx(
@@ -286,14 +282,14 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
       hasError && styles["dropzone--error"],
       hasWarning && styles["dropzone--warning"],
       hasSuccess && styles["dropzone--success"],
-      disabled && styles["dropzone--disabled"]
+      disabled && styles["dropzone--disabled"],
     );
 
     const helperClasses = clsx(
       styles["helper-text"],
       hasError && styles["helper-text--error"],
       hasWarning && styles["helper-text--warning"],
-      hasSuccess && styles["helper-text--success"]
+      hasSuccess && styles["helper-text--success"],
     );
 
     return (
@@ -363,10 +359,7 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
               return (
                 <li
                   key={`${file.name}-${file.size}-${file.lastModified}`}
-                  className={clsx(
-                    styles["file-item"],
-                    status && styles[`file-item--${status}`],
-                  )}
+                  className={clsx(styles["file-item"], status && styles[`file-item--${status}`])}
                   aria-busy={uploading || undefined}
                 >
                   <span className={styles["file-icon"]}>
@@ -393,10 +386,7 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
                     )}
                     {status && (
                       <span
-                        className={clsx(
-                          styles["file-status"],
-                          styles[`file-status--${status}`],
-                        )}
+                        className={clsx(styles["file-status"], styles[`file-status--${status}`])}
                         role={status === "error" ? "alert" : undefined}
                       >
                         {statusLabel}
@@ -442,7 +432,7 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 FileUpload.displayName = "FileUpload";

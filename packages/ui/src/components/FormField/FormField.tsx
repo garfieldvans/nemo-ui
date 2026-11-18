@@ -21,13 +21,10 @@ export function FormField({
     styles["form-field"],
     styles[`form-field--${layout}`],
     width !== "full" && styles[`form-field--width-${width}`],
-    className
+    className,
   );
 
-  const labelClasses = clsx(
-    styles["field-label"],
-    required && styles["field-label--required"]
-  );
+  const labelClasses = clsx(styles["field-label"], required && styles["field-label--required"]);
 
   return (
     <div className={classes} style={style}>

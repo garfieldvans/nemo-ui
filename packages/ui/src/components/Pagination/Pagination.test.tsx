@@ -47,9 +47,7 @@ describe("Pagination", () => {
 
   it("does not move internally when controlled", () => {
     const onChange = vi.fn();
-    const { rerender } = render(
-      <Pagination page={1} pageCount={5} onChange={onChange} />,
-    );
+    const { rerender } = render(<Pagination page={1} pageCount={5} onChange={onChange} />);
     fireEvent.click(screen.getByRole("button", { name: "Halaman 4" }));
     expect(onChange).toHaveBeenCalledWith(4);
     // Controlled: tetap di halaman 1 sampai parent update.

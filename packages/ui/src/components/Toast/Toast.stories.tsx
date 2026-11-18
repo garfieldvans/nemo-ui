@@ -38,16 +38,30 @@ function ToastButtons() {
   const toast = useToast();
   return (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <Button color="success" onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}>
+      <Button
+        color="success"
+        onClick={() => toast.success("Tersimpan!", { message: "Perubahan sudah disimpan." })}
+      >
         Success
       </Button>
-      <Button color="error" onClick={() => toast.error("Gagal", { message: "Coba lagi beberapa saat.", duration: 6000 })}>
+      <Button
+        color="error"
+        onClick={() =>
+          toast.error("Gagal", { message: "Coba lagi beberapa saat.", duration: 6000 })
+        }
+      >
         Error
       </Button>
-      <Button color="warning" onClick={() => toast.warning("Hampir penuh", { message: "Bersihkan penyimpanan." })}>
+      <Button
+        color="warning"
+        onClick={() => toast.warning("Hampir penuh", { message: "Bersihkan penyimpanan." })}
+      >
         Warning
       </Button>
-      <Button variant="outlined" onClick={() => toast.info("Info", { message: "Tersedia pembaruan baru." })}>
+      <Button
+        variant="outlined"
+        onClick={() => toast.info("Info", { message: "Tersedia pembaruan baru." })}
+      >
         Info
       </Button>
       <Button variant="text" onClick={() => toast.dismissAll()}>

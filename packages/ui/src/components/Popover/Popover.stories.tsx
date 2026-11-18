@@ -42,7 +42,9 @@ export const Default: Story = {
             Pilih kriteria untuk menyaring data.
           </p>
           <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-            <Button size="sm" variant="text">Reset</Button>
+            <Button size="sm" variant="text">
+              Reset
+            </Button>
             <Button size="sm">Terapkan</Button>
           </div>
         </Stack>
@@ -57,28 +59,44 @@ export const Placements: Story = {
     <div style={{ padding: "96px 0" }}>
       <Stack direction="row" spacing={8} align="center">
         <Popover
-          trigger={<Button variant="outlined" size="sm">Top</Button>}
+          trigger={
+            <Button variant="outlined" size="sm">
+              Top
+            </Button>
+          }
           placement="top"
           ariaLabel="Popover top"
         >
           Panel atas.
         </Popover>
         <Popover
-          trigger={<Button variant="outlined" size="sm">Right</Button>}
+          trigger={
+            <Button variant="outlined" size="sm">
+              Right
+            </Button>
+          }
           placement="right"
           ariaLabel="Popover right"
         >
           Panel kanan.
         </Popover>
         <Popover
-          trigger={<Button variant="outlined" size="sm">Bottom</Button>}
+          trigger={
+            <Button variant="outlined" size="sm">
+              Bottom
+            </Button>
+          }
           placement="bottom"
           ariaLabel="Popover bottom"
         >
           Panel bawah.
         </Popover>
         <Popover
-          trigger={<Button variant="outlined" size="sm">Left</Button>}
+          trigger={
+            <Button variant="outlined" size="sm">
+              Left
+            </Button>
+          }
           placement="left"
           ariaLabel="Popover left"
         >
@@ -118,9 +136,7 @@ export const AsChild: Story = {
 
 export const Controlled: Story = {
   parameters: { controls: { disable: true } },
-  render: () => (
-    <ControlledDemo />
-  ),
+  render: () => <ControlledDemo />,
 };
 
 function ControlledDemo() {

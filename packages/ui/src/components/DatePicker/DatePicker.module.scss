@@ -376,7 +376,9 @@ $datepicker-transition: all 0.2s ease;
   font-size: $calendar-font-size;
   color: var(--nemo-neutral-900, #202124);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 
   &:hover:not(:disabled) {
     background: var(--nemo-neutral-100, #f1f3f4);

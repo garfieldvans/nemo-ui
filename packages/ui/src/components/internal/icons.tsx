@@ -6,11 +6,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
   size?: number;
 }
 
-function IconBase({
-  size = 20,
-  children,
-  ...props
-}: IconProps & { children: React.ReactNode }) {
+function IconBase({ size = 20, children, ...props }: IconProps & { children: React.ReactNode }) {
   return (
     <svg
       width={size}

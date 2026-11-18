@@ -37,7 +37,7 @@ export const Input = forwardRef<InputRef, InputProps>(
       onChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const inputId = id || `input-${Math.random().toString(36).slice(2, 9)}`;
@@ -54,13 +54,19 @@ export const Input = forwardRef<InputRef, InputProps>(
     const hasWarning = Boolean(warning);
     const hasSuccess = Boolean(success);
     const showHelper = hasError || hasWarning || hasSuccess || Boolean(helperText);
-    const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
+    const statusClass = hasError
+      ? "error"
+      : hasWarning
+        ? "warning"
+        : hasSuccess
+          ? "success"
+          : status;
     const showClear = clearable && value && !disabled && !readOnly;
 
     const wrapperClasses = clsx(
       styles["input-wrapper"],
       fullWidth && styles["input-wrapper--full-width"],
-      className
+      className,
     );
 
     const containerClasses = clsx(
@@ -69,8 +75,8 @@ export const Input = forwardRef<InputRef, InputProps>(
       statusClass !== "default" && styles[`input-container--${statusClass}`],
       disabled && styles["input-container--disabled"],
       readOnly && styles["input-container--readonly"],
-      (value && floatingLabel) && styles["input-container--has-value"],
-      label && floatingLabel && styles["input-container--floating-label"]
+      value && floatingLabel && styles["input-container--has-value"],
+      label && floatingLabel && styles["input-container--floating-label"],
     );
 
     const inputClasses = clsx(
@@ -80,14 +86,14 @@ export const Input = forwardRef<InputRef, InputProps>(
       Boolean(rightIcon) && styles[`input--with-right-icon`],
       Boolean(prefix) && styles[`input--with-prefix`],
       Boolean(suffix) && styles[`input--with-suffix`],
-      showClear && styles[`input--with-clear`]
+      showClear && styles[`input--with-clear`],
     );
 
     const helperTextClasses = clsx(
       styles["helper-text"],
       hasError && styles["helper-text--error"],
       hasWarning && styles["helper-text--warning"],
-      hasSuccess && styles["helper-text--success"]
+      hasSuccess && styles["helper-text--success"],
     );
 
     const handleClear = (e: React.MouseEvent) => {
@@ -107,15 +113,27 @@ export const Input = forwardRef<InputRef, InputProps>(
       <div className={wrapperClasses}>
         {label && (
           <label
-            className={clsx(styles.label, floatingLabel && styles["label--floating"], required && styles["label--required"])}
+            className={clsx(
+              styles.label,
+              floatingLabel && styles["label--floating"],
+              required && styles["label--required"],
+            )}
             htmlFor={inputId}
           >
             {label}
-            {required && <span className={styles["required-asterisk"]} aria-hidden="true">*</span>}
+            {required && (
+              <span className={styles["required-asterisk"]} aria-hidden="true">
+                *
+              </span>
+            )}
           </label>
         )}
         <div className={containerClasses}>
-          {prefix && <span className={styles.prefix} aria-hidden="true">{prefix}</span>}
+          {prefix && (
+            <span className={styles.prefix} aria-hidden="true">
+              {prefix}
+            </span>
+          )}
           {leftIcon && (
             <span className={clsx(styles.icon, styles["icon--left"])} aria-hidden="true">
               {leftIcon}
@@ -134,11 +152,20 @@ export const Input = forwardRef<InputRef, InputProps>(
             onChange={onChange}
             {...props}
           />
-          {suffix && <span className={styles.suffix} aria-hidden="true">{suffix}</span>}
+          {suffix && (
+            <span className={styles.suffix} aria-hidden="true">
+              {suffix}
+            </span>
+          )}
           {rightIcon && (
             <button
               type="button"
-              className={clsx(styles.icon, styles["icon--right"], styles["icon--button"], rightIconDisabled && styles["icon--disabled"])}
+              className={clsx(
+                styles.icon,
+                styles["icon--right"],
+                styles["icon--button"],
+                rightIconDisabled && styles["icon--disabled"],
+              )}
               onClick={handleRightIconClick}
               disabled={rightIconDisabled}
               aria-label={rightIconAction ? "Action" : undefined}
@@ -153,7 +180,16 @@ export const Input = forwardRef<InputRef, InputProps>(
               onClick={handleClear}
               aria-label="Clear input"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -161,13 +197,18 @@ export const Input = forwardRef<InputRef, InputProps>(
           )}
         </div>
         {showHelper && (
-          <span id={`${inputId}-helper`} className={helperTextClasses} role="alert" aria-live="polite">
+          <span
+            id={`${inputId}-helper`}
+            className={helperTextClasses}
+            role="alert"
+            aria-live="polite"
+          >
             {error || warning || success || helperText}
           </span>
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";
@@ -206,7 +247,7 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
       showCount = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const inputId = id || `textarea-${Math.random().toString(36).slice(2, 9)}`;
@@ -223,15 +264,20 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
     const hasWarning = Boolean(warning);
     const hasSuccess = Boolean(success);
     const showHelper = hasError || hasWarning || hasSuccess || Boolean(helperText);
-    const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
+    const statusClass = hasError
+      ? "error"
+      : hasWarning
+        ? "warning"
+        : hasSuccess
+          ? "success"
+          : status;
     const showClear = clearable && value && !disabled && !readOnly;
     // Counter harus tetap berjalan untuk textarea uncontrolled (tanpa prop value).
     const [uncontrolledLength, setUncontrolledLength] = useState(
-      typeof defaultValue === "string" ? defaultValue.length : 0
+      typeof defaultValue === "string" ? defaultValue.length : 0,
     );
-    const charCount = value === undefined
-      ? uncontrolledLength
-      : typeof value === "string" ? value.length : 0;
+    const charCount =
+      value === undefined ? uncontrolledLength : typeof value === "string" ? value.length : 0;
     const showCharCount = Boolean(showCount && maxLength);
     // Counter bisa tampil sendiri tanpa helper/error text.
     const showFooter = showHelper || showCharCount;
@@ -239,7 +285,7 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
     const wrapperClasses = clsx(
       styles["input-wrapper"],
       fullWidth && styles["input-wrapper--full-width"],
-      className
+      className,
     );
 
     const containerClasses = clsx(
@@ -249,8 +295,8 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
       styles["input-container--textarea"],
       disabled && styles["input-container--disabled"],
       readOnly && styles["input-container--readonly"],
-      (value && floatingLabel) && styles["input-container--has-value"],
-      label && floatingLabel && styles["input-container--floating-label"]
+      value && floatingLabel && styles["input-container--has-value"],
+      label && floatingLabel && styles["input-container--floating-label"],
     );
 
     const textareaClasses = clsx(
@@ -258,14 +304,14 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
       styles[`textarea--${size}`],
       Boolean(leftIcon) && styles[`textarea--with-left-icon`],
       Boolean(rightIcon) && styles[`textarea--with-right-icon`],
-      showClear && styles[`textarea--with-clear`]
+      showClear && styles[`textarea--with-clear`],
     );
 
     const helperTextClasses = clsx(
       styles["helper-text"],
       hasError && styles["helper-text--error"],
       hasWarning && styles["helper-text--warning"],
-      hasSuccess && styles["helper-text--success"]
+      hasSuccess && styles["helper-text--success"],
     );
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -290,17 +336,32 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
       <div className={wrapperClasses}>
         {label && (
           <label
-            className={clsx(styles.label, floatingLabel && styles["label--floating"], required && styles["label--required"])}
+            className={clsx(
+              styles.label,
+              floatingLabel && styles["label--floating"],
+              required && styles["label--required"],
+            )}
             htmlFor={inputId}
           >
             {label}
-            {required && <span className={styles["required-asterisk"]} aria-hidden="true">*</span>}
+            {required && (
+              <span className={styles["required-asterisk"]} aria-hidden="true">
+                *
+              </span>
+            )}
           </label>
         )}
         <div className={containerClasses}>
-          {prefix && <span className={styles.prefix} aria-hidden="true">{prefix}</span>}
+          {prefix && (
+            <span className={styles.prefix} aria-hidden="true">
+              {prefix}
+            </span>
+          )}
           {leftIcon && (
-            <span className={clsx(styles.icon, styles["icon--left"], styles["icon--textarea"])} aria-hidden="true">
+            <span
+              className={clsx(styles.icon, styles["icon--left"], styles["icon--textarea"])}
+              aria-hidden="true"
+            >
               {leftIcon}
             </span>
           )}
@@ -319,11 +380,21 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
             onChange={handleChange}
             {...props}
           />
-          {suffix && <span className={styles.suffix} aria-hidden="true">{suffix}</span>}
+          {suffix && (
+            <span className={styles.suffix} aria-hidden="true">
+              {suffix}
+            </span>
+          )}
           {rightIcon && (
             <button
               type="button"
-              className={clsx(styles.icon, styles["icon--right"], styles["icon--button"], styles["icon--textarea"], rightIconDisabled && styles["icon--disabled"])}
+              className={clsx(
+                styles.icon,
+                styles["icon--right"],
+                styles["icon--button"],
+                styles["icon--textarea"],
+                rightIconDisabled && styles["icon--disabled"],
+              )}
               onClick={handleRightIconClick}
               disabled={rightIconDisabled}
               aria-label={rightIconAction ? "Action" : undefined}
@@ -334,11 +405,25 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
           {showClear && (
             <button
               type="button"
-              className={clsx(styles.icon, styles["icon--right"], styles["icon--clear"], styles["icon--textarea"])}
+              className={clsx(
+                styles.icon,
+                styles["icon--right"],
+                styles["icon--clear"],
+                styles["icon--textarea"],
+              )}
               onClick={handleClear}
               aria-label="Clear textarea"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -346,14 +431,31 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
           )}
         </div>
         {showFooter && (
-          <div className={clsx(styles["helper-row"], showCharCount && styles["helper-row--with-count"])}>
+          <div
+            className={clsx(
+              styles["helper-row"],
+              showCharCount && styles["helper-row--with-count"],
+            )}
+          >
             {showHelper && (
-              <span id={`${inputId}-helper`} className={helperTextClasses} role="alert" aria-live="polite">
+              <span
+                id={`${inputId}-helper`}
+                className={helperTextClasses}
+                role="alert"
+                aria-live="polite"
+              >
                 {error || warning || success || helperText}
               </span>
             )}
             {showCharCount && (
-              <span className={clsx(styles["char-count"], maxLength !== undefined && charCount > maxLength && styles["char-count--exceeded"])}>
+              <span
+                className={clsx(
+                  styles["char-count"],
+                  maxLength !== undefined &&
+                    charCount > maxLength &&
+                    styles["char-count--exceeded"],
+                )}
+              >
                 {charCount}/{maxLength}
               </span>
             )}
@@ -361,7 +463,7 @@ export const Textarea = forwardRef<TextareaRef, TextareaProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Textarea.displayName = "Textarea";

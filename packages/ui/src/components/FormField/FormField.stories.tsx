@@ -131,7 +131,13 @@ export const RegistrationForm: Story = {
           <FormField label="Nama lengkap" htmlFor="reg-nama" required width="full">
             <Input id="reg-nama" placeholder="Nama lengkap" />
           </FormField>
-          <FormField label="Email" htmlFor="reg-email" required width="full" helperText="Dipakai untuk login.">
+          <FormField
+            label="Email"
+            htmlFor="reg-email"
+            required
+            width="full"
+            helperText="Dipakai untuk login."
+          >
             <Input id="reg-email" type="email" placeholder="you@example.com" />
           </FormField>
           <FormField label="Paket" htmlFor="reg-plan" required width="full">

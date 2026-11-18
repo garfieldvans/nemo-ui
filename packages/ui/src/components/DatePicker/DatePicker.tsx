@@ -55,7 +55,11 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      {direction === "left" ? <polyline points="15 18 9 12 15 6" /> : <polyline points="9 18 15 12 9 6" />}
+      {direction === "left" ? (
+        <polyline points="15 18 9 12 15 6" />
+      ) : (
+        <polyline points="9 18 15 12 9 6" />
+      )}
     </svg>
   );
 }
@@ -112,7 +116,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       style,
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const randomId = useId().replace(/:/g, "");
@@ -123,17 +127,15 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const isControlled = value !== undefined;
 
     const rangeValue = isRangeMode ? (value as DatePickerRange | null | undefined) : null;
-    const rangeDefault = isRangeMode
-      ? (defaultValue as DatePickerRange | null | undefined)
-      : null;
-    const [internalRange, setInternalRange] = useState<DatePickerRange | null>(rangeDefault ?? null);
+    const rangeDefault = isRangeMode ? (defaultValue as DatePickerRange | null | undefined) : null;
+    const [internalRange, setInternalRange] = useState<DatePickerRange | null>(
+      rangeDefault ?? null,
+    );
     const [internalValue, setInternalValue] = useState<Date | null>(
-      isRangeMode ? null : ((defaultValue as Date | null | undefined) ?? null)
+      isRangeMode ? null : ((defaultValue as Date | null | undefined) ?? null),
     );
     const range = isRangeMode ? (isControlled ? rangeValue : internalRange) : null;
-    const selected = isRangeMode
-      ? null
-      : ((isControlled ? value : internalValue) as Date | null);
+    const selected = isRangeMode ? null : ((isControlled ? value : internalValue) as Date | null);
 
     // Rentang setengah jadi: tanggal awal sudah dipilih, menunggu tanggal akhir.
     const [pendingStart, setPendingStart] = useState<Date | null>(null);
@@ -141,10 +143,10 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
     const [open, setOpen] = useState(false);
     const [viewMonth, setViewMonth] = useState<Date>(() =>
-      startOfMonth(selected ?? range?.start ?? new Date())
+      startOfMonth(selected ?? range?.start ?? new Date()),
     );
     const [activeDate, setActiveDate] = useState<Date>(() =>
-      startOfDay(selected ?? range?.start ?? new Date())
+      startOfDay(selected ?? range?.start ?? new Date()),
     );
 
     // `draft` menyimpan teks yang sedang diketik; `null` berarti tampilkan nilai terpilih.
@@ -162,13 +164,18 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const hasWarning = Boolean(warning);
     const hasSuccess = Boolean(success);
     const showHelper = hasError || hasWarning || hasSuccess || Boolean(helperText);
-    const statusClass = hasError ? "error" : hasWarning ? "warning" : hasSuccess ? "success" : status;
+    const statusClass = hasError
+      ? "error"
+      : hasWarning
+        ? "warning"
+        : hasSuccess
+          ? "success"
+          : status;
 
     const isInteractive = !disabled && !readOnly;
     const hasValue = isRangeMode ? Boolean(range) : Boolean(selected);
     const showClear = clearable && hasValue && !disabled && !readOnly;
-    const inputPlaceholder =
-      placeholder ?? (isRangeMode ? `${format} – ${format}` : format);
+    const inputPlaceholder = placeholder ?? (isRangeMode ? `${format} – ${format}` : format);
 
     const isOutOfRange = (date: Date) => {
       if (min && date.getTime() < startOfDay(min).getTime()) return true;
@@ -178,7 +185,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
     const days = useMemo(
       () => buildMonthMatrix(viewMonth, weekStartsOn),
-      [viewMonth, weekStartsOn]
+      [viewMonth, weekStartsOn],
     );
     const labels = useMemo(() => weekdayLabels(weekStartsOn), [weekStartsOn]);
     const today = startOfDay(new Date());
@@ -189,9 +196,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       } else if (!isControlled) {
         setInternalValue(next as Date | null);
       }
-      (
-        onChange as ((value: Date | DatePickerRange | null) => void) | undefined
-      )?.(next);
+      (onChange as ((value: Date | DatePickerRange | null) => void) | undefined)?.(next);
     };
 
     const openCalendar = () => {
@@ -250,11 +255,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
           return;
         }
         const parsedRange = parseDateRangeText(text, format);
-        if (
-          parsedRange &&
-          !isOutOfRange(parsedRange.start) &&
-          !isOutOfRange(parsedRange.end)
-        ) {
+        if (parsedRange && !isOutOfRange(parsedRange.start) && !isOutOfRange(parsedRange.end)) {
           commit(parsedRange);
           setViewMonth(startOfMonth(parsedRange.start));
           setActiveDate(parsedRange.start);
@@ -411,7 +412,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const wrapperClasses = clsx(
       styles["datepicker-wrapper"],
       fullWidth && styles["datepicker-wrapper--full-width"],
-      className
+      className,
     );
 
     const containerClasses = clsx(
@@ -421,7 +422,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       statusClass !== "default" && styles[`datepicker-container--${statusClass}`],
       disabled && styles["datepicker-container--disabled"],
       showClear && styles["datepicker-container--clearable"],
-      Boolean(leftIcon) && styles["datepicker-container--with-left-icon"]
+      Boolean(leftIcon) && styles["datepicker-container--with-left-icon"],
     );
 
     const inputClasses = clsx(styles["datepicker-input"], styles[`datepicker-input--${size}`]);
@@ -430,7 +431,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       styles["helper-text"],
       hasError && styles["helper-text--error"],
       hasWarning && styles["helper-text--warning"],
-      hasSuccess && styles["helper-text--success"]
+      hasSuccess && styles["helper-text--success"],
     );
 
     // Sorotan rentang: setengah jadi (dengan pratinjau hover) atau rentang tersimpan.
@@ -563,7 +564,12 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                 <thead>
                   <tr role="row">
                     {labels.map((dayLabel) => (
-                      <th key={dayLabel} scope="col" role="columnheader" className={styles["calendar-weekday"]}>
+                      <th
+                        key={dayLabel}
+                        scope="col"
+                        role="columnheader"
+                        className={styles["calendar-weekday"]}
+                      >
                         {dayLabel}
                       </th>
                     ))}
@@ -580,8 +586,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                           isSameDay(day, rangePreview?.start ?? null) ||
                           isSameDay(day, rangePreview?.end ?? null);
                         const isSelected = isRangeMode ? isRangeEdge : isSameDay(day, selected);
-                        const inRange =
-                          isRangeMode && !isRangeEdge && isInPreviewRange(day);
+                        const inRange = isRangeMode && !isRangeEdge && isInPreviewRange(day);
 
                         return (
                           <td
@@ -600,7 +605,9 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                                 isSameDay(day, today) && styles["calendar-day--today"],
                                 inRange && styles["calendar-day--in-range"],
                                 isSelected && styles["calendar-day--selected"],
-                                isSameDay(day, activeDate) && open && styles["calendar-day--active"]
+                                isSameDay(day, activeDate) &&
+                                  open &&
+                                  styles["calendar-day--active"],
                               )}
                               aria-label={formatLongDate(day)}
                               aria-current={isSameDay(day, today) ? "date" : undefined}
@@ -631,17 +638,19 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
         )}
 
         {name &&
-          (isRangeMode
-            ? range && (
-                <>
-                  <input type="hidden" name={name} value={toISODate(range.start)} />
-                  <input type="hidden" name={name} value={toISODate(range.end)} />
-                </>
-              )
-            : <input type="hidden" name={name} value={selected ? toISODate(selected) : ""} />)}
+          (isRangeMode ? (
+            range && (
+              <>
+                <input type="hidden" name={name} value={toISODate(range.start)} />
+                <input type="hidden" name={name} value={toISODate(range.end)} />
+              </>
+            )
+          ) : (
+            <input type="hidden" name={name} value={selected ? toISODate(selected) : ""} />
+          ))}
       </div>
     );
-  }
+  },
 );
 
 DatePicker.displayName = "DatePicker";

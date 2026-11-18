@@ -4,7 +4,7 @@
   transition: box-shadow 0.2s ease;
 
   &--elevated {
-    background: var(--nemo-neutral-0, #FFFFFF);
+    background: var(--nemo-neutral-0, #ffffff);
     box-shadow: var(--nemo-shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
 
     &:hover {
@@ -13,12 +13,12 @@
   }
 
   &--outlined {
-    background: var(--nemo-neutral-0, #FFFFFF);
-    border: 1px solid var(--nemo-neutral-200, #E8EAED);
+    background: var(--nemo-neutral-0, #ffffff);
+    border: 1px solid var(--nemo-neutral-200, #e8eaed);
   }
 
   &--filled {
-    background: var(--nemo-neutral-50, #F8F9FA);
+    background: var(--nemo-neutral-50, #f8f9fa);
   }
 }
 
@@ -72,7 +72,7 @@
 
 .header-subtitle {
   font-size: 13px;
-  color: var(--nemo-neutral-700, #5F6368);
+  color: var(--nemo-neutral-700, #5f6368);
   margin: 2px 0 0;
   line-height: 20px;
 }
@@ -82,7 +82,7 @@
 }
 
 .body {
-  color: var(--nemo-neutral-800, #3C4043);
+  color: var(--nemo-neutral-800, #3c4043);
   font-size: 14px;
   line-height: 22px;
 }
@@ -93,5 +93,5 @@
   gap: var(--nemo-spacing-2, 8px);
   margin-top: var(--nemo-spacing-4, 16px);
   padding-top: var(--nemo-spacing-3, 12px);
-  border-top: 1px solid var(--nemo-neutral-100, #F1F3F4);
+  border-top: 1px solid var(--nemo-neutral-100, #f1f3f4);
 }

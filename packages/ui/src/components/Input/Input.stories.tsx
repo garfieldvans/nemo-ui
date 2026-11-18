@@ -130,7 +130,16 @@ export const WithLeftIcon: Story = {
     label: "Search",
     placeholder: "Search...",
     leftIcon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
@@ -144,7 +153,16 @@ export const WithRightIcon: Story = {
     type: "password",
     placeholder: "Enter password",
     rightIcon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
         <circle cx="12" cy="12" r="3" />
       </svg>
@@ -244,7 +262,12 @@ export const AllStatuses: Story = {
       <Input label="Default" placeholder="Default state" />
       <Input label="Error" placeholder="Error state" error="Something went wrong" />
       <Input label="Warning" placeholder="Warning state" warning="Please check" />
-      <Input label="Success" placeholder="Success state" success="All good" defaultValue="valid@email.com" />
+      <Input
+        label="Success"
+        placeholder="Success state"
+        success="All good"
+        defaultValue="valid@email.com"
+      />
     </div>
   ),
 };
@@ -253,9 +276,7 @@ type TextareaStory = StoryObj<typeof Textarea>;
 
 // Meta file ini memakai `component: Input`, jadi story textarea butuh render
 // eksplisit; tanpa ini Storybook merender Input dan props textarea bocor ke DOM.
-const renderTextarea: NonNullable<TextareaStory["render"]> = (args) => (
-  <Textarea {...args} />
-);
+const renderTextarea: NonNullable<TextareaStory["render"]> = (args) => <Textarea {...args} />;
 
 export const TextareaDefault: TextareaStory = {
   render: renderTextarea,
@@ -373,7 +394,16 @@ export const TextareaWithLeftIcon: TextareaStory = {
     label: "With Icon",
     placeholder: "Add a note...",
     leftIcon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
         <polyline points="14 2 14 8 20 8" />
         <line x1="16" y1="13" x2="8" y2="13" />

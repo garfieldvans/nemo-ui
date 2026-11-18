@@ -153,9 +153,7 @@ describe("Input", () => {
   });
 
   it("shows the character count without helper text", () => {
-    render(
-      <Textarea label="Pesan" value="halo" maxLength={10} showCount onChange={() => {}} />
-    );
+    render(<Textarea label="Pesan" value="halo" maxLength={10} showCount onChange={() => {}} />);
 
     expect(screen.getByText("4/10")).toBeDefined();
     // Tidak ada helper/error text, jadi tidak boleh ada elemen alert kosong.

@@ -12,10 +12,7 @@ describe("Progress", () => {
 
     it("sets aria-valuenow to the current value", () => {
       render(<Progress value={30} />);
-      expect(screen.getByRole("progressbar")).toHaveAttribute(
-        "aria-valuenow",
-        "30"
-      );
+      expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "30");
     });
 
     it("sets aria-valuemax to the max prop", () => {
@@ -27,9 +24,7 @@ describe("Progress", () => {
 
     it("omits aria-valuenow when indeterminate", () => {
       render(<Progress indeterminate />);
-      expect(screen.getByRole("progressbar")).not.toHaveAttribute(
-        "aria-valuenow"
-      );
+      expect(screen.getByRole("progressbar")).not.toHaveAttribute("aria-valuenow");
     });
 
     it("shows rounded percentage text when showValue is set", () => {
@@ -45,18 +40,13 @@ describe("Progress", () => {
 
   describe("circle", () => {
     it("renders an SVG", () => {
-      const { container } = render(
-        <Progress variant="circle" value={60} />
-      );
+      const { container } = render(<Progress variant="circle" value={60} />);
       expect(container.querySelector("svg")).toBeDefined();
     });
 
     it("renders accessible role in circle variant", () => {
       render(<Progress variant="circle" value={80} />);
-      expect(screen.getByRole("progressbar")).toHaveAttribute(
-        "aria-valuenow",
-        "80"
-      );
+      expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "80");
     });
 
     it("renders percentage text inside the circle when showValue", () => {
@@ -66,10 +56,7 @@ describe("Progress", () => {
 
     it("sets aria-label", () => {
       render(<Progress value={20} label="Proses upload" />);
-      expect(screen.getByRole("progressbar")).toHaveAttribute(
-        "aria-label",
-        "Proses upload"
-      );
+      expect(screen.getByRole("progressbar")).toHaveAttribute("aria-label", "Proses upload");
     });
   });
 });

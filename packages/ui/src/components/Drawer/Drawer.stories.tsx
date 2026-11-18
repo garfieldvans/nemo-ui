@@ -46,8 +46,8 @@ function DrawerDemo(props: Partial<DrawerProps>) {
       </Button>
       <Drawer open={open} onOpenChange={setOpen} {...props}>
         <p>
-          Drawer menyajikan konten sekunder dari tepi layar — cocok untuk panel filter,
-          detail task, atau aksi kontekstual tanpa meninggalkan halaman.
+          Drawer menyajikan konten sekunder dari tepi layar — cocok untuk panel filter, detail task,
+          atau aksi kontekstual tanpa meninggalkan halaman.
         </p>
       </Drawer>
     </>

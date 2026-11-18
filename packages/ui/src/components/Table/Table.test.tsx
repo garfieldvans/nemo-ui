@@ -115,7 +115,10 @@ describe("Table", () => {
     expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "none");
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "ascending");
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "ascending",
+    );
     expect(firstName()).toBe("Andi");
     expect(onSortChange).toHaveBeenLastCalledWith({
       key: "nama",
@@ -123,7 +126,10 @@ describe("Table", () => {
     });
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "descending");
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "descending",
+    );
     expect(firstName()).toBe("Budi");
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
@@ -146,14 +152,19 @@ describe("Table", () => {
     });
     const firstName = () => container.querySelector("tbody tr td")?.textContent;
 
-    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "descending");
+    expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute(
+      "aria-sort",
+      "descending",
+    );
     expect(firstName()).toBe("Budi");
 
     await user.click(screen.getByRole("button", { name: "Nama" }));
     expect(onSortChange).toHaveBeenLastCalledWith(null);
     expect(firstName()).toBe("Budi");
 
-    rerender(<Table columns={sortableColumns} data={rows} rowKey={(row) => String(row.id)} sort={null} />);
+    rerender(
+      <Table columns={sortableColumns} data={rows} rowKey={(row) => String(row.id)} sort={null} />,
+    );
     expect(screen.getByRole("columnheader", { name: "Nama" })).toHaveAttribute("aria-sort", "none");
     expect(firstName()).toBe("Andi");
   });

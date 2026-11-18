@@ -17,8 +17,7 @@ export function Typography({
   // Tone mode-aware: warna brand dicampur CanvasText (hitam di mode terang,
   // putih di mode gelap) supaya teks lolos kontras AA di kedua mode —
   // warna brand murni sering gagal (kuning 1.6:1 di atas putih, dst).
-  const textTone = (hex: string, pct = 60) =>
-    `color-mix(in srgb, ${hex} ${pct}%, CanvasText)`;
+  const textTone = (hex: string, pct = 60) => `color-mix(in srgb, ${hex} ${pct}%, CanvasText)`;
 
   const colorMap = {
     primary: textTone(theme.colors.primary["500"]),
@@ -54,11 +53,7 @@ export function Typography({
   };
 
   return (
-    <Component
-      className={className}
-      style={styles}
-      htmlFor={htmlFor}
-    >
+    <Component className={className} style={styles} htmlFor={htmlFor}>
       {children}
     </Component>
   );

@@ -44,8 +44,8 @@ export const WithSubComponents: Story = {
         action={<Badge color="success">Aktif</Badge>}
       />
       <CardBody>
-        Informasi akun Anda sudah diperbarui. Pastikan email tercantum benar agar
-        notifikasi penting tetap sampai.
+        Informasi akun Anda sudah diperbarui. Pastikan email tercantum benar agar notifikasi penting
+        tetap sampai.
       </CardBody>
       <CardFooter>
         <Button size="sm">Simpan</Button>

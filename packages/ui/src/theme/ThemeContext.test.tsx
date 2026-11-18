@@ -27,11 +27,9 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
-    expect(screen.getByTestId("primary").textContent).toBe(
-      defaultTheme.colors.primary[500]
-    );
+    expect(screen.getByTestId("primary").textContent).toBe(defaultTheme.colors.primary[500]);
     expect(screen.getByTestId("mode").textContent).toBe("light");
   });
 
@@ -39,14 +37,12 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider mode="dark">
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper).toHaveAttribute("data-theme", "dark");
     expect(screen.getByTestId("mode").textContent).toBe("dark");
-    expect(screen.getByTestId("primary").textContent).toBe(
-      darkTheme.colors.primary[500]
-    );
+    expect(screen.getByTestId("primary").textContent).toBe(darkTheme.colors.primary[500]);
   });
 
   it("merges custom theme overrides", () => {
@@ -54,7 +50,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider theme={{ colors: { primary: { 500: customColor } } }}>
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.getByTestId("primary").textContent).toBe(customColor);
   });
@@ -63,7 +59,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     const style = wrapper!.getAttribute("style");
@@ -74,12 +70,12 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider mode="dark">
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     const darkVars = toCssVarMap(darkTheme);
     expect(wrapper!.getAttribute("style")).toContain(
-      `--nemo-neutral-0: ${darkVars["--nemo-neutral-0"]}`
+      `--nemo-neutral-0: ${darkVars["--nemo-neutral-0"]}`,
     );
   });
 
@@ -88,23 +84,21 @@ describe("ThemeProvider", () => {
       <ThemeProvider>
         <ThemeConsumer />
         <Toggler />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper).toHaveAttribute("data-theme", "light");
 
     fireEvent.click(screen.getByText("toggle"));
     expect(wrapper).toHaveAttribute("data-theme", "dark");
-    expect(screen.getByTestId("primary").textContent).toBe(
-      darkTheme.colors.primary[500]
-    );
+    expect(screen.getByTestId("primary").textContent).toBe(darkTheme.colors.primary[500]);
   });
 
   it("sets color-scheme: dark in dark mode", () => {
     render(
       <ThemeProvider mode="dark">
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper!.getAttribute("style")).toContain("color-scheme: dark");
@@ -114,7 +108,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider mode="light">
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper!.getAttribute("style")).toContain("color-scheme: light");
@@ -124,26 +118,24 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
-    expect(wrapper!.getAttribute("style")).toContain(
-      "background: var(--nemo-neutral-50, #f8f9fa)"
-    );
+    expect(wrapper!.getAttribute("style")).toContain("background: var(--nemo-neutral-50, #f8f9fa)");
   });
 
   it("allows overriding the surface background via style", () => {
     render(
       <ThemeProvider style={{ background: "#000000" }}>
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     // style user menang atas surface default (surface di-spread duluan).
     // jsdom menormalkan hex ke rgb.
     expect(wrapper!.getAttribute("style")).toContain("background: rgb(0, 0, 0)");
     expect(wrapper!.getAttribute("style")).not.toContain(
-      "background: var(--nemo-neutral-50, #f8f9fa)"
+      "background: var(--nemo-neutral-50, #f8f9fa)",
     );
   });
 
@@ -151,7 +143,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider surface={false}>
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper!.getAttribute("style")).not.toContain("background:");
@@ -161,7 +153,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider surface="#123456">
         <ThemeConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const wrapper = screen.getByTestId("mode").closest("div")!.parentElement;
     expect(wrapper!.getAttribute("style")).toContain("background: rgb(18, 52, 86)");

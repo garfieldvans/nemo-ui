@@ -153,11 +153,7 @@ export const darkTheme: ThemeTokens = {
 
 type CssVarMap = Record<string, string>;
 
-function flatten(
-  obj: Record<string, unknown>,
-  prefix: string,
-  out: CssVarMap,
-): void {
+function flatten(obj: Record<string, unknown>, prefix: string, out: CssVarMap): void {
   for (const [key, value] of Object.entries(obj)) {
     const fullKey = `${prefix}-${key}`;
     if (typeof value === "string" || typeof value === "number") {
@@ -168,10 +164,7 @@ function flatten(
   }
 }
 
-export function toCssVarMap(
-  tokens: ThemeTokens,
-  namespace = "nemo",
-): CssVarMap {
+export function toCssVarMap(tokens: ThemeTokens, namespace = "nemo"): CssVarMap {
   const map: CssVarMap = {};
 
   // colors
@@ -190,10 +183,8 @@ export function toCssVarMap(
   //   gagal, mis. kuning 1.6:1 di atas putih).
   // - `*-fill` : bg elemen filled yang berteks neutral-0 (putih di light,
   //   gelap di dark) — dicampur 78% ke CanvasText supaya teks kontras.
-  const textTone = (hex: string, pct = 60) =>
-    `color-mix(in srgb, ${hex} ${pct}%, CanvasText)`;
-  const fillTone = (hex: string) =>
-    `color-mix(in srgb, ${hex} 65%, CanvasText)`;
+  const textTone = (hex: string, pct = 60) => `color-mix(in srgb, ${hex} ${pct}%, CanvasText)`;
+  const fillTone = (hex: string) => `color-mix(in srgb, ${hex} 65%, CanvasText)`;
   const tones: Array<[string, string, number?]> = [
     ["primary", tokens.colors.primary["500"]],
     ["secondary", tokens.colors.secondary["500"]],

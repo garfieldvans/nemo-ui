@@ -21,7 +21,10 @@ $scroll-font-size-lg: 15px;
   color: var(--nemo-neutral-900, #202124);
   box-shadow: var(--nemo-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
   animation: scroll-to-top-in 0.18s ease;
 
   &:hover {

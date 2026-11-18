@@ -8,27 +8,19 @@ describe("Alert", () => {
     render(
       <Alert tone="success" title="Tersimpan">
         Data sudah diperbarui
-      </Alert>
+      </Alert>,
     );
     expect(screen.getByText("Tersimpan")).toBeDefined();
     expect(screen.getByText("Data sudah diperbarui")).toBeDefined();
   });
 
   it("defaults error/warning to role=alert", () => {
-    render(
-      <Alert tone="error">
-        Gagal
-      </Alert>
-    );
+    render(<Alert tone="error">Gagal</Alert>);
     expect(screen.getByRole("alert")).toBeDefined();
   });
 
   it("defaults success/info to role=status", () => {
-    render(
-      <Alert tone="success">
-        Berhasil
-      </Alert>
-    );
+    render(<Alert tone="success">Berhasil</Alert>);
     expect(screen.getByRole("status")).toBeDefined();
   });
 
@@ -36,7 +28,7 @@ describe("Alert", () => {
     render(
       <Alert tone="success" role="alert">
         Berhasil
-      </Alert>
+      </Alert>,
     );
     expect(screen.getByRole("alert")).toBeDefined();
   });
@@ -46,18 +38,14 @@ describe("Alert", () => {
     render(
       <Alert tone="info" closable onClose={onClose}>
         Perhatian
-      </Alert>
+      </Alert>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Tutup" }));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it("does not render a close button when not closable", () => {
-    render(
-      <Alert tone="info">
-        Perhatian
-      </Alert>
-    );
+    render(<Alert tone="info">Perhatian</Alert>);
     expect(screen.queryByRole("button")).toBeNull();
   });
 
@@ -65,7 +53,7 @@ describe("Alert", () => {
     render(
       <Alert tone="warning" action={<button type="button">Coba lagi</button>}>
         Ada masalah
-      </Alert>
+      </Alert>,
     );
     expect(screen.getByRole("button", { name: "Coba lagi" })).toBeDefined();
   });
@@ -74,7 +62,7 @@ describe("Alert", () => {
     const { container } = render(
       <Alert tone="error" variant="filled">
         Gagal
-      </Alert>
+      </Alert>,
     );
     expect(container.firstElementChild).toHaveAttribute("data-variant", "filled");
     expect(container.firstElementChild).toHaveAttribute("data-tone", "error");
@@ -84,7 +72,7 @@ describe("Alert", () => {
     const { container } = render(
       <Alert tone="info" className="custom">
         Info
-      </Alert>
+      </Alert>,
     );
     expect(container.firstElementChild).toHaveClass("custom");
   });

@@ -34,7 +34,7 @@ export function RadioGroup({
       },
       disabled,
     }),
-    [name, currentValue, disabled, onChange]
+    [name, currentValue, disabled, onChange],
   );
 
   const hasError = Boolean(error);
@@ -47,7 +47,7 @@ export function RadioGroup({
   const optionsClasses = clsx(
     styles.options,
     orientation === "horizontal" && styles["options--horizontal"],
-    disabled && styles["options--disabled"]
+    disabled && styles["options--disabled"],
   );
 
   return (
@@ -74,7 +74,12 @@ export function RadioGroup({
         </div>
       </RadioGroupContext.Provider>
       {showHelper && (
-        <span id={helperId} className={clsx(styles["helper-text"], hasError && styles["helper-text--error"])} role="alert" aria-live="polite">
+        <span
+          id={helperId}
+          className={clsx(styles["helper-text"], hasError && styles["helper-text--error"])}
+          role="alert"
+          aria-live="polite"
+        >
           {error || helperText}
         </span>
       )}

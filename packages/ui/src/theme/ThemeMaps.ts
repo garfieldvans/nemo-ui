@@ -1,4 +1,3 @@
-
 import type { ThemeOverride } from "./tokens";
 
 export const palette = {
@@ -274,10 +273,8 @@ export function toThemeOverride(name: ThemeName): ThemeOverride {
               "900": `color-mix(in srgb, ${text} 40%, CanvasText)`,
               // Teks sekunder: diturunkan dari 900 (bukan cycle — properti
               // berbeda) yang dicampur neutral-500 agar tetap abu-abu.
-              "800":
-                "color-mix(in srgb, var(--nemo-neutral-900) 80%, var(--nemo-neutral-500))",
-              "700":
-                "color-mix(in srgb, var(--nemo-neutral-900) 55%, var(--nemo-neutral-500))",
+              "800": "color-mix(in srgb, var(--nemo-neutral-900) 80%, var(--nemo-neutral-500))",
+              "700": "color-mix(in srgb, var(--nemo-neutral-900) 55%, var(--nemo-neutral-500))",
             },
           }
         : {}),

@@ -9,7 +9,7 @@ describe("FormField", () => {
     render(
       <FormField label="Nama" htmlFor="name">
         <Input id="name" placeholder="Nama Anda" />
-      </FormField>
+      </FormField>,
     );
     expect(screen.getByText("Nama")).toHaveAttribute("for", "name");
     expect(screen.getByLabelText("Nama")).toHaveProperty("placeholder", "Nama Anda");
@@ -19,25 +19,37 @@ describe("FormField", () => {
     render(
       <FormField label="Nama">
         <Input placeholder="placeholder-ctx" />
-      </FormField>
+      </FormField>,
     );
     expect(screen.getByPlaceholderText("placeholder-ctx")).toBeDefined();
   });
 
   it("marks a required label with an asterisk", () => {
-    render(<FormField label="Email" required><Input /></FormField>);
+    render(
+      <FormField label="Email" required>
+        <Input />
+      </FormField>,
+    );
     const label = screen.getByText("Email");
     expect(label.innerHTML).toContain("*");
   });
 
   it("shows an error with alert role", () => {
-    render(<FormField label="Email" error="Email tidak valid"><Input /></FormField>);
+    render(
+      <FormField label="Email" error="Email tidak valid">
+        <Input />
+      </FormField>,
+    );
     const alert = screen.getByRole("alert");
     expect(alert).toHaveTextContent("Email tidak valid");
   });
 
   it("shows helper text", () => {
-    render(<FormField label="Email" helperText="Dipakai untuk login"><Input /></FormField>);
+    render(
+      <FormField label="Email" helperText="Dipakai untuk login">
+        <Input />
+      </FormField>,
+    );
     expect(screen.getByText("Dipakai untuk login")).toBeDefined();
   });
 
@@ -45,26 +57,38 @@ describe("FormField", () => {
     render(
       <FormField label="Email" error="Salah" helperText="Dipakai untuk login">
         <Input />
-      </FormField>
+      </FormField>,
     );
     expect(screen.getByRole("alert")).toHaveTextContent("Salah");
     expect(screen.queryByText("Dipakai untuk login")).toBeNull();
   });
 
   it("applies horizontal layout class", () => {
-    render(<FormField label="Nama" layout="horizontal"><Input /></FormField>);
+    render(
+      <FormField label="Nama" layout="horizontal">
+        <Input />
+      </FormField>,
+    );
     const field = screen.getByText("Nama").closest("div");
     expect(field?.className).toContain("form-field--horizontal");
   });
 
   it("applies width class", () => {
-    render(<FormField label="Nama" width="md"><div /></FormField>);
+    render(
+      <FormField label="Nama" width="md">
+        <div />
+      </FormField>,
+    );
     const field = screen.getByText("Nama").closest("div");
     expect(field?.className).toContain("form-field--width-md");
   });
 
   it("merges a custom className", () => {
-    render(<FormField label="Nama" className="custom-cls"><div /></FormField>);
+    render(
+      <FormField label="Nama" className="custom-cls">
+        <div />
+      </FormField>,
+    );
     expect(document.querySelector(".custom-cls")).not.toBeNull();
   });
 });

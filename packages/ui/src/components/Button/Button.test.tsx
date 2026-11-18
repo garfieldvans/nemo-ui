@@ -19,9 +19,7 @@ describe("Button", () => {
 
   it("applies secondary color class across variants", () => {
     const { rerender } = render(<Button color="secondary">S</Button>);
-    expect(
-      screen.getByRole("button", { name: "S" }).className,
-    ).toContain("button--secondary");
+    expect(screen.getByRole("button", { name: "S" }).className).toContain("button--secondary");
 
     rerender(
       <Button color="secondary" variant="outlined">
@@ -44,8 +42,6 @@ describe("Button", () => {
 
   it("does not apply secondary class to default color", () => {
     render(<Button color="primary">P</Button>);
-    expect(
-      screen.getByRole("button", { name: "P" }).className,
-    ).not.toContain("button--secondary");
+    expect(screen.getByRole("button", { name: "P" }).className).not.toContain("button--secondary");
   });
 });

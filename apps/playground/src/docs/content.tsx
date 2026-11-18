@@ -34,9 +34,7 @@ const memberColumns: TableColumn<Member>[] = [
     header: "Status",
     align: "right",
     render: (row) => (
-      <Badge color={row.status === "Aktif" ? "success" : "neutral"}>
-        {row.status}
-      </Badge>
+      <Badge color={row.status === "Aktif" ? "success" : "neutral"}>{row.status}</Badge>
     ),
   },
 ];
@@ -87,11 +85,7 @@ const ticketColumns: TableColumn<Ticket>[] = [
     render: (row) => (
       <Badge
         color={
-          row.status === "Selesai"
-            ? "success"
-            : row.status === "Berjalan"
-              ? "warning"
-              : "neutral"
+          row.status === "Selesai" ? "success" : row.status === "Berjalan" ? "warning" : "neutral"
         }
       >
         {row.status}
@@ -164,8 +158,7 @@ export const contentDocs: ComponentDoc[] = [
     slug: "button",
     name: "Button",
     group: "Actions",
-    summary:
-      "Tombol dengan tiga varian visual dan lima warna semantik untuk memicu aksi.",
+    summary: "Tombol dengan tiga varian visual dan lima warna semantik untuk memicu aksi.",
     examples: [
       {
         id: "variants",
@@ -259,8 +252,7 @@ export const contentDocs: ComponentDoc[] = [
     slug: "badge",
     name: "Badge",
     group: "Data display",
-    summary:
-      "Label kecil untuk status, kategori, atau hitungan pada konten lain.",
+    summary: "Label kecil untuk status, kategori, atau hitungan pada konten lain.",
     examples: [
       {
         id: "colors",
@@ -305,8 +297,7 @@ export const contentDocs: ComponentDoc[] = [
       {
         name: "children",
         type: "ReactNode",
-        description:
-          "Isi badge. Kosongkan bila memakai varian dot (badge titik).",
+        description: "Isi badge. Kosongkan bila memakai varian dot (badge titik).",
       },
       {
         name: "color",
@@ -427,8 +418,7 @@ export const contentDocs: ComponentDoc[] = [
           {
             name: "max",
             type: "number",
-            description:
-              "Jumlah avatar yang ditampilkan sebelum sisanya jadi penghitung.",
+            description: "Jumlah avatar yang ditampilkan sebelum sisanya jadi penghitung.",
           },
           {
             name: "size",
@@ -623,8 +613,7 @@ export const contentDocs: ComponentDoc[] = [
     slug: "stack",
     name: "Stack",
     group: "Layout",
-    summary:
-      "Layout satu sumbu dengan jarak konsisten, opsional dengan pemisah antar item.",
+    summary: "Layout satu sumbu dengan jarak konsisten, opsional dengan pemisah antar item.",
     examples: [
       {
         id: "column",
@@ -729,9 +718,7 @@ export const contentDocs: ComponentDoc[] = [
             <Typography variant="body">
               Paragraf isi yang menjelaskan konteks dari konten di sekitarnya.
             </Typography>
-            <Typography variant="bodySmall">
-              Teks pendukung yang lebih kecil.
-            </Typography>
+            <Typography variant="bodySmall">Teks pendukung yang lebih kecil.</Typography>
             <Typography variant="caption" color="neutral">
               Caption
             </Typography>
@@ -800,8 +787,7 @@ export const contentDocs: ComponentDoc[] = [
       {
         name: "htmlFor",
         type: "string",
-        description:
-          "Diteruskan ke atribut htmlFor bila dirender sebagai label.",
+        description: "Diteruskan ke atribut htmlFor bila dirender sebagai label.",
       },
     ],
   },
@@ -1003,8 +989,7 @@ const rows = allRows.slice((page - 1) * 5, page * 5);
       {
         name: "columns",
         type: "TableColumn<T>[]",
-        description:
-          "Definisi kolom: key, header, render opsional, align, dan width.",
+        description: "Definisi kolom: key, header, render opsional, align, dan width.",
       },
       {
         name: "data",
@@ -1054,8 +1039,7 @@ const rows = allRows.slice((page - 1) * 5, page * 5);
       {
         name: "sortValue",
         type: "(row: T) => string | number | null | undefined (per kolom)",
-        description:
-          "Nilai pembanding kustom; default mengambil field sesuai key kolom.",
+        description: "Nilai pembanding kustom; default mengambil field sesuai key kolom.",
       },
       {
         name: "sort",
@@ -1071,15 +1055,13 @@ const rows = allRows.slice((page - 1) * 5, page * 5);
       {
         name: "onSortChange",
         type: "(sort: TableSortState | null) => void",
-        description:
-          "Dipanggil setiap urutan berubah; null saat kembali ke urutan data asli.",
+        description: "Dipanggil setiap urutan berubah; null saat kembali ke urutan data asli.",
       },
       {
         name: "selectable",
         type: "boolean",
         default: "false",
-        description:
-          "Menampilkan kolom checkbox beserta checkbox pilih semua di header.",
+        description: "Menampilkan kolom checkbox beserta checkbox pilih semua di header.",
       },
       {
         name: "selectedKeys / defaultSelectedKeys",
@@ -1089,8 +1071,7 @@ const rows = allRows.slice((page - 1) * 5, page * 5);
       {
         name: "onSelectionChange",
         type: "(keys: string[]) => void",
-        description:
-          "Dipanggil dengan daftar kunci baris setiap pilihan berubah.",
+        description: "Dipanggil dengan daftar kunci baris setiap pilihan berubah.",
       },
       {
         name: "stickyHeader",

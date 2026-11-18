@@ -11,7 +11,7 @@ describe("Popover", () => {
     render(
       <Popover trigger="Pengaturan" ariaLabel="Konten popover">
         <Button size="sm">Aksi</Button>
-      </Popover>
+      </Popover>,
     );
     const trigger = screen.getByRole("button", { name: "Pengaturan" });
     expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
@@ -33,7 +33,7 @@ describe("Popover", () => {
         <Popover trigger="Buka" ariaLabel="Konten popover">
           Isi
         </Popover>
-      </>
+      </>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Buka" }));
     expect(panelAria()).toBeDefined();
@@ -46,7 +46,7 @@ describe("Popover", () => {
     render(
       <Popover trigger="Buka" ariaLabel="Konten popover">
         <button type="button">dalam</button>
-      </Popover>
+      </Popover>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Buka" }));
     fireEvent.mouseDown(screen.getByRole("button", { name: "dalam" }));
@@ -57,7 +57,7 @@ describe("Popover", () => {
     render(
       <Popover trigger="Buka" ariaLabel="Konten popover">
         Isi
-      </Popover>
+      </Popover>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Buka" }));
     fireEvent.keyDown(document, { key: "Escape" });
@@ -67,28 +67,18 @@ describe("Popover", () => {
   it("supports controlled open state", () => {
     const onOpenChange = vi.fn();
     const { rerender } = render(
-      <Popover
-        trigger="Buka"
-        open={false}
-        onOpenChange={onOpenChange}
-        ariaLabel="Konten popover"
-      >
+      <Popover trigger="Buka" open={false} onOpenChange={onOpenChange} ariaLabel="Konten popover">
         Isi
-      </Popover>
+      </Popover>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Buka" }));
     expect(onOpenChange).toHaveBeenCalledWith(true);
     expect(screen.queryByRole("dialog")).toBeNull();
 
     rerender(
-      <Popover
-        trigger="Buka"
-        open={true}
-        onOpenChange={onOpenChange}
-        ariaLabel="Konten popover"
-      >
+      <Popover trigger="Buka" open={true} onOpenChange={onOpenChange} ariaLabel="Konten popover">
         Isi
-      </Popover>
+      </Popover>,
     );
     expect(panelAria()).toBeDefined();
   });
@@ -97,7 +87,7 @@ describe("Popover", () => {
     render(
       <Popover trigger="Buka" defaultOpen ariaLabel="Konten popover">
         Isi
-      </Popover>
+      </Popover>,
     );
     expect(panelAria()).toBeDefined();
   });
@@ -109,11 +99,13 @@ describe("Popover", () => {
       render(
         <Popover trigger="Buka" placement="top" ariaLabel="Konten popover" className="custom">
           Isi
-        </Popover>
+        </Popover>,
       );
       const trigger = screen.getByRole("button", { name: "Buka" });
       // jsdom memberi rect 0,0 (auto-flip) → stub supaya flip deterministic.
-      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (this: HTMLElement) {
+      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (
+        this: HTMLElement,
+      ) {
         return this === trigger ? rect(100, 200, 50, 30) : rect(0, 0, 200, 40);
       });
       fireEvent.click(trigger);
@@ -129,7 +121,7 @@ describe("Popover", () => {
     const { container } = render(
       <Popover trigger={<Button>Atur filter</Button>} ariaLabel="Konten popover">
         Isi
-      </Popover>
+      </Popover>,
     );
     const trigger = screen.getByRole("button", { name: "Atur filter" });
     expect(container.querySelector("button button")).toBeNull();
@@ -142,9 +134,13 @@ describe("Popover", () => {
   it("asChild renders the trigger element directly and keeps its handler", () => {
     const onClick = vi.fn();
     const { container } = render(
-      <Popover asChild trigger={<Button onClick={onClick}>Atur filter</Button>} ariaLabel="Konten popover">
+      <Popover
+        asChild
+        trigger={<Button onClick={onClick}>Atur filter</Button>}
+        ariaLabel="Konten popover"
+      >
         Isi
-      </Popover>
+      </Popover>,
     );
     const trigger = screen.getByRole("button", { name: "Atur filter" });
     expect(container.firstElementChild).toBe(trigger);

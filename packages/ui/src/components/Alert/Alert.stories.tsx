@@ -56,7 +56,14 @@ export const WithAction: Story = {
     children: "Beberapa fitur mungkin tidak stabil.",
   },
   render: (args) => (
-    <Alert {...args} action={<Button size="sm" color="warning">Oke, mengerti</Button>} />
+    <Alert
+      {...args}
+      action={
+        <Button size="sm" color="warning">
+          Oke, mengerti
+        </Button>
+      }
+    />
   ),
 };
 
@@ -64,10 +71,18 @@ export const AllTones: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 480 }}>
-      <Alert tone="success" title="Success">Data berhasil disimpan.</Alert>
-      <Alert tone="info" title="Info">Pembaruan tersedia.</Alert>
-      <Alert tone="warning" title="Warning">Cek kembali input kamu.</Alert>
-      <Alert tone="error" title="Error">Gagal menyimpan data.</Alert>
+      <Alert tone="success" title="Success">
+        Data berhasil disimpan.
+      </Alert>
+      <Alert tone="info" title="Info">
+        Pembaruan tersedia.
+      </Alert>
+      <Alert tone="warning" title="Warning">
+        Cek kembali input kamu.
+      </Alert>
+      <Alert tone="error" title="Error">
+        Gagal menyimpan data.
+      </Alert>
     </div>
   ),
 };

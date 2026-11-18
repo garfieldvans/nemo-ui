@@ -44,10 +44,7 @@ export function mergeProps<T1 extends Record<string, unknown>, T2 extends Record
 
   // class (non-React)
   if (defaults.class || props.class) {
-    result.class = clsx(
-      defaults.class as string | undefined,
-      props.class as string | undefined,
-    );
+    result.class = clsx(defaults.class as string | undefined, props.class as string | undefined);
   }
 
   // style

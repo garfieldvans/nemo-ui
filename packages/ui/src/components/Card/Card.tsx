@@ -1,10 +1,5 @@
 import styles from "./Card.module.scss";
-import type {
-  CardProps,
-  CardHeaderProps,
-  CardBodyProps,
-  CardFooterProps,
-} from "./Card.types";
+import type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from "./Card.types";
 
 export function Card({
   children,
@@ -32,13 +27,7 @@ export function Card({
   );
 }
 
-export function CardHeader({
-  title,
-  subtitle,
-  action,
-  className,
-  style,
-}: CardHeaderProps) {
+export function CardHeader({ title, subtitle, action, className, style }: CardHeaderProps) {
   return (
     <div className={`${styles.header} ${className ?? ""}`.trim()} style={style}>
       <div>

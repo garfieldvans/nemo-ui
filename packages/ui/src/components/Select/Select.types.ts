@@ -1,8 +1,4 @@
-import type {
-  ReactNode,
-  CSSProperties,
-  ForwardedRef,
-} from "react";
+import type { ReactNode, CSSProperties, ForwardedRef } from "react";
 
 export type SelectVariant = "filled" | "outlined" | "ghost";
 export type SelectSize = "sm" | "md" | "lg";
