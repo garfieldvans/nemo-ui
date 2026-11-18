@@ -2,7 +2,7 @@
 
 # Nemo UI
 
-[![npm version](https://img.shields.io/npm/v/@nemo/ui?style=flat-square)](https://www.npmjs.com/package/@nemo/ui)
+[![npm version](https://img.shields.io/npm/v/@nemo-ui/ui?style=flat-square)](https://www.npmjs.com/package/@nemo-ui/ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 **A modern, production-ready React component library with CSS Variables theming, dark mode, and full TypeScript support.**
@@ -47,8 +47,8 @@ pnpm storybook    # open Storybook on port 6006
 ```tsx
 // Wajib — CSS tidak di-attach otomatis oleh entry JS;
 // tanpa baris ini komponen tampil tanpa styling.
-import "@nemo/ui/index.css";
-import { ThemeProvider, Button, Input, Typography } from "@nemo/ui";
+import "@nemo-ui/ui/index.css";
+import { ThemeProvider, Button, Input, Typography } from "@nemo-ui/ui";
 
 function App() {
   return (
@@ -72,7 +72,7 @@ Nemo UI uses **CSS Custom Properties** for theming. Tokens are defined in TypeSc
 ### ThemeProvider / useTheme
 
 ```tsx
-import { ThemeProvider, useTheme } from "@nemo/ui";
+import { ThemeProvider, useTheme } from "@nemo-ui/ui";
 
 // Wrap your app (sets data-theme + inline CSS vars on wrapper)
 <ThemeProvider mode="dark" theme={{ colors: { primary: { 500: "#FF5722" } } }}>
@@ -202,14 +202,14 @@ canvas; kontras tetap diperiksa manual lewat Storybook a11y addon.
 
 ## Release
 
-Paket `@nemo/ui` dirilis dengan [changesets](https://github.com/changesets/changesets) lewat
+Paket `@nemo-ui/ui` dirilis dengan [changesets](https://github.com/changesets/changesets) lewat
 `.github/workflows/release.yml`.
 
 1. Sertakan changeset (`pnpm changeset`) di PR yang mengubah `packages/ui`.
 2. Setelah PR di-merge ke `main`, workflow membuka PR **“chore(release): version packages”** berisi
    versi baru + `CHANGELOG.md`.
 3. Merge PR tersebut → workflow membangun `dist`, menjalankan seluruh test, lalu publish ke npm dengan
-   [provenance](https://docs.npmjs.com/generating-provenance-statements), git tag `@nemo/ui@x.y.z`,
+   [provenance](https://docs.npmjs.com/generating-provenance-statements), git tag `@nemo-ui/ui@x.y.z`,
    dan GitHub Release.
 
 Sekali setup: secret `NPM_TOKEN` (granular/automation token dengan izin publish ke scope `@nemo`),
@@ -242,7 +242,7 @@ Publish manual tetap mungkin untuk keadaan darurat (`pnpm release`); `prepublish
 | `pnpm format:check`     | Verify formatting without writing (used in CI)      |
 | `pnpm changeset`        | Record a change for the next release                |
 | `pnpm version-packages` | Apply changesets (versions + CHANGELOG)             |
-| `pnpm release`          | Publish `@nemo/ui` to npm                           |
+| `pnpm release`          | Publish `@nemo-ui/ui` to npm                        |
 
 ---
 
@@ -253,7 +253,7 @@ nemo-ui/
 ├── apps/
 │   └── playground/               # Vite + React demo app
 ├── packages/
-│   └── ui/                       # @nemo/ui library
+│   └── ui/                       # @nemo-ui/ui library
 │       └── src/
 │           ├── components/       # Button, Input, Typography (+ stories)
 │           ├── foundations/      # Static token objects (colors, spacing, etc.)
@@ -301,7 +301,7 @@ Tokens live in two places:
 
 ### Current Components
 
-Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Storybook:
+Komponen berikut sudah ada di `@nemo-ui/ui` dan digunakan melalui playground / Storybook:
 
 - Button, Input, Textarea, Typography
 - Card, Badge, Avatar, AvatarGroup, Divider, Stack
@@ -320,7 +320,7 @@ Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Stor
 
 - [ ] CI/CD pipeline + visual regression tests
 - [ ] Codegen: auto-generate `themes.scss` dari `tokens.ts`
-- [ ] npm publish (`@nemo/ui`)
+- [ ] npm publish (`@nemo-ui/ui`)
 
 ---
 

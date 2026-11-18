@@ -1,4 +1,4 @@
-import { primaryColor, themeNames, useTheme, type ThemeName } from "@nemo/ui";
+import { primaryColor, themeNames, useTheme, type ThemeName } from "@nemo-ui/ui";
 import { Link, useRoute } from "../router";
 import { themeLabels } from "../themeLabels";
 

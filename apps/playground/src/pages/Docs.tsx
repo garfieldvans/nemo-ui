@@ -24,14 +24,14 @@ function Breadcrumb({ current }: { current: string }) {
   );
 }
 
-const installSnippet = `pnpm add @nemo/ui
+const installSnippet = `pnpm add @nemo-ui/ui
 # atau
-npm install @nemo/ui`;
+npm install @nemo-ui/ui`;
 
 const providerSnippet = `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ThemeProvider } from "@nemo/ui";
-import "@nemo/ui/index.css";
+import { ThemeProvider } from "@nemo-ui/ui";
+import "@nemo-ui/ui/index.css";
 import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
@@ -42,7 +42,7 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>
 );`;
 
-const usageSnippet = `import { Button, Card, CardBody } from "@nemo/ui";
+const usageSnippet = `import { Button, Card, CardBody } from "@nemo-ui/ui";
 
 export function Contoh() {
   return (
@@ -124,7 +124,7 @@ export function GettingStarted() {
       <div className="site-prose">
         <h2 className="site-h2">1. Install</h2>
         <p className="site-p">
-          Paket dipublikasikan sebagai <code className="site-inline-code">@nemo/ui</code> dan
+          Paket dipublikasikan sebagai <code className="site-inline-code">@nemo-ui/ui</code> dan
           membutuhkan React 18 ke atas.
         </p>
       </div>
@@ -156,7 +156,7 @@ export function GettingStarted() {
         </p>
       </div>
       <CodeBlock
-        code={`import { useTheme } from "@nemo/ui";
+        code={`import { useTheme } from "@nemo-ui/ui";
 
 function ToggleMode() {
   const { mode, setMode } = useTheme();
@@ -195,7 +195,7 @@ const tokenSnippet = `.kartu {
   padding: var(--nemo-spacing-6, 24px);
 }`;
 
-const overrideSnippet = `import { ThemeProvider } from "@nemo/ui";
+const overrideSnippet = `import { ThemeProvider } from "@nemo-ui/ui";
 
 <ThemeProvider
   mode="dark"

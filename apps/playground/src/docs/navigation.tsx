@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Menu, Pagination, Tabs } from "@nemo/ui";
+import { Button, Menu, Pagination, Tabs } from "@nemo-ui/ui";
 import type { ComponentDoc } from "./types";
 
 const tabItems = [
@@ -456,7 +456,7 @@ export const navigationDocs: ComponentDoc[] = [
       },
     ],
     notes: [
-      "Tombol ini dipakai di seluruh playground ini (sudut kanan bawah, `threshold={600}`) sejak diimpor langsung dari `@nemo/ui`.",
+      "Tombol ini dipakai di seluruh playground ini (sudut kanan bawah, `threshold={600}`) sejak diimpor langsung dari `@nemo-ui/ui`.",
       "Komponen ini memantau guliran jendela (bukan container tertentu) dan hanya dirender ketika melewati `threshold`, sehingga tidak meninggalkan tab stop tersembunyi.",
       "Animasi masuk dan gulir halus otomatis dimatikan bila pengguna mengaktifkan prefers-reduced-motion.",
     ],

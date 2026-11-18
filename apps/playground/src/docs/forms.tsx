@@ -12,8 +12,8 @@ import {
   Stack,
   Switch,
   Textarea,
-} from "@nemo/ui";
-import type { ComboboxOption, DatePickerRange, FileUploadRejection } from "@nemo/ui";
+} from "@nemo-ui/ui";
+import type { ComboboxOption, DatePickerRange, FileUploadRejection } from "@nemo-ui/ui";
 import type { ComponentDoc } from "./types";
 
 const plans = [

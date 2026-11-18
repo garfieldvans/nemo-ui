@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Drawer, Modal, Popover, Stack, Tooltip, type DrawerProps } from "@nemo/ui";
+import { Button, Drawer, Modal, Popover, Stack, Tooltip, type DrawerProps } from "@nemo-ui/ui";
 import type { ComponentDoc } from "./types";
 
 function ModalDemo() {

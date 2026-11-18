@@ -2,7 +2,7 @@
 
 # Nemo UI
 
-[![npm version](https://img.shields.io/npm/v/@nemo/ui?style=flat-square)](https://www.npmjs.com/package/@nemo/ui)
+[![npm version](https://img.shields.io/npm/v/@nemo-ui/ui?style=flat-square)](https://www.npmjs.com/package/@nemo-ui/ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 **A modern, production-ready React component library with CSS Variables theming, dark mode, and full TypeScript support.**
@@ -36,9 +36,9 @@
 ### Installation
 
 ```bash
-pnpm add @nemo/ui
+pnpm add @nemo-ui/ui
 # atau
-npm install @nemo/ui
+npm install @nemo-ui/ui
 ```
 
 Pastikan `react` dan `react-dom` versi 19 sudah ada di proyekmu, karena keduanya tidak dipasang otomatis.
@@ -48,14 +48,14 @@ Pastikan `react` dan `react-dom` versi 19 sudah ada di proyekmu, karena keduanya
 Theming berjalan lewat CSS Custom Properties, jadi stylesheet harus dimuat **sekali** di entry aplikasi. Tanpa baris ini komponen tampil tanpa styling.
 
 ```tsx
-import "@nemo/ui/index.css";
+import "@nemo-ui/ui/index.css";
 ```
 
 **Vite / webpack** — letakkan di file entry, sebelum komponen dipakai:
 
 ```tsx
 // src/main.tsx
-import "@nemo/ui/index.css";
+import "@nemo-ui/ui/index.css";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 
@@ -66,7 +66,7 @@ createRoot(document.getElementById("root")!).render(<App />);
 
 ```tsx
 // app/layout.tsx
-import "@nemo/ui/index.css";
+import "@nemo-ui/ui/index.css";
 ```
 
 ### Next.js / React Server Components
@@ -89,8 +89,8 @@ pnpm storybook    # open Storybook on port 6006
 
 ```tsx
 // Wajib — CSS tidak di-attach otomatis oleh entry JS.
-import "@nemo/ui/index.css";
-import { ThemeProvider, Button, Input, Typography } from "@nemo/ui";
+import "@nemo-ui/ui/index.css";
+import { ThemeProvider, Button, Input, Typography } from "@nemo-ui/ui";
 
 function App() {
   return (
@@ -114,7 +114,7 @@ Nemo UI uses **CSS Custom Properties** for theming. Tokens are defined once in T
 ### ThemeProvider / useTheme
 
 ```tsx
-import { ThemeProvider, useTheme } from "@nemo/ui";
+import { ThemeProvider, useTheme } from "@nemo-ui/ui";
 
 // Wrap your app (sets data-theme + inline CSS vars on wrapper)
 <ThemeProvider mode="dark" theme={{ colors: { primary: { 500: "#FF5722" } } }}>
@@ -259,7 +259,7 @@ nemo-ui/
 ├── apps/
 │   └── playground/               # Vite + React demo app
 ├── packages/
-│   └── ui/                       # @nemo/ui library
+│   └── ui/                       # @nemo-ui/ui library
 │       └── src/
 │           ├── components/       # Button, Input, Typography (+ stories)
 │           ├── foundations/      # Static token objects (colors, spacing, etc.)
@@ -307,7 +307,7 @@ Token didefinisikan sekali di TypeScript, lalu dicerminkan ke CSS statis:
 
 ### Current Components
 
-Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Storybook:
+Komponen berikut sudah ada di `@nemo-ui/ui` dan digunakan melalui playground / Storybook:
 
 - Button, Input, Textarea, Typography
 - Card, Badge, Avatar, AvatarGroup, Divider, Stack
@@ -326,7 +326,7 @@ Komponen berikut sudah ada di `@nemo/ui` dan digunakan melalui playground / Stor
 
 - [x] CI/CD pipeline + visual regression tests
 - [x] Codegen: auto-generate `themes.scss` dari `tokens.ts`
-- [ ] npm publish (`@nemo/ui`)
+- [ ] npm publish (`@nemo-ui/ui`)
 
 ---
 

@@ -15,7 +15,7 @@ import {
   Typography,
   type TableColumn,
   type TableSortState,
-} from "@nemo/ui";
+} from "@nemo-ui/ui";
 import type { ComponentDoc } from "./types";
 
 type Member = { nama: string; peran: string; status: string };

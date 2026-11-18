@@ -9,7 +9,7 @@ paket dan menghasilkan CHANGELOG serta versi rilis.
 pnpm changeset
 ```
 
-Pilih paket (`@nemo/ui`), pilih jenis perubahan (`patch` / `minor` / `major`), lalu tulis ringkasan
+Pilih paket (`@nemo-ui/ui`), pilih jenis perubahan (`patch` / `minor` / `major`), lalu tulis ringkasan
 yang nanti muncul di CHANGELOG. Commit file `.changeset/*.md` yang terbentuk bersama perubahan kode.
 
 ## Merilis

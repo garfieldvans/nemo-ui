@@ -7,7 +7,7 @@ import {
   ThemeProvider,
   useTheme,
   type ThemeName,
-} from "@nemo/ui";
+} from "@nemo-ui/ui";
 import { useEffect, useState, type CSSProperties } from "react";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";

@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "@nemo/ui": "workspace:*"
+    "@nemo-ui/ui": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

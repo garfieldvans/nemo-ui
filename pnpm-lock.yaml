@@ -264,7 +264,7 @@ importers:
 
   apps/playground:
     dependencies:
-      '@nemo/ui':
+      '@nemo-ui/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       react:

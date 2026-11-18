@@ -2,7 +2,7 @@ name: Release
 
 # Alur: PR dengan changeset di-merge ke main → action membuka PR "Version Packages"
 # (menaikkan versi + menulis CHANGELOG) → PR itu di-merge → action mem-publish ke npm,
-# membuat git tag `@nemo/ui@x.y.z`, dan GitHub Release.
+# membuat git tag `@nemo-ui/ui@x.y.z`, dan GitHub Release.
 on:
   push:
     branches: [main]

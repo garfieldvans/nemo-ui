@@ -26,7 +26,7 @@ export default defineConfig({
       output: {
         // Entry ini memakai hook, context, dan portal, jadi harus dievaluasi di
         // Client Component. Tanpa direktif ini Next.js App Router melempar error
-        // saat `import { Button } from "@nemo/ui"` dipakai di Server Component.
+        // saat `import { Button } from "@nemo-ui/ui"` dipakai di Server Component.
         banner: '"use client";',
       },
     },

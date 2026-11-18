@@ -27,7 +27,7 @@ export function ComponentPage({ doc }: { doc: ComponentDoc }) {
         <p className="site-doc-summary">{doc.summary}</p>
         <div className="site-doc-import">
           <p className="site-doc-import__label">Import</p>
-          <CodeBlock code={`import { ${doc.name} } from "@nemo/ui";`} standalone hideCopy />
+          <CodeBlock code={`import { ${doc.name} } from "@nemo-ui/ui";`} standalone hideCopy />
         </div>
       </header>
 

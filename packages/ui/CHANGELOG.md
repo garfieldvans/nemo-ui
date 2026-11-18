@@ -1,4 +1,4 @@
-# @nemo/ui
+# @nemo-ui/ui
 
 ## 0.1.0
 

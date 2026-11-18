@@ -1,4 +1,4 @@
-import type { ThemeName } from "@nemo/ui";
+import type { ThemeName } from "@nemo-ui/ui";
 
 /** Nama tampilan untuk setiap palet di ThemeMaps. */
 export const themeLabels: Record<ThemeName, string> = {

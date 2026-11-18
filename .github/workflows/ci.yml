@@ -45,7 +45,7 @@ jobs:
 
       # Perubahan pada paket publik wajib punya catatan rilis. PR yang hanya
       # menyentuh docs/playground tidak dipaksa membuat changeset.
-      - name: Require a changeset for @nemo/ui changes
+      - name: Require a changeset for @nemo-ui/ui changes
         if: github.event_name == 'pull_request'
         run: |
           if git diff --quiet "origin/${{ github.base_ref }}...HEAD" -- packages/ui/src; then

@@ -2,10 +2,10 @@ import { CodeBlock } from "../components/CodeBlock";
 import { componentDocs } from "../docs";
 import { Link } from "../router";
 
-const installSnippet = `pnpm add @nemo/ui`;
+const installSnippet = `pnpm add @nemo-ui/ui`;
 
-const usageSnippet = `import { ThemeProvider, Button } from "@nemo/ui";
-import "@nemo/ui/index.css";
+const usageSnippet = `import { ThemeProvider, Button } from "@nemo-ui/ui";
+import "@nemo-ui/ui/index.css";
 
 export default function App() {
   return (

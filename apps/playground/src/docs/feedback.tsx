@@ -7,7 +7,7 @@ import {
   Stack,
   ToastProvider,
   useToast,
-} from "@nemo/ui";
+} from "@nemo-ui/ui";
 import type { ComponentDoc } from "./types";
 
 function ToastDemo() {
