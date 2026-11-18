@@ -308,6 +308,22 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
           </label>
         )}
 
+        {/* Input file diletakkan di luar area `role="button"` supaya tidak menjadi
+            kontrol interaktif bersarang. */}
+        <input
+          ref={inputRef}
+          id={inputId}
+          type="file"
+          className={styles["file-input"]}
+          accept={accept}
+          multiple={multiple}
+          disabled={disabled}
+          name={name}
+          tabIndex={-1}
+          aria-hidden="true"
+          onChange={handleInputChange}
+        />
+
         <div
           ref={zoneRef}
           role="button"
@@ -324,19 +340,6 @@ export const FileUpload = forwardRef<FileUploadRef, FileUploadProps>(
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          <input
-            ref={inputRef}
-            id={inputId}
-            type="file"
-            className={styles["file-input"]}
-            accept={accept}
-            multiple={multiple}
-            disabled={disabled}
-            name={name}
-            tabIndex={-1}
-            aria-hidden="true"
-            onChange={handleInputChange}
-          />
           <span className={styles["dropzone-icon"]}>
             <UploadIcon />
           </span>

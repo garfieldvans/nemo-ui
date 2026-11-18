@@ -295,6 +295,24 @@ describe("ToastProvider", () => {
     expect(screen.queryByText("Hover dulu")).toBeNull();
   });
 
+  it("pauses auto-dismiss while keyboard focus is inside the toast", () => {
+    renderTrigger((toast) => toast.success("Fokus dulu"));
+    fireEvent.click(screen.getByRole("button", { name: "trigger" }));
+
+    const closeButton = screen.getByRole("button", { name: "Tutup notifikasi" });
+    act(() => closeButton.focus());
+    act(() => {
+      vi.advanceTimersByTime(10000);
+    });
+    expect(screen.getByText("Fokus dulu")).toBeDefined();
+
+    act(() => closeButton.blur());
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(screen.queryByText("Fokus dulu")).toBeNull();
+  });
+
   it("dismissAll clears toasts that have been visible for a while", () => {
     let calls = 0;
     renderTrigger((toast) => {

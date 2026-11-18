@@ -95,11 +95,15 @@ export function ToastProvider({
 }
 
 function ToastView({ item, onDismiss }: { item: ToastItem; onDismiss: (id: string) => void }) {
-  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const duration = item.duration ?? DEFAULT_DURATION;
+  // Hover dan fokus keyboard dihitung terpisah agar mouse yang keluar saat
+  // fokus masih di dalam toast tidak melanjutkan timer.
+  const paused = hovered || focused;
 
-  // Auto-close; pause saat hover. onDismiss stabil (dismiss useCallback) jadi
-  // timer tidak ter-reset oleh re-render provider (mis. toast lain masuk).
+  // Auto-close; pause saat hover atau fokus. onDismiss stabil (dismiss useCallback)
+  // jadi timer tidak ter-reset oleh re-render provider (mis. toast lain masuk).
   useEffect(() => {
     if (paused || duration <= 0) return;
     const timer = setTimeout(() => onDismiss(item.id), duration);
@@ -111,8 +115,15 @@ function ToastView({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
       className={clsx(styles.toast, styles[`toast--${item.tone}`])}
       role={item.tone === "error" || item.tone === "warning" ? "alert" : "status"}
       aria-atomic="true"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={(event) => {
+        // Fokus pindah antar anak toast tidak dihitung keluar.
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setFocused(false);
+        }
+      }}
     >
       <span className={styles["toast-icon"]} aria-hidden="true">
         <ToneIcon tone={item.tone} />

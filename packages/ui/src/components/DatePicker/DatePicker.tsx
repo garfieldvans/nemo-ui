@@ -492,6 +492,7 @@ export const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
             onFocus={() => openCalendar()}
             disabled={disabled}
             readOnly={readOnly}
+            role="combobox"
             aria-haspopup="dialog"
             aria-expanded={open}
             aria-controls={open ? calendarId : undefined}
