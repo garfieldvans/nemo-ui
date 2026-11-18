@@ -14,6 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # `changeset status --since` membandingkan dengan base branch, jadi
+          # butuh riwayat penuh (default checkout hanya 1 commit).
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
 
@@ -34,3 +38,18 @@ jobs:
       - run: pnpm typecheck
 
       - run: pnpm test:run
+
+      # Token adalah source of truth; themes.scss yang tidak di-generate ulang
+      # berarti CSS statis dan ThemeProvider bisa menampilkan warna berbeda.
+      - run: pnpm tokens:check
+
+      # Perubahan pada paket publik wajib punya catatan rilis. PR yang hanya
+      # menyentuh docs/playground tidak dipaksa membuat changeset.
+      - name: Require a changeset for @nemo/ui changes
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --quiet "origin/${{ github.base_ref }}...HEAD" -- packages/ui/src; then
+            echo "Tidak ada perubahan di packages/ui/src — changeset tidak wajib."
+            exit 0
+          fi
+          pnpm exec changeset status --since="origin/${{ github.base_ref }}"
