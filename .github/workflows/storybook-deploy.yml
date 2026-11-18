@@ -1,0 +1,52 @@
+name: Storybook
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Hanya butuh Pages; tidak ada secret. Aktifkan sekali di
+# Settings → Pages → Build and deployment → Source: GitHub Actions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/configure-pages@v5
+
+      # Storybook 8 menulis aset dengan path relatif (./), jadi build ini aman
+      # dilayani dari subpath /<repo>/ tanpa konfigurasi base tambahan.
+      - run: pnpm build-storybook
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

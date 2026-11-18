@@ -1,0 +1,50 @@
+name: Visual regression
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: visual-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Chromatic memakai riwayat git untuk mencari baseline commit.
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Tanpa token, job tetap hijau supaya kontributor tanpa akses Chromatic
+      # tidak melihat CI merah; review visual otomatis aktif begitu secret
+      # CHROMATIC_PROJECT_TOKEN diisi di repository settings.
+      - id: token
+        name: Cek apakah Chromatic sudah dikonfigurasi
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: |
+          if [ -z "$CHROMATIC_PROJECT_TOKEN" ]; then
+            echo "CHROMATIC_PROJECT_TOKEN belum diset — review visual dilewati."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # `pnpm build-storybook` dipanggil otomatis oleh Chromatic (build script
+      # default), lalu snapshot dibandingkan dengan baseline di cloud.
+      - if: steps.token.outputs.enabled == 'true'
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: pnpm exec chromatic --project-token="$CHROMATIC_PROJECT_TOKEN"
